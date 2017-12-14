@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LVMini.Test", "LVMini.Test\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Service", "Data.Service\Data.Service.csproj", "{3B7C9A9E-6B78-40B0-B66C-54B42428581D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LVMiniApi", "LVMiniApi\LVMiniApi.csproj", "{17DEABD3-0A39-4A40-ABC6-127AD6624325}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LVMiniApi", "LVMiniApi\LVMiniApi.csproj", "{17DEABD3-0A39-4A40-ABC6-127AD6624325}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LVMiniAdminApi", "LVMiniAdminApi\LVMiniAdminApi.csproj", "{B8A35794-E6C3-4395-9E43-305657061110}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LVMiniAdminApi", "LVMiniAdminApi\LVMiniAdminApi.csproj", "{B8A35794-E6C3-4395-9E43-305657061110}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LVMiniApiService", "LVMiniApiService\LVMiniApiService.csproj", "{95F53DF1-37CD-4005-BE29-8317994ED861}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{B8A35794-E6C3-4395-9E43-305657061110}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8A35794-E6C3-4395-9E43-305657061110}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8A35794-E6C3-4395-9E43-305657061110}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95F53DF1-37CD-4005-BE29-8317994ED861}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95F53DF1-37CD-4005-BE29-8317994ED861}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95F53DF1-37CD-4005-BE29-8317994ED861}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95F53DF1-37CD-4005-BE29-8317994ED861}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
