@@ -28,19 +28,17 @@ namespace Data.Service.Migrations
                     b.Property<string>("Email")
                         .IsRequired();
 
-                    b.Property<string>("FirsName")
+                    b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnName("Firstname")
                         .HasMaxLength(50);
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnName("Lastname")
                         .HasMaxLength(50);
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(50);
+                        .HasMaxLength(255);
 
                     b.Property<string>("Username")
                         .IsRequired()

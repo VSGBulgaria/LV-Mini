@@ -7,7 +7,6 @@
   <ItemGroup>
     <Compile Remove="Migrations\20171214133646_InitialModel.cs" />
     <Compile Remove="Migrations\20171214135352_Test.cs" />
-    <Compile Remove="Migrations\20171217091449_ColumnChanged.cs" />
   </ItemGroup>
 
   <ItemGroup>

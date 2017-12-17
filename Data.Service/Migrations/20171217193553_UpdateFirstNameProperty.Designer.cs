@@ -11,8 +11,8 @@ using System;
 namespace Data.Service.Migrations
 {
     [DbContext(typeof(LvMiniDbContext))]
-    [Migration("20171217092038_ColumnChanged")]
-    partial class ColumnChanged
+    [Migration("20171217193553_UpdateFirstNameProperty")]
+    partial class UpdateFirstNameProperty
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,19 +29,17 @@ namespace Data.Service.Migrations
                     b.Property<string>("Email")
                         .IsRequired();
 
-                    b.Property<string>("FirsName")
+                    b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnName("Firstname")
                         .HasMaxLength(50);
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnName("Lastname")
                         .HasMaxLength(50);
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(50);
+                        .HasMaxLength(255);
 
                     b.Property<string>("Username")
                         .IsRequired()
