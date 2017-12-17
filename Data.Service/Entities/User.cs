@@ -6,6 +6,8 @@ using System.Text;
 
 namespace Data.Service.Entities
 {
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public class User : BaseEntity
     {
         [Required]
@@ -23,10 +25,12 @@ namespace Data.Service.Entities
 
         [Required]
         [StringLength(50)]
-        public string FirsName { get; set; }
+        [Column("Firstname")]
+        public string Firstname { get; set; }
 
         [Required]
         [StringLength(50)]
-        public string LastName { get; set; }
+        [Column("Lastname")]
+        public string Lastname { get; set; }
     }
 }
