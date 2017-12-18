@@ -28,13 +28,20 @@ namespace LVMini.Controllers
 
             return View();
         }
+        public IActionResult Login()
+        {
 
+            ViewData["Message"] = "Login Here";
+            return View();
+
+        }
         public IActionResult Register()
         {
-            ViewData["Message"] = "Your Registrtion Page";
-            return View();
-        }
 
+            ViewData["Message"] = "Register Page";
+            return View();
+
+        }
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
