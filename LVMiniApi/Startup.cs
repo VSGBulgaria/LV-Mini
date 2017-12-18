@@ -1,24 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Data.Service;
+﻿using Data.Service.Entities;
 using Data.Service.Persistance;
 using Data.Service.Repositories.UserRepository;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace LVMiniApi
 {
-    using AutoMapper;
-    using Data.Service.Entities;
-    using MappedModels;
-
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -34,16 +25,8 @@ namespace LVMiniApi
             services.AddDbContext<LvMiniDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("LV_MiniDatabase")));
             services.AddMvc();
-            services.AddAutoMapper();
-            this.ConfigureMapper();
             services.AddScoped<IUserRepository, UserRepository>();
-        }
-
-        private void ConfigureMapper()
-        {
-            Mapper.Initialize(expression => {
-                expression.CreateMap<User, BasicUser>();
-            });
+            services.AddScoped<IPasswordHasher<IUser>, PasswordHasher<IUser>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq.Expressions;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Data.Service.Entities
 {
-    using System.ComponentModel.DataAnnotations.Schema;
-
-    public class User : BaseEntity
+    public class User : BaseEntity, IUser
     {
         [Required]
         [StringLength(20, MinimumLength = 3)]
         public string Username { get; set; }
 
         [Required]
-        [StringLength(50, MinimumLength = 5)]
+        [StringLength(255, MinimumLength = 5)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
@@ -25,12 +19,10 @@ namespace Data.Service.Entities
 
         [Required]
         [StringLength(50)]
-        [Column("Firstname")]
-        public string Firstname { get; set; }
+        public string FirstName { get; set; }
 
         [Required]
         [StringLength(50)]
-        [Column("Lastname")]
-        public string Lastname { get; set; }
+        public string LastName { get; set; }
     }
 }
