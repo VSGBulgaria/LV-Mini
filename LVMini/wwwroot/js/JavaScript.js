@@ -121,7 +121,7 @@ function emailValidator(elem, errorMassage) {
 function GetSelectedItem() {
     chosen = "";
     len = document.f1.r1.length;
-    for (i = 0, len; i++;){
+    for (i = 0, len; i++){
         if (document.f1.r1[i].checked) {
             chosen = document.f1.r1[i].value;
         }
