@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+<div class="login-box">
+    <h1>Login Here</h1>
+    <form action="main.html" method="post" onSubmit="return checkForm(this);" name="form">
+        <p>Username</p>
+        <input type="text" name="usr" placeholder="Username" required><br>
+        <p>Password</p>
+        <input type="password" name="pass" placeholder="Password" required><br>
+        <input type="submit" value="Submit">Don't Have An Account<br><a href="Register.html">Register here.</a>
+    </form>
+</div>
+<footer>
+    <div class="footer">
+        <p><span></span>Severin Karadzhov VSG Solutions 2017</p>
+    </div>
+</footer>
+
+<script type="text/javascript">
+
+	function checkForm(form)
+  {
+     re = /^[A-Za-z0-9_]{4,20}$/;
+	   rep = /^[A-Za-z0-9]{6,20}$/;
+    if(!re.test(form.usr.value)) {
+      alert("Error: Username must contain only letters, numbers and underscores!");
+      form.usr.focus();
+      return false;
+    }
+
+ if(!rep.test(form.pass.value)) {
+      alert("Error:Password is not valid !");
+      form.pass.focus();
+      return false;
+    }
+}
+</script>
