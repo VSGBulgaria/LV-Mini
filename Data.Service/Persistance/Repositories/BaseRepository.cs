@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Data.Service.Entities;
-using Data.Service.Persistance;
+using Data.Service.Core;
+using Data.Service.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Data.Service.Repositories.BaseRepository
+namespace Data.Service.Persistance.Repositories
 {
     public abstract class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
-        private readonly LvMiniDbContext _context;
+        private readonly DbContext _context;
         private readonly DbSet<T> _entities;
 
-        protected BaseRepository(LvMiniDbContext context)
+        protected BaseRepository(DbContext context)
         {
             _context = context;
             _entities = _context.Set<T>();

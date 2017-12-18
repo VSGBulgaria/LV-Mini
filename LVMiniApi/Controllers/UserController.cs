@@ -1,10 +1,10 @@
-﻿using Data.Service.Entities;
-using Data.Service.Repositories.UserRepository;
-using LVMiniApi.Models;
+﻿using LVMiniApi.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
+using Data.Service.Core;
+using Data.Service.Core.Entities;
 
 namespace LVMiniApi.Controllers
 {
@@ -26,7 +26,6 @@ namespace LVMiniApi.Controllers
         public async Task<IActionResult> Get(int id)
         {
             var user = await _repository.GetById(id);
-
             return Json(user);
         }
 
@@ -54,6 +53,7 @@ namespace LVMiniApi.Controllers
             return Ok("You have registered successfully!");
         }
 
+        // POST api/User/Login
         [HttpPost("Login")]
         public IActionResult Login([FromBody] LoginUserModel user)
         {
@@ -72,7 +72,7 @@ namespace LVMiniApi.Controllers
             var passwordCheck = _hasher.VerifyHashedPassword(user, userCheck[0].Password, user.Password);
             if (passwordCheck == PasswordVerificationResult.Success)
             {
-                return Ok("Login seccessfull!");
+                return Ok(userCheck[0]);
             }
 
             return BadRequest("Login failed!");

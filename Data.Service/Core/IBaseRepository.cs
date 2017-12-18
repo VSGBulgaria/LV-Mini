@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Data.Service.Entities;
+using Data.Service.Core.Entities;
 
-namespace Data.Service.Repositories.BaseRepository
+namespace Data.Service.Core
 {
     public interface IBaseRepository<T> where T : BaseEntity
     {
