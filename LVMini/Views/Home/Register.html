@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Register</title>
+    <link rel="stylesheet" type="text/css" href="../../wwwroot/css/ValidationStyle.css">
+</head>
+<body>
+    <div id="formContainer">
+        <form onsubmit='return formValidator()' name="f1">
+            <hr />
+            <p><label for="firstname">User ID:</label><input type="text" id="firstname" class="input" required /></p>
+            <p><label for="firstname">Password:</label><input type="password" id="password" class="input" required /></p>
+            <p><label for="firstname">Confirm Password:</label><input type="password" id="password" class="input" required /></p>
+            <p><label for="addr">Address:</label><input type="text" id="addr" class="input" /></p>
+            <p><label for="zip">Zip Code:</label><input type="text" id="zip" class="input" /></p>
+            <p><label for="zip">Email:</label><input type="text" id="Email" class="input" /></p>
+            <p>
+                <label for="state">Country:</label>
+                <select id="state" class="input">
+                    <option>Bulgaria</option>
+                    <option>United States</option>
+                    <option>Canada</option>
+                </select>
+            </p>
+            <p><label for="email">Email:</label><input type="text" id="Email" class="input" required /></p>
+            <hr />
+
+            <div id="radioPara">
+                <p>Sex:</p>
+                <p><input type=radio Name=r1 Value="NE">Male</p>
+                <p><input type=radio Name=r1 Value="NW">Female</p>
+            </div>
+            <div id="checkbox1">
+                <p>Language:</p>
+                <p><input type=checkbox Name=r1 Value="NE">English</p>
+                <p><input type=checkbox Name=r1 Value="NW">Non English</p>
+                <p>
+                    <label for="zip">About:</label><input type='text' id='about' class="input" />
+                </p>
+            </div>
+            <hr />
+            <p id="conditions">Agree with the terms and conditions<input type="checkbox" name="checkbox" value="check" /></p>
+            <p><input type='submit' value='Check Form' class="button" /> <input type="reset" value="Reset Form" class="button" onclick=" document.getElementById('errors').innerHTML = ''; " /></p>
+
+        </form>
+
+        <div id="errors" onclick=" document.getElementById('errors').innerHTML = ''; "></div>
+    </div>
+
+    <script type="text/javascript" src="../../wwwroot/js/JavaScript.js"></script>
+
+</body>
+</html>
