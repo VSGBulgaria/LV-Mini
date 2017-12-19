@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Data.Service.Entities;
-using Data.Service.Repositories.UserRepository;
+using Data.Service.Core;
+using Data.Service.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LVMiniAdminApi.Controllers

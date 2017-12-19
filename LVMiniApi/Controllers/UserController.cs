@@ -1,4 +1,5 @@
-﻿using LVMiniApi.Models;
+﻿using System.IdentityModel.Tokens.Jwt;
+using LVMiniApi.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -9,7 +10,7 @@ using Data.Service.Core.Entities;
 namespace LVMiniApi.Controllers
 {
     [Produces("application/json")]
-    [Route("api/User")]
+    [Route("api/user")]
     public class UserController : Controller
     {
         private readonly IUserRepository _repository;
@@ -30,52 +31,58 @@ namespace LVMiniApi.Controllers
         }
 
         // POST api/User/Register
-        [HttpPost("Register")]
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] User user)
         {
-            bool userCheck = _repository.GetAll(u => u.Username == user.Username).ToList().Count > 0;
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            if (userCheck)
+            if (UserExists(user))
             {
                 ModelState.AddModelError("Username", "A user with this information already exists!");
                 return BadRequest(ModelState);
             }
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            var passwordHash = _hasher.HashPassword(user, user.Password);
-            user.Password = passwordHash;
-
+            user.Password = _hasher.HashPassword(user, user.Password);           
             await _repository.Insert(user);
-
             return Ok("You have registered successfully!");
         }
 
+        [HttpPost("update")]
+        public async Task<IActionResult> Update([FromBody]string firstname)
+        {
+            var user = _repository.GetAll(u => u.FirstName == firstname).ToList();
+            var currentUser = user[0];
+            currentUser.FirstName = "TestUpdateMethod";
+            await _repository.Update(currentUser);
+            return Ok();
+        }
         // POST api/User/Login
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public IActionResult Login([FromBody] LoginUserModel user)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var userCheck = _repository.GetAll(u => u.Username == user.Username).ToList();
-            if (userCheck.Count == 0)
+            if (!UserExists(user))
             {
                 ModelState.AddModelError("Username", "No such user!");
+                return NotFound(ModelState);
+            }
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            }
 
-            var passwordCheck = _hasher.VerifyHashedPassword(user, userCheck[0].Password, user.Password);
+            var getUser = _repository.GetAll(u => u.Username == user.Username).ToList();
+            var passwordCheck = _hasher.VerifyHashedPassword(user, getUser[0].Password, user.Password);
             if (passwordCheck == PasswordVerificationResult.Success)
-            {
-                return Ok(userCheck[0]);
-            }
+                return Ok(getUser[0]);
 
             return BadRequest("Login failed!");
+        }
+
+        private bool UserExists(IUser user)
+        {
+            if (_repository.GetAll(u => u.Username == user.Username).ToList().Count > 0)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
