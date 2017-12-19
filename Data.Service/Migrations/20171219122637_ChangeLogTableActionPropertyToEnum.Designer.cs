@@ -12,9 +12,10 @@ using System;
 namespace Data.Service.Migrations
 {
     [DbContext(typeof(LvMiniDbContext))]
-    partial class LvMiniDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171219122637_ChangeLogTableActionPropertyToEnum")]
+    partial class ChangeLogTableActionPropertyToEnum
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
