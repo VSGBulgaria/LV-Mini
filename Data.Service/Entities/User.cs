@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
 namespace Data.Service.Entities
 {
     public class User : BaseEntity, IUser
