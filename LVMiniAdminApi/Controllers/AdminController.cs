@@ -11,6 +11,8 @@ namespace LVMiniAdminApi.Controllers
     public class AdminController : Controller
     {
         private const int SingleUserCollectionCount = 1;
+        private const int DefaultUserPostId = 0;
+        private const int FirstUserIndex = 0;
         private readonly IUserRepository _repository;
 
         public AdminController(IUserRepository userRepo)
@@ -39,31 +41,33 @@ namespace LVMiniAdminApi.Controllers
                 return BadRequest("Username or Email already exists.");
             }
             await _repository.Insert(user);
-            return Ok();
+            return Ok(user);
         }
 
         // PUT: api/Admin
         [HttpPut]
         public async Task<IActionResult> Put([FromBody]User user)
         {
-            var debug = "";
             if (!ModelState.IsValid)
             {
-                return BadRequest("Invalid user form.");
+                return BadRequest("The model is invalid");
             }
-
-            var matchedUsers = _repository.GetAll(innerUser => innerUser.Username == user.Username || innerUser.Email == user.Email).ToList();
-            if (matchedUsers.Count < SingleUserCollectionCount)
+            var usersMatched = _repository
+                .GetAll(innerUser => user.Email == innerUser.Email || user.Username == innerUser.Username).ToList();
+            if (usersMatched.Count < SingleUserCollectionCount)
             {
-                return await Post(user);
+                user.Id = DefaultUserPostId;
+                var postNewUser = await Post(user);
+                return Created("api/admin", postNewUser);
             }
-            if (matchedUsers.Count > SingleUserCollectionCount)
+            if (usersMatched.Count == SingleUserCollectionCount && usersMatched[FirstUserIndex].Id == user.Id)
             {
-                return BadRequest("Username or email result list is bigger than a single record.");
+                var userFromDb = usersMatched[FirstUserIndex];
+                user.Id = userFromDb.Id;
+                await _repository.Update(user);
+                return Ok("User was modified");
             }
-            await _repository.Delete(matchedUsers[0].Id);
-            await _repository.Update(user);
-            return Ok(user);
+            return BadRequest("More than one user matched to given credentials.");
         }
 
         // DELETE: api/Admin
@@ -79,8 +83,9 @@ namespace LVMiniAdminApi.Controllers
             {
                 return BadRequest("Invalid count of users");
             }
-            await _repository.Delete(resultCollectionUsers[0].Id);
+            await _repository.Delete(resultCollectionUsers[FirstUserIndex].Id);
             return Ok();
+            
         }
     }
 }

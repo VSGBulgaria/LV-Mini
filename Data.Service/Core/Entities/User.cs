@@ -1,8 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
+<<<<<<< HEAD
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
+=======
+using Data.Service.Core;
+using Data.Service.Core.Entities;
+
+>>>>>>> 6559636dae5c5f487ffe5bc6cc13e3aa36005b5f
 
 namespace Data.Service.Core.Entities
 {
