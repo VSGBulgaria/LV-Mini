@@ -1,4 +1,4 @@
-﻿namespace Data.Service.Entities
+﻿namespace Data.Service.Core
 {
     public interface IUser
     {

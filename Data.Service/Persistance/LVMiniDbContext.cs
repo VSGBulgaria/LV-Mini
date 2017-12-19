@@ -1,4 +1,4 @@
-﻿using Data.Service.Entities;
+﻿using Data.Service.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Service.Persistance

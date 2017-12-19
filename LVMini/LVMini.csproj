@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Data.Service\Data.Service.csproj" />
+    <ProjectReference Include="..\LVMiniApi\LVMiniApi.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,8 +1,7 @@
-﻿using Data.Service.Entities;
-using Data.Service.Persistance;
-using Data.Service.Repositories.BaseRepository;
+﻿using Data.Service.Core;
+using Data.Service.Core.Entities;
 
-namespace Data.Service.Repositories.UserRepository
+namespace Data.Service.Persistance.Repositories
 {
     public class UserRepository : BaseRepository<User>, IUserRepository
     {
