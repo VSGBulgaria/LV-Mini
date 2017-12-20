@@ -20,7 +20,7 @@ h1 {
     width: 320px;
     height: 420px;
     background: rgba(0,0,0,0.5);
-    color #fff;
+    color: #fff;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -30,19 +30,19 @@ h1 {
     color: white;
 }
 
-    .login-box p {
-        margin: 0;
-        padding: 0;
+.login-box p {
+        margin: 0px;
+        padding: 0px;
         font-weight: bold;
     }
 
-    .login-box input {
+.login-box input {
         width: 100%;
-        / /*padding: 10px;*/
-        margin-bottom: :20px;
+         /*padding: 10px;*/
+        margin-bottom: 20px;
     }
 
-        .login-box input[type="text"], input[type="password"] {
+.login-box input[type="text"], input[type="password"] {
             border: none;
             border-bottom: 1px solid;
             background: transparent;
@@ -53,32 +53,32 @@ h1 {
             margin-bottom: 20px;
         }
 
-        .login-box input[type="Submit"] {
+.login-box input[type="Submit"] {
             border: none;
             outline: none;
             height: 40px;
-            font-size: 18;
+            font-size: 18px;
             color: #fff;
             background-color: #57FF7E;
             border-radius: 10px;
             margin-bottom: 10px;
         }
 
-            .login-box input[type="Submit"]:hover {
+.login-box input[type="Submit"]:hover {
                 cursor: pointer;
                 color: #fff;
                 background-color: #48E16C;
             }
 
-    .login-box a {
+.login-box a {
         text-decoration: none;
         color: white;
         font-family: sans-serif;
         font-style: italic;
-        font-size: 12;
+        font-size: 12px;
     }
 
-        .login-box a:hover {
+.login-box a:hover {
             cursor: pointer;
             color: #57FF7E;
         }
@@ -90,12 +90,12 @@ h1 {
     text-align: right;
     position: absolute;
     bottom: 0;
-    right: 10;
+    right: 10px;
     font-family: sans-serif;
 }
 
 .p1 {
-    font-size: 12;
+    font-size:12px;
     font-family: sans-serif;
 }
-}
+

@@ -1,4 +1,5 @@
 ﻿// Write your JavaScript code.
+//Functions For The LogIn Form
 function checkForm(form) {
     re = /^[A-Za-z0-9_]{4,20}$/;
     rep = /^[A-Za-z0-9]{6,20}$/;
