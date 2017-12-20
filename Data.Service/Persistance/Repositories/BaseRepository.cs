@@ -11,18 +11,18 @@ namespace Data.Service.Persistance.Repositories
 {
     public abstract class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
-        private readonly DbContext _context;
-        private readonly DbSet<T> _entities;
+        protected DbContext Context;
+        protected DbSet<T> Entities;
 
         protected BaseRepository(DbContext context)
         {
-            _context = context;
-            _entities = _context.Set<T>();
+            Context = context;
+            Entities = Context.Set<T>();
         }
 
         public IEnumerable<T> GetAll(Expression<Func<T, bool>> filterExpression = null)
         {
-            IQueryable<T> query = _entities;
+            IQueryable<T> query = Entities;
 
             if (filterExpression != null)
             {
@@ -34,28 +34,28 @@ namespace Data.Service.Persistance.Repositories
 
         public async Task<T> GetById(int id)
         {
-            return await _entities
+            return await Entities
                 .AsNoTracking()
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
         public async Task Insert(T entity)
         {
-            await _entities.AddAsync(entity);
-            await _context.SaveChangesAsync();
+            await Entities.AddAsync(entity);
+            await Context.SaveChangesAsync();
         }
 
         public async Task Update(T entity)
         {
-            _entities.Update(entity);
-            await _context.SaveChangesAsync();
+            Entities.Update(entity);
+            await Context.SaveChangesAsync();
         }
 
         public async Task Delete(int id)
         {
             var entity = await GetById(id);
-            _entities.Remove(entity);
-            await _context.SaveChangesAsync();
+            Entities.Remove(entity);
+            await Context.SaveChangesAsync();
         }
     }
 }
