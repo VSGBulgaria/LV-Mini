@@ -38,7 +38,7 @@ namespace LVMiniApi.Controllers
             var getUser = UserRepository.GetAll(u => u.Username == user.Username).ToList();
             if (Hasher.VerifyHashedPassword(user, getUser[0].Password, user.Password) == PasswordVerificationResult.Success)
             {
-                ApiHelper.InsertLog(getUser[0].Id, LogAction.Logout, DateTime.Now, LogRepository);
+                ApiHelper.InsertLog(getUser[0].Id, LogAction.Login, DateTime.Now, LogRepository);
                 return Ok();
             }
 

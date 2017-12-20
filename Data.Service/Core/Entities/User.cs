@@ -10,7 +10,7 @@ namespace Data.Service.Core.Entities
         public string Username { get; set; }
 
         [Required]
-        [StringLength(255, MinimumLength = 5)]
+        [StringLength(1000)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 

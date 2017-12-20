@@ -13,7 +13,6 @@ namespace Data.Service.Core.Entities
         public User User { get; set; }
 
         [Required]
-        [StringLength(255)]
         public LogAction Action { get; set; }
 
         [Required]

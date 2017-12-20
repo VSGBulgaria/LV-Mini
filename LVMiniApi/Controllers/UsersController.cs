@@ -28,7 +28,7 @@ namespace LVMiniApi.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            IEnumerable<User> users = UserRepository.GetAll();
+            var users = UserRepository.GetAll();
             if (users == null)
                 return NotFound();
 
@@ -49,8 +49,9 @@ namespace LVMiniApi.Controllers
         // POST api/User/Register
         [HttpPost]
         [ValidateModel]
-        public async Task<IActionResult> Register([FromBody] User user)
+        public async Task<IActionResult> Register([FromBody] UserModel model)
         {
+            var user = Mapper.Map<User>(model);
             if (ApiHelper.UserExists(user, UserRepository))
             {
                 ModelState.AddModelError("Username", "A user with this information already exists!");
@@ -60,7 +61,23 @@ namespace LVMiniApi.Controllers
             user.Password = Hasher.HashPassword(user, user.Password);
             await UserRepository.Insert(user);
 
-            return Ok(Mapper.Map<UserModel>(user));
+            var newUri = Url.Link("UserGet", new {username = user.Username});
+            return Created(newUri, Mapper.Map<UserModel>(user));
+        }
+
+        [HttpPatch("{username}")]
+        [HttpPut("{username}")]
+        [ValidateModel]
+        public async Task<IActionResult> UpdateUser(string username, [FromBody] EditUserModel model)
+        {
+            var oldUser = await UserRepository.GetByUsername(username);
+            if (oldUser == null)
+                return NotFound();
+
+            Mapper.Map(model, oldUser);
+            await UserRepository.Update(oldUser);
+
+            return Ok(Mapper.Map<UserModel>(oldUser));
         }
     }
 }

@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Data.Service.Core.Entities;
 using LVMiniApi.Controllers;
+using LVMiniApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LVMiniApi.Models
+namespace LVMiniApi.Mapping
 {
     public class UserUrlResolver : IValueResolver<User, UserModel, string>
     {
