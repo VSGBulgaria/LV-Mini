@@ -1,4 +1,13 @@
-﻿body {
+﻿/*Style For Register Form*/
+#formContainer {
+    width:70%;
+    margin-left:15%;
+    margin-top:20%;
+}
+
+
+/*Style For The LogIn Form*/
+body {
     margin: 0;
     padding: 0;
     background: url(../images/ancient-Plovdiv-dreven-stariq-grad-lampi3-1024x683.jpg);
@@ -30,19 +39,19 @@ h1 {
     color: white;
 }
 
-.login-box p {
+    .login-box p {
         margin: 0px;
         padding: 0px;
         font-weight: bold;
     }
 
-.login-box input {
+    .login-box input {
         width: 100%;
-         /*padding: 10px;*/
+        /*padding: 10px;*/
         margin-bottom: 20px;
     }
 
-.login-box input[type="text"], input[type="password"] {
+        .login-box input[type="text"], input[type="password"] {
             border: none;
             border-bottom: 1px solid;
             background: transparent;
@@ -53,7 +62,7 @@ h1 {
             margin-bottom: 20px;
         }
 
-.login-box input[type="Submit"] {
+        .login-box input[type="Submit"] {
             border: none;
             outline: none;
             height: 40px;
@@ -64,13 +73,13 @@ h1 {
             margin-bottom: 10px;
         }
 
-.login-box input[type="Submit"]:hover {
+            .login-box input[type="Submit"]:hover {
                 cursor: pointer;
                 color: #fff;
                 background-color: #48E16C;
             }
 
-.login-box a {
+    .login-box a {
         text-decoration: none;
         color: white;
         font-family: sans-serif;
@@ -78,7 +87,7 @@ h1 {
         font-size: 12px;
     }
 
-.login-box a:hover {
+        .login-box a:hover {
             cursor: pointer;
             color: #57FF7E;
         }
@@ -95,7 +104,6 @@ h1 {
 }
 
 .p1 {
-    font-size:12px;
+    font-size: 12px;
     font-family: sans-serif;
 }
-

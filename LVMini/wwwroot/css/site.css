@@ -1,9 +1,26 @@
 ﻿body {
+    margin:0;
+    padding:0;
+    background:url(../images/ancient-Plovdiv-dreven-stariq-grad-lampi3-1024x683.jpg);
+    background-size:cover;
+    background-position:center;
+    font-family:sans-serif;
     padding-top: 50px;
     padding-bottom: 20px;
 }
-/*CSS For LogIn Form*/
-body {
+
+/*Style For Register Form*/
+#formContainer {
+    width: 100%;
+    
+}
+#checkbox1 {
+    width: 20px;
+    margin-left: 16px;
+    font-size: 18px;
+}
+    /*CSS For LogIn Form*/
+body{
     margin: 0;
     padding: 0;
     background: url(../images/ancient-Plovdiv-dreven-stariq-grad-lampi3-1024x683.jpg);
@@ -136,3 +153,5 @@ h1 {
         display: none;
     }
 }
+
+
