@@ -3,11 +3,7 @@ using Data.Service.Core;
 using Data.Service.Core.Entities;
 using Data.Service.Persistance;
 using Data.Service.Persistance.Repositories;
-<<<<<<< Updated upstream
 using LVMiniApi.Facebook;
-=======
-using LVMiniApi;
->>>>>>> Stashed changes
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -42,7 +38,6 @@ namespace LVMiniApi
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPasswordHasher<IUser>, PasswordHasher<IUser>>();
             services.AddScoped<ILogRepository, LogRepository>();
-<<<<<<< Updated upstream
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddFacebook(fb =>
                 {
@@ -53,17 +48,8 @@ namespace LVMiniApi
                 });
            
         
-            services.AddMvc(opt =>
-            {
-                if (!_env.IsProduction())
-                {
-                    opt.SslPort = 44300;
-                }
-                opt.Filters.Add(new RequireHttpsAttribute());
-            });
-=======
             services.AddMvc();
->>>>>>> Stashed changes
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
