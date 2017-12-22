@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Data.Service.Core;
 using Data.Service.Core.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Service.Persistance.Repositories
@@ -36,7 +37,7 @@ namespace Data.Service.Persistance.Repositories
         {
             return await Entities
                 .AsNoTracking()
-                .FirstOrDefaultAsync(e => e.Id == id);
+                .FirstOrDefaultAsync(t => t.Id == id);
         }
 
         public async Task Insert(T entity)

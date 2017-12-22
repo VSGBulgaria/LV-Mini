@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
+using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
-using Data.Service.Persistance;
-using Microsoft.AspNetCore.Mvc;
 using LVMini.Models;
-using LVMiniApi.Controllers;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using LVMini.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace LVMini.Controllers
 {
@@ -34,11 +32,24 @@ namespace LVMini.Controllers
         }
         public IActionResult Login()
         {
-
-            ViewData["Message"] = "Login Here";
             return View();
-
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            var client = new HttpClient();
+            var stringContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+            var response = await client.PostAsync("http://localhost:53920/api/login", stringContent);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            return RedirectToAction("Login", "Home");
+        }
+
         public IActionResult Register()
         {
 

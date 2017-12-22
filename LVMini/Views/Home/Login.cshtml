@@ -1,32 +1,57 @@
-﻿@{
+﻿@model LVMini.ViewModels.LoginViewModel
+@{
     ViewData["Title"] = "Login";
 }
-<div class="login-box">
-    <h1>Login Here</h1>
-    <form action="http://localhost:49649/" method="post" onSubmit="return checkForm(this);" name="form">
-        <p>Username</p>
-        <input type="text" name="usr" placeholder="Username" required><br>
-        <p>Password</p>
-        <input type="password" name="pass" placeholder="Password" required><br>
-        <input type="submit" value="Submit"><br>
-        <p class="p1">Dont have an account? Register <a href=".\Register">here</a></p>
-        <input type="button" value="Facebook Login" /><br />
-        
-    </form>
-</div>
-<footer>
-    <div class="footer">
-        <p><span></span>LV Mini - 2017</p>
-    </div>
-</footer>
 
+<h2>Login</h2>
+
+@*<div class="login-box">
+        <h1>Login Here</h1>
+        <form action="main.html" method="post" onSubmit="return checkForm(this);" name="form">
+            <p>Username</p>
+            <input type="text" name="usr" placeholder="Username" required><br>
+            <p>Password</p>
+            <input type="password" name="pass" placeholder="Password" required><br>
+            <input type="submit" value="Submit">Don't Have An Account<br><a href="Register">Register here.</a>
+        </form>
+    </div>
+    <footer>
+        <div class="footer">
+            <p><span></span>Severin Karadzhov VSG Solutions 2017</p>
+        </div>
+    </footer>*@
+
+<div class="container">
+    @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+    {
+        <div>
+            <div>
+                @Html.LabelFor(model => model.Username)
+                <div>
+                    @Html.TextBoxFor(model => model.Username)
+                    @Html.ValidationMessageFor(model => model.Username)
+                </div>
+            </div>
+            <div>
+                @Html.LabelFor(model => model.Password)
+                <div>
+                    @Html.PasswordFor(model => model.Password)
+                    @Html.ValidationMessageFor(model => model.Password)
+                </div>
+            </div>
+            <div>
+                <input type="submit" value="Login" />
+            </div>
+        </div>
+    }
+</div>
 
 <!-- <script type="text/javascript">
 
-	function checkForm(form)
+    function checkForm(form)
   {
      re = /^[A-Za-z0-9_]{4,20}$/;
-	   rep = /^[A-Za-z0-9]{6,20}$/;
+       rep = /^[A-Za-z0-9]{6,20}$/;
     if(!re.test(form.usr.value)) {
       alert("Error: Username must contain only letters, numbers and underscores!");
       form.usr.focus();

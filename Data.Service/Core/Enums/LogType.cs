@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Data.Service.Core.Enums
 {
-    public enum LogAction
+    public enum LogType
     {
         Login = 1,
         Logout = 2,

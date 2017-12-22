@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Data.Service.Core.Entities
 {
-    public abstract class BaseEntity
+    public class LogAction : BaseEntity
     {
-        public int Id { get; set; }
+        public string Action { get; set; }
     }
 }

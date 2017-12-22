@@ -27,7 +27,7 @@ namespace LVMiniApi.Controllers
         // POST api/login
         [HttpPost]
         [ValidateModel]
-        public IActionResult Post([FromBody] LoginUserModel user)
+        public async Task<IActionResult> Post([FromBody] LoginUserModel user)
         {
             if (!ApiHelper.UserExists(user, UserRepository))
             {
@@ -35,11 +35,11 @@ namespace LVMiniApi.Controllers
                 return NotFound(ModelState);
             }
 
-            var getUser = UserRepository.GetAll(u => u.Username == user.Username).ToList();
-            if (Hasher.VerifyHashedPassword(user, getUser[0].Password, user.Password) == PasswordVerificationResult.Success)
+            var getUser = await UserRepository.GetByUsername(user.Username);
+            if (Hasher.VerifyHashedPassword(user, getUser.Password, user.Password) == PasswordVerificationResult.Success)
             {
-                ApiHelper.InsertLog(getUser[0].Id, LogAction.Login, DateTime.Now, LogRepository);
-                return Ok();
+                await ApiHelper.InsertLog(getUser.Username, LogType.Login , DateTime.Now, LogRepository);
+                return Ok(user);
             }
 
             return BadRequest("Login failed!");

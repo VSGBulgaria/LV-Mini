@@ -22,7 +22,7 @@ namespace LVMiniAdminApi.Controllers
 
         // GET: api/Admin
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public IActionResult Get()
         {
             return Ok(_repository.GetAll());
         }

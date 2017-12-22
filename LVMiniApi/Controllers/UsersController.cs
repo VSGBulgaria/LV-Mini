@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using LVMiniApi.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Data.Service.Core;
 using Data.Service.Core.Entities;
-using Data.Service.Core.Enums;
 using LVMiniApi.Api.Service;
 using LVMiniApi.Filters;
+using Microsoft.AspNetCore.Http;
 
 namespace LVMiniApi.Controllers
 {
@@ -74,7 +72,7 @@ namespace LVMiniApi.Controllers
             if (oldUser == null)
                 return NotFound();
 
-            Mapper.Map(model, oldUser);
+            oldUser = ApiHelper.ValidateUpdate(oldUser, model);
             await UserRepository.Update(oldUser);
 
             return Ok(Mapper.Map<UserModel>(oldUser));

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Data.Service.Core;
 using Data.Service.Core.Entities;
 using Data.Service.Core.Enums;
+using LVMiniApi.Models;
 
 namespace LVMiniApi.Api.Service
 {
@@ -15,16 +17,34 @@ namespace LVMiniApi.Api.Service
         }
 
         //Inserts a log in the database.
-        public static void InsertLog(int userId, LogAction action, DateTime time, ILogRepository logRepository)
+        public static async Task InsertLog(string username, LogType type, DateTime time, ILogRepository logRepository)
         {
             Log log = new Log
             {
-                Action = action,
-                UserId = userId,
+                ActionId = (int)type,
+                Username = username,
                 Time = time
             };
 
-            logRepository.Insert(log);
+            await logRepository.Insert(log);
+        }
+
+        public static User ValidateUpdate(User user, EditUserModel model)
+        {
+            if (!string.IsNullOrWhiteSpace(model.Email))
+                user.Email = model.Email;
+
+            if (!string.IsNullOrWhiteSpace(model.Firstname))
+                user.FirstName = model.Firstname;
+            if (model.Firstname == "null")
+                user.FirstName = null;
+
+            if (!string.IsNullOrWhiteSpace(model.Lastname))
+                user.LastName = model.Lastname;
+            if (model.Lastname == "null")
+                user.LastName = null;
+
+            return user;
         }
     }
 }

@@ -11,8 +11,8 @@ using System;
 namespace Data.Service.Migrations
 {
     [DbContext(typeof(LvMiniDbContext))]
-    [Migration("20171219122637_ChangeLogTableActionPropertyToEnum")]
-    partial class ChangeLogTableActionPropertyToEnum
+    [Migration("20171222092753_UpdateLogTable")]
+    partial class UpdateLogTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,16 +26,14 @@ namespace Data.Service.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("Action")
-                        .HasMaxLength(255);
+                    b.Property<int>("Action");
 
                     b.Property<DateTime>("Time");
 
-                    b.Property<int>("UserId");
+                    b.Property<string>("Username")
+                        .IsRequired();
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Logs");
                 });
@@ -58,7 +56,7 @@ namespace Data.Service.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(255);
+                        .HasMaxLength(1000);
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -70,14 +68,6 @@ namespace Data.Service.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("Data.Service.Core.Entities.Log", b =>
-                {
-                    b.HasOne("Data.Service.Core.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

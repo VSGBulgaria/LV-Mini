@@ -13,6 +13,7 @@ namespace Data.Service.Persistance
 
         public DbSet<User> Users { get; set; }
         public DbSet<Log> Logs { get; set; }
+        public DbSet<LogAction> Actions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
