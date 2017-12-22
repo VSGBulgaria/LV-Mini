@@ -1,12 +1,14 @@
 ﻿body {
-    margin:0;
-    padding:0;
-    background:url(../images/ancient-Plovdiv-dreven-stariq-grad-lampi3-1024x683.jpg);
-    background-size:cover;
-    background-position:center;
-    font-family:sans-serif;
+    margin: 0;
+    padding: 0;
+    background: url(../images/ancient-Plovdiv-dreven-stariq-grad-lampi3-1024x683.jpg);
+    background-size: cover;
+    font-family: sans-serif;
     padding-top: 50px;
     padding-bottom: 20px;
+    /* background-position: center; background-position: 20% 20%; */
+    
+    background-attachment: fixed;
 }
 
 /*Style For Register Form*/
@@ -25,7 +27,9 @@ body{
     padding: 0;
     background: url(../images/ancient-Plovdiv-dreven-stariq-grad-lampi3-1024x683.jpg);
     background-size: cover;
-    background-position: center;
+    background-position:20% 20%;
+    background-attachment: fixed;
+
     font-family: sans-serif;
 }
 #facebook {
@@ -99,6 +103,23 @@ h1 {
                 background-color: #48E16C;
             }
 
+        .login-box input[type="button"] {
+            border: none;
+            outline: none;
+            height: 40px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #3b5998;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+            .login-box input[type="button"]:hover {
+                cursor: pointer;
+                color: #fff;
+                background-color: #355088;
+            }
+
     .login-box a {
         text-decoration: none;
         color: white;
@@ -124,8 +145,10 @@ h1 {
 }
 
 .p1 {
+    color: white;
     font-size: 12px;
     font-family: sans-serif;
+    
 }
 
 

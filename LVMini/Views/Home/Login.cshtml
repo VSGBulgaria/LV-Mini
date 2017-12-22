@@ -3,26 +3,20 @@
 }
 <div class="login-box">
     <h1>Login Here</h1>
-    <form action="main.html" method="post" onSubmit="return checkForm(this);" name="form">
+    <form action="http://localhost:49649/" method="post" onSubmit="return checkForm(this);" name="form">
         <p>Username</p>
         <input type="text" name="usr" placeholder="Username" required><br>
         <p>Password</p>
         <input type="password" name="pass" placeholder="Password" required><br>
-
-        <input type="submit" value="Submit">Don't Have An Account<br><a href="Register">Register here.</a>
-
-        <div id="facebook">
-            FACEBOOK
-            <div class="fb-login-button"
-                 data-max-rows="1"
-                 data-size="large"
-                 data-button-type="continue_with"></div>
-        </div>
+        <input type="submit" value="Submit"><br>
+        <p class="p1">Dont have an account? Register <a href=".\Register">here</a></p>
+        <input type="button" value="Facebook Login" /><br />
+        
     </form>
 </div>
 <footer>
     <div class="footer">
-        <p><span></span>Severin Karadzhov VSG Solutions 2017</p>
+        <p><span></span>LV Mini - 2017</p>
     </div>
 </footer>
 

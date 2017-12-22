@@ -26,3 +26,4 @@ var finished_rendering = function () {
     facebook.removeChild(facebook.childNodes[0]);
 }
 FB.Event.subscribe('xfbml.render', finished_rendering);
+
