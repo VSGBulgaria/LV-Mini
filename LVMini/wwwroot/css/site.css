@@ -12,26 +12,42 @@
 }
 
 /*Style For Register Form*/
-#formContainer {
-    width: 100%;
-    
+
+
+.Register {
+    width: 320px;
+    height: 420px;
+    background: RGBA(0,0,0,0.5);
+    color: #fff;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    box-sizing: border-box;
+    transform: translate(-50%, -50%);
+    padding: 70px 30px;
+    /*color: white;*/
 }
-#checkbox1 {
-    width: 20px;
-    margin-left: 16px;
+.Register input[type="submit"] {
+    border: none;
+    outline: none;
+    height: 40px;
     font-size: 18px;
+    color: #fff;
+    background-color: #57FF7E;
+    border-radius: 10px;
+    margin-bottom: 10px;
 }
     /*CSS For LogIn Form*/
-body{
+/*body{
     margin: 0;
     padding: 0;
-    background: url(../images/ancient-Plovdiv-dreven-stariq-grad-lampi3-1024x683.jpg);
+    /*background: url(../images/ancient-Plovdiv-dreven-stariq-grad-lampi3-1024x683.jpg);
     background-size: cover;
     background-position:20% 20%;
     background-attachment: fixed;
 
     font-family: sans-serif;
-}
+}*/
 #facebook {
     background: #4267b2;
     border-radius: 5px;
@@ -52,7 +68,7 @@ h1 {
 .login-box {
     width: 320px;
     height: 420px;
-    background: rgba(0,0,0,0.5);
+    background: RGBA(0,0,0,0.5);
     color: #fff;
     position: absolute;
     left: 50%;
@@ -60,22 +76,20 @@ h1 {
     box-sizing: border-box;
     transform: translate(-50%, -50%);
     padding: 70px 30px;
-    color: white;
+    /*color: white;*/
 }
-
-    .login-box p {
+.login-box p {
         margin: 0;
         padding: 0;
         font-weight: bold;
-    }
-
-    .login-box input {
+}
+.login-box input {
         width: 100%;
         /*padding: 10px;*/
         margin-bottom: 20px;
-    }
+}
 
-        .login-box input[type="text"], input[type="password"] {
+.login-box input[type="text"], input[type="password"] {
             border: none;
             border-bottom: 1px solid;
             background: transparent;
@@ -84,9 +98,9 @@ h1 {
             color: #fff;
             font-size: 16px;
             margin-bottom: 20px;
-        }
+}
 
-        .login-box input[type="Submit"] {
+.login-box input[type="submit"] {
             border: none;
             outline: none;
             height: 40px;
@@ -95,15 +109,15 @@ h1 {
             background-color: #57FF7E;
             border-radius: 10px;
             margin-bottom: 10px;
-        }
+}
 
-            .login-box input[type="Submit"]:hover {
+.login-box input[type="Submit"]:hover {
                 cursor: pointer;
                 color: #fff;
                 background-color: #48E16C;
-            }
+}
 
-        .login-box input[type="button"] {
+.login-box input[type="button"] {
             border: none;
             outline: none;
             height: 40px;
@@ -112,26 +126,26 @@ h1 {
             background-color: #3b5998;
             border-radius: 10px;
             margin-top: 10px;
-        }
+}
 
-            .login-box input[type="button"]:hover {
+.login-box input[type="button"]:hover {
                 cursor: pointer;
                 color: #fff;
                 background-color: #355088;
-            }
+}
 
-    .login-box a {
+.login-box a {
         text-decoration: none;
         color: white;
         font-family: sans-serif;
         font-style: italic;
         font-size: 12px;
-    }
+}
 
-        .login-box a:hover {
+.login-box a:hover {
             cursor: pointer;
             color: #57FF7E;
-        }
+}
 
 .footer {
     font-style: italic;
@@ -151,37 +165,35 @@ h1 {
     
 }
 
-
-
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
+/* Wrapping element 
+ Set some basic padding to keep content from hitting the edges 
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
 }
 
-/* Carousel */
+ Carousel 
 .carousel-caption p {
     font-size: 20px;
     line-height: 1.4;
 }
 
-/* Make .svg files in the carousel display properly in older browsers */
+ Make .svg files in the carousel display properly in older browsers 
 .carousel-inner .item img[src$=".svg"] {
     width: 100%;
 }
 
-/* QR code generator */
+ QR code generator 
 #qrCode {
     margin: 15px;
 }
 
-/* Hide/rearrange for smaller screens */
+ Hide/rearrange for smaller screens 
 @media screen and (max-width: 767px) {
-    /* Hide captions */
+    /* Hide captions 
     .carousel-caption {
         display: none;
     }
-}
+}*/
 
 
