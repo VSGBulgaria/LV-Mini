@@ -21,7 +21,7 @@
         </div>
     </footer>*@
 
-<div class="container">
+<div class="login-box">
     @using (Html.BeginForm("Login", "Home", FormMethod.Post))
     {
         <div>
@@ -41,6 +41,9 @@
             </div>
             <div>
                 <input type="submit" value="Login" />
+            </div>
+            <div>
+                <input type="button" value="Facebook Login" /><br />
             </div>
         </div>
     }
