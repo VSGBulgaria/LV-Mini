@@ -18,8 +18,8 @@
     <div class="container">
         <div class="row main">
             <div class="main-login main-center">
-                <h5>Sign up once and watch any of our free demos.</h5>
-                <form class="" method="post" action="#">
+                <h5>Register Here.</h5>
+                <form class="" method="post" action="#" onsubmit='return formValidator()' name="f1" >
 
                     <div class="form-group">
                         <label for="name" class="cols-sm-2 control-label">Your Name</label>
@@ -71,6 +71,7 @@
                     </div>
 
                 </form>
+                <div id="errors" onclick=" document.getElementById('errors').innerHTML = ''; "></div>
             </div>
         </div>
     </div>
