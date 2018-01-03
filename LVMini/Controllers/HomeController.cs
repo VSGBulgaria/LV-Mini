@@ -113,6 +113,8 @@ namespace LVMini.Controllers
             return View();
         }
 
+
+
         [Authorize]
         public IActionResult Login()
         {
@@ -125,20 +127,20 @@ namespace LVMini.Controllers
             await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
-        {
-            var client = new HttpClient();
-            var stringContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
-            var response = await client.PostAsync("http://localhost:53920/api/login", stringContent);
+        //[HttpPost]
+        //public async Task<IActionResult> Login(LoginViewModel model)
+        //{
+        //    var client = new HttpClient();
+        //    var stringContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+        //    var response = await client.PostAsync("http://localhost:53920/api/login", stringContent);
 
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                return RedirectToAction("Index", "Home");
-            }
+        //    if (response.StatusCode == HttpStatusCode.OK)
+        //    {
+        //        return RedirectToAction("Index", "Home");
+        //    }
 
-            return RedirectToAction("Login", "Home");
-        }
+        //    return RedirectToAction("Login", "Home");
+        //}
 
         public IActionResult Register()
         {
@@ -147,6 +149,12 @@ namespace LVMini.Controllers
             return View();
 
         }
+
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

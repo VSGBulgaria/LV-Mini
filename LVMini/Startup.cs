@@ -41,6 +41,7 @@ namespace LVMini
                     opt.ClientSecret = "interns";
                     opt.ResponseType = "code id_token";
                     opt.Scope.Add("lvmini");
+                    //opt.Scope.Add("lvmini_admin");
                     opt.Scope.Add("offline_access");
                     opt.Scope.Add("email");
                     opt.SaveTokens = true;

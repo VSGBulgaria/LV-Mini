@@ -15,7 +15,9 @@ namespace AuthorizationServer.Configuration
                 new ApiResource("lvmini", "LV Mini")
                 {
                     UserClaims = new List<string>(){"email"}
-                } 
+                }
+
+                //new ApiResource("lvmini_admin", "LV Mini Admin")
             };
         }
 
@@ -45,9 +47,9 @@ namespace AuthorizationServer.Configuration
                 },
 
                 new Client
-                { 
+                {
                     ClientId = "lvmini_implicit",
-                    ClientSecrets = new [] 
+                    ClientSecrets = new []
                     {
                         new Secret("interns".Sha256())
                     },
