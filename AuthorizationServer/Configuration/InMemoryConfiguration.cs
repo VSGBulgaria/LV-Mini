@@ -15,6 +15,10 @@ namespace AuthorizationServer.Configuration
                 new ApiResource("lvmini", "LV Mini")
                 {
                     UserClaims = new List<string>(){"email"}
+                },
+                new ApiResource("lvmini_admin", "LV Mini Admin")
+                {
+                UserClaims = new List<string>(){"email"}
                 }
             };
         }

@@ -3,16 +3,17 @@ using Data.Service.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
+using LVMiniAdminApi.Helper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LVMiniAdminApi.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Admin")]
+    [Route("api/Admin/users")]
+    [Authorize]
     public class AdminController : Controller
     {
-        private const int SingleUserCollectionCount = 1;
-        private const int DefaultUserPostId = 0;
-        private const int FirstUserIndex = 0;
+        
         private readonly IUserRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
 
@@ -39,12 +40,12 @@ namespace LVMiniAdminApi.Controllers
                 return BadRequest("Invalid User form in post method.");
             }
             if (_repository.GetAll(innerUser => innerUser.Username == user.Username || innerUser.Email == user.Email)
-                    .ToList().Count >= SingleUserCollectionCount)
+                    .ToList().Count >= Constants.SingleUserCollectionCount)
             {
                 return BadRequest("Username or Email already exists.");
             }
             await _repository.Insert(user);
-            await _unitOfWork.Commit(); // Добавил съм Commit.
+            await _unitOfWork.Commit();
 
             return Ok(user);
         }
@@ -59,18 +60,18 @@ namespace LVMiniAdminApi.Controllers
             }
             var usersMatched = _repository
                 .GetAll(innerUser => user.Email == innerUser.Email || user.Username == innerUser.Username).ToList();
-            if (usersMatched.Count < SingleUserCollectionCount)
+            if (usersMatched.Count < Constants.SingleUserCollectionCount)
             {
-                user.Id = DefaultUserPostId;
+                user.Id = Constants.DefaultUserPostId;
                 var postNewUser = await Post(user);
                 return Created("api/admin", postNewUser);
             }
-            if (usersMatched.Count == SingleUserCollectionCount && usersMatched[FirstUserIndex].Id == user.Id)
+            if (usersMatched.Count == Constants.SingleUserCollectionCount && usersMatched[Constants.FirstUserIndex].Id == user.Id)
             {
-                var userFromDb = usersMatched[FirstUserIndex];
+                var userFromDb = usersMatched[Constants.FirstUserIndex];
                 user.Id = userFromDb.Id;
                 _repository.Update(user);
-                await _unitOfWork.Commit(); // Добавил съм Commit.
+                await _unitOfWork.Commit();
 
                 return Ok("User was modified");
             }
@@ -86,12 +87,12 @@ namespace LVMiniAdminApi.Controllers
                 return BadRequest("Invalid user form.");
             }
             var resultCollectionUsers = _repository.GetAll(innerUser => innerUser.Username == user.Username || innerUser.Email == user.Email).ToList();
-            if (resultCollectionUsers.Count() != SingleUserCollectionCount)
+            if (resultCollectionUsers.Count() != Constants.SingleUserCollectionCount)
             {
                 return BadRequest("Invalid count of users");
             }
-            _repository.Delete(resultCollectionUsers[FirstUserIndex]);
-            await _unitOfWork.Commit(); // Добавил съм Commit.
+            _repository.Delete(resultCollectionUsers[Constants.FirstUserIndex]);
+            await _unitOfWork.Commit();
             return Ok();
 
         }

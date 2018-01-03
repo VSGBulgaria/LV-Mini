@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LVMini", "LVMini\LVMini.csproj", "{ADB0FBEB-394D-4191-80C5-DB7366512565}"
 EndProject
@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LVMiniAdminApi", "LVMiniAdm
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactProject", "ReactProject\ReactProject.csproj", "{276A4BEB-12A9-473A-95E3-6796EE1B9406}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthorizationServer", "AuthorizationServer\AuthorizationServer.csproj", "{9588447C-921D-4A52-A389-64BBAE44B88E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthorizationServer", "AuthorizationServer\AuthorizationServer.csproj", "{9588447C-921D-4A52-A389-64BBAE44B88E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
