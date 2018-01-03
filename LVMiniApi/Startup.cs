@@ -39,7 +39,7 @@ namespace LVMiniApi
                 .AddIdentityServerAuthentication(options =>
                 {
                     options.RequireHttpsMetadata = false;
-                    options.Authority = "http://localhost:55818/";
+                    options.Authority = "http://localhost:55817/";
                     options.ApiName = "lvmini";
                 });
 

@@ -19,9 +19,11 @@ namespace AuthorizationServer
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly ILoggerFactory _loggerFactory;
+        public Startup(IConfiguration configuration, ILoggerFactory loggerFactory)
         {
             Configuration = configuration;
+            _loggerFactory = loggerFactory;
         }
 
         public IConfiguration Configuration { get; }
@@ -54,11 +56,12 @@ namespace AuthorizationServer
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             MigrateInMemoryDataToSqlServer(app);
 
-            loggerFactory.AddConsole();
+            _loggerFactory.AddConsole();
+            _loggerFactory.AddDebug();
 
             app.UseDeveloperExceptionPage();
 

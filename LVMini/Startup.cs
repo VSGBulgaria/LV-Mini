@@ -1,6 +1,8 @@
 ﻿using Data.Service.Persistance;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OAuth.Claims;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +19,7 @@ namespace LVMini
         }
 
         public IConfiguration Configuration { get; }
-
+        
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -29,20 +31,20 @@ namespace LVMini
                     opt.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                     opt.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
                 })
-                .AddCookie()
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddOpenIdConnect(opt =>
                 {
                     opt.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    opt.Authority = "http://localhost:55818/";
+                    opt.Authority = "http://localhost:55817/";
                     opt.RequireHttpsMetadata = false;
-                    opt.ClientId = "lvmini_code";
+                    opt.ClientId = "lvmini_code"; 
                     opt.ClientSecret = "interns";
-                    opt.ResponseType = "id_token code";
+                    opt.ResponseType = "code id_token";
                     opt.Scope.Add("lvmini");
                     opt.Scope.Add("offline_access");
                     opt.Scope.Add("email");
-                    opt.GetClaimsFromUserInfoEndpoint = true;
                     opt.SaveTokens = true;
+                    opt.GetClaimsFromUserInfoEndpoint = true;
                 });
             services.AddMvc();
         }

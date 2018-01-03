@@ -6,7 +6,7 @@ using System.Security.Claims;
 
 namespace AuthorizationServer.Configuration
 {
-    public class InMemoryConfiguration
+    public static class InMemoryConfiguration
     {
         public static IEnumerable<ApiResource> ApiResources()
         {
@@ -15,7 +15,7 @@ namespace AuthorizationServer.Configuration
                 new ApiResource("lvmini", "LV Mini")
                 {
                     UserClaims = new List<string>(){"email"}
-                }
+                } 
             };
         }
 
@@ -36,15 +36,21 @@ namespace AuthorizationServer.Configuration
                 new Client
                 {
                     ClientId = "lvmini",
-                    ClientSecrets = new [] { new Secret("interns".Sha256()) },
+                    ClientSecrets = new []
+                    {
+                        new Secret("interns".Sha256())
+                    },
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     AllowedScopes = new [] { "lvmini" }
                 },
 
                 new Client
-                {
+                { 
                     ClientId = "lvmini_implicit",
-                    ClientSecrets = new [] { new Secret("interns".Sha256()) },
+                    ClientSecrets = new [] 
+                    {
+                        new Secret("interns".Sha256())
+                    },
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowedScopes = new []
                     {
@@ -59,8 +65,12 @@ namespace AuthorizationServer.Configuration
 
                 new Client
                 {
+                    ClientName = "LV Mini",
                     ClientId = "lvmini_code",
-                    ClientSecrets = new [] { new Secret("interns".Sha256()) },
+                    ClientSecrets = new []
+                    {
+                        new Secret("interns".Sha256())
+                    },
                     AllowedGrantTypes = GrantTypes.Hybrid,
                     AllowedScopes = new []
                     {

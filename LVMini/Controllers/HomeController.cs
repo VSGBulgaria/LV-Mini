@@ -53,7 +53,7 @@ namespace LVMini.Controllers
 
         private async Task RefreshTokensAsync()
         {
-            DiscoveryResponse authServerInfo = await DiscoveryClient.GetAsync($"http://localhost:55818");
+            DiscoveryResponse authServerInfo = await DiscoveryClient.GetAsync($"http://localhost:55817");
 
             var tokenClient = new TokenClient(authServerInfo.TokenEndpoint, "lvmini_code", "interns");
 
