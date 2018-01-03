@@ -17,6 +17,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace LVMini.Controllers
 {
@@ -94,7 +95,7 @@ namespace LVMini.Controllers
                 AuthenticateResult authenticationInformation = await HttpContext.AuthenticateAsync("Cookies");
                 authenticationInformation.Properties.StoreTokens(tokens);
 
-                await HttpContext.SignInAsync("Cookies", authenticationInformation.Principal, authenticationInformation.Properties);
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, authenticationInformation.Principal, authenticationInformation.Properties);
             }
         }
 
@@ -123,7 +124,7 @@ namespace LVMini.Controllers
 
         public async Task Logout()
         {
-            await HttpContext.SignOutAsync("Cookies");
+            await HttpContext.SignOutAsync();
             await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
         }
 

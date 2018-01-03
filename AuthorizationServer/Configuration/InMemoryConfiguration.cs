@@ -15,9 +15,8 @@ namespace AuthorizationServer.Configuration
                 new ApiResource("lvmini", "LV Mini")
                 {
                     UserClaims = new List<string>(){"email"}
-                }
-
-                //new ApiResource("lvmini_admin", "LV Mini Admin")
+                },
+                new ApiResource("lvmini_admin", "LV Mini Admin")
             };
         }
 
@@ -79,7 +78,8 @@ namespace AuthorizationServer.Configuration
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.Email,
-                        "lvmini"
+                        "lvmini",
+                        "lvmini_admin"
                     },
                     AllowOfflineAccess = true,
                     AllowAccessTokensViaBrowser = true,
