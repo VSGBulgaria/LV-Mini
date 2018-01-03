@@ -39,58 +39,58 @@ h1 {
     color: white;
 }
 
-    .login-box p {
-        margin: 0px;
-        padding: 0px;
-        font-weight: bold;
-    }
+.login-box p {
+    margin: 0px;
+    padding: 0px;
+    font-weight: bold;
+}
 
-    .login-box input {
-        width: 100%;
-        /*padding: 10px;*/
-        margin-bottom: 20px;
-    }
+.login-box input {
+    width: 100%;
+    /*padding: 10px;*/
+    margin-bottom: 20px;
+}
 
-        .login-box input[type="text"], input[type="password"] {
-            border: none;
-            border-bottom: 1px solid;
-            background: transparent;
-            outline: none;
-            height: 40px;
-            color: #fff;
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
+.login-box input[type="text"], input[type="password"] {
+    border: none;
+    border-bottom: 1px solid;
+    background: transparent;
+    outline: none;
+    height: 40px;
+    color: #fff;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
 
-        .login-box input[type="Submit"] {
-            border: none;
-            outline: none;
-            height: 40px;
-            font-size: 18px;
-            color: #fff;
-            background-color: #57FF7E;
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
+.login-box input[type="Submit"] {
+    border: none;
+    outline: none;
+    height: 40px;
+    font-size: 18px;
+    color: #fff;
+    background-color: #57FF7E;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
 
-            .login-box input[type="Submit"]:hover {
-                cursor: pointer;
-                color: #fff;
-                background-color: #48E16C;
-            }
+.login-box input[type="Submit"]:hover {
+    cursor: pointer;
+    color: #fff;
+    background-color: #48E16C;
+}
 
-    .login-box a {
-        text-decoration: none;
-        color: white;
-        font-family: sans-serif;
-        font-style: italic;
-        font-size: 12px;
-    }
+.login-box a {
+    text-decoration: none;
+    color: white;
+    font-family: sans-serif;
+    font-style: italic;
+    font-size: 12px;
+}
 
-        .login-box a:hover {
-            cursor: pointer;
-            color: #57FF7E;
-        }
+.login-box a:hover {
+    cursor: pointer;
+    color: #57FF7E;
+}
 
 .footer {
     font-style: italic;

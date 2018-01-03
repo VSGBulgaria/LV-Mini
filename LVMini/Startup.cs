@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Data.Service.Persistance;
+﻿using Data.Service.Persistance;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +23,27 @@ namespace LVMini
         {
             services.AddDbContext<LvMiniDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("LV_MiniDatabase")));
+
+            services.AddAuthentication(opt =>
+                {
+                    opt.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    opt.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+                })
+                .AddCookie()
+                .AddOpenIdConnect(opt =>
+                {
+                    opt.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    opt.Authority = "http://localhost:55818/";
+                    opt.RequireHttpsMetadata = false;
+                    opt.ClientId = "lvmini_code";
+                    opt.ClientSecret = "interns";
+                    opt.ResponseType = "id_token code";
+                    opt.Scope.Add("lvmini");
+                    opt.Scope.Add("offline_access");
+                    opt.Scope.Add("email");
+                    opt.GetClaimsFromUserInfoEndpoint = true;
+                    opt.SaveTokens = true;
+                });
             services.AddMvc();
         }
 
@@ -41,6 +59,8 @@ namespace LVMini
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseAuthentication();
 
             app.UseStaticFiles();
 

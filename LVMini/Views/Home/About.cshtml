@@ -1,7 +1,32 @@
-﻿@{
-    ViewData["Title"] = "About";
+﻿@using Microsoft.AspNetCore.Authentication
+@{
+    ViewData["Title"] = "Contact";
 }
 <h2>@ViewData["Title"]</h2>
 <h3>@ViewData["Message"]</h3>
 
-<p>Use this area to provide additional information.</p>
+<div>
+    <strong>id_token</strong>
+    <span>@await ViewContext.HttpContext.GetTokenAsync("id_token")</span>
+</div>
+
+<div>
+    <strong>access_token</strong>
+    <span>@await ViewContext.HttpContext.GetTokenAsync("access_token")</span>
+</div>
+
+<div>
+    <strong>refresh_token</strong>
+    <span>@await ViewContext.HttpContext.GetTokenAsync("refresh_token")</span>
+</div>
+
+@{
+    var claims = User.Claims;
+    foreach (var claim in claims)
+    {
+        <div>
+            <strong>@claim.Type</strong>
+            <span>@claim.Value</span>
+        </div>
+    }
+}

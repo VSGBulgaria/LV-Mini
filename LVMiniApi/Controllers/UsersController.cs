@@ -1,14 +1,16 @@
-﻿using System.Collections.Generic;
-using LVMiniApi.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Data.Service.Core;
 using Data.Service.Core.Entities;
+using Data.Service.Core.Enums;
 using LVMiniApi.Api.Service;
 using LVMiniApi.Filters;
-using Microsoft.AspNetCore.Http;
+using LVMiniApi.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using static LVMiniApi.Api.Service.Logger;
+using static LVMiniApi.Api.Service.UserValidator;
 
 namespace LVMiniApi.Controllers
 {
@@ -16,14 +18,18 @@ namespace LVMiniApi.Controllers
     [Route("api/[controller]")]
     public class UsersController : BaseController
     {
-        public UsersController(IUserRepository userRepository, IPasswordHasher<IUser> hasher, IMapper mapper)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public UsersController(IMapper mapper, IUnitOfWork unitOfWork)
         {
-            UserRepository = userRepository;
-            Hasher = hasher;
+            _unitOfWork = unitOfWork;
+            UserRepository = _unitOfWork.Users;
             Mapper = mapper;
         }
 
+        // GET api/users
         [HttpGet]
+        [Authorize]
         public IActionResult Get()
         {
             var users = UserRepository.GetAll();
@@ -33,33 +39,38 @@ namespace LVMiniApi.Controllers
             return Ok(Mapper.Map<IEnumerable<UserModel>>(users));
         }
 
-        // GET api/User/GetById/id
+        // GET api/users/[username]
         [HttpGet("{username}", Name = "UserGet")]
+        [Authorize]
         public async Task<IActionResult> Get(string username)
         {
-            var user = await UserRepository.GetByUsername(username);
-            if (user == null)
-                return NotFound();
+            using (_unitOfWork)
+            {
+                var user = await UserRepository.GetByUsername(username);
+                if (user == null)
+                    return NotFound();
 
-            return Ok(Mapper.Map<UserModel>(user));
+                return Ok(Mapper.Map<UserModel>(user));
+            }
         }
 
-        // POST api/User/Register
+        // POST api/users
         [HttpPost]
         [ValidateModel]
         public async Task<IActionResult> Register([FromBody] UserModel model)
         {
             var user = Mapper.Map<User>(model);
-            if (ApiHelper.UserExists(user, UserRepository))
+            if (ValidateUserExists(user, UserRepository))
             {
                 ModelState.AddModelError("Username", "A user with this information already exists!");
                 return BadRequest(ModelState);
             }
 
-            user.Password = Hasher.HashPassword(user, user.Password);
+            user.Password = Hasher.PasswordHash(user.Password);
             await UserRepository.Insert(user);
+            await _unitOfWork.Commit();
 
-            var newUri = Url.Link("UserGet", new {username = user.Username});
+            var newUri = Url.Link("UserGet", new { username = user.Username });
             return Created(newUri, Mapper.Map<UserModel>(user));
         }
 
@@ -68,14 +79,18 @@ namespace LVMiniApi.Controllers
         [ValidateModel]
         public async Task<IActionResult> UpdateUser(string username, [FromBody] EditUserModel model)
         {
-            var oldUser = await UserRepository.GetByUsername(username);
-            if (oldUser == null)
+            var user = await UserRepository.GetByUsername(username);
+            if (user == null)
                 return NotFound();
 
-            oldUser = ApiHelper.ValidateUpdate(oldUser, model);
-            await UserRepository.Update(oldUser);
+            ValidateUserUpdate(user, model);
 
-            return Ok(Mapper.Map<UserModel>(oldUser));
+            UserRepository.Update(user);
+            await InsertLog(user.Username, LogType.ProfileUpdate, LogRepository);
+
+            await _unitOfWork.Commit();
+
+            return Ok(Mapper.Map<UserModel>(user));
         }
     }
 }

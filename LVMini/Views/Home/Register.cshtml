@@ -1,5 +1,4 @@
-﻿@model LVMini.ViewModels.RegisterViewModel
-@{
+﻿@{
     ViewData["Title"] = "Register";
 }
 <head>
@@ -9,67 +8,18 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- Website Font style -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
-    <link rel="stylesheet" href="~/css/site.css">
+    <link rel="stylesheet" href="style.css">
     <!-- Google Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
     <title>Admin</title>
 </head>
-<div class="Register" .>
-
-    @using (Html.BeginForm("Register", "Home", FormMethod.Post))
-    {
-
-    <div>
-        <div>
-            @Html.LabelFor(model => model.Name)
-            <div>
-                @Html.TextBoxFor(model => model.Name)
-                @Html.ValidationMessageFor(model => model.Name)
-            </div>
-        </div>
-        <div>
-            @Html.LabelFor(model => model.Email)
-            <div>
-                @Html.TextBoxFor(model => model.Email)
-                @Html.ValidationMessageFor(model => model.Email)
-            </div>
-        </div>
-        <div>
-            @Html.LabelFor(model => model.Username)
-            <div>
-                @Html.TextBoxFor(model => model.Username)
-                @Html.ValidationMessageFor(model => model.Username)
-            </div>
-        </div>
-        <div>
-            @Html.LabelFor(model => model.Password)
-            <div>
-                @Html.PasswordFor(model => model.Password)
-                @Html.ValidationMessageFor(model => model.Password)
-            </div>
-        </div>
-        <div>
-            @Html.LabelFor(model => model.ConfirmPassword)
-            <div>
-                @Html.PasswordFor(model => model.ConfirmPassword)
-                @Html.ValidationMessageFor(model => model.ConfirmPassword)
-            </div>
-        </div>
-        <div>
-            <input type="submit" value="Register" />
-        </div>
-    </div>
-
-    }
-</div>
-
-@*<body>
+<body>
     <div class="container">
         <div class="row main">
             <div class="main-login main-center">
-                <h5>Register Here.</h5>
-                <form class="" method="post" action="#" onsubmit='return formValidator()' name="f1" >
+                <h5>Sign up once and watch any of our free demos.</h5>
+                <form class="" method="post" action="#">
 
                     <div class="form-group">
                         <label for="name" class="cols-sm-2 control-label">Your Name</label>
@@ -121,7 +71,6 @@
                     </div>
 
                 </form>
-                <div id="errors" onclick=" document.getElementById('errors').innerHTML = ''; "></div>
             </div>
         </div>
     </div>
@@ -130,4 +79,4 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
 
-</body>*@
+</body>

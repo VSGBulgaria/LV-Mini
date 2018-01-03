@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Data.Service.Core.Entities;
+﻿using Data.Service.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Service.Persistance
@@ -18,7 +17,7 @@ namespace Data.Service.Persistance
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
-                .HasIndex(u => new {u.Username, u.Email})
+                .HasIndex(u => new { u.Username, u.Email })
                 .IsUnique();
         }
     }

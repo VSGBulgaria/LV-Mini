@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-using Data.Service.Core;
+﻿using Data.Service.Core;
 using Data.Service.Core.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace Data.Service.Persistance.Repositories
 {
@@ -17,6 +17,13 @@ namespace Data.Service.Persistance.Repositories
             return await Entities
                 .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Username == username);
+        }
+
+        public async Task<User> GetByUsernameAndPassword(string username, string password)
+        {
+            return await Entities
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Username == username && u.Password == password);
         }
     }
 }

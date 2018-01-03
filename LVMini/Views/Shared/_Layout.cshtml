@@ -17,7 +17,6 @@
     </environment>
 </head>
 <body>
-   <!--Navigation Bar class-->
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -37,7 +36,7 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>@Html.ActionLink("Login", "Login", "Home")</li>
-                    <li>@Html.ActionLink("Register", "Register", "Home")</li>
+                    <li>@Html.ActionLink("Log out", "Logout", "Home")</li>
                 </ul>
             </div>
         </div>
@@ -45,7 +44,7 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-         <footer>
+        <footer>
             <p>&copy; 2017 - LVMini</p>
         </footer>
     </div>

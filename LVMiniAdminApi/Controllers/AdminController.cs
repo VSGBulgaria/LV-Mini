@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Data.Service.Core;
+﻿using Data.Service.Core;
 using Data.Service.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace LVMiniAdminApi.Controllers
 {
@@ -14,10 +14,13 @@ namespace LVMiniAdminApi.Controllers
         private const int DefaultUserPostId = 0;
         private const int FirstUserIndex = 0;
         private readonly IUserRepository _repository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public AdminController(IUserRepository userRepo)
+
+        public AdminController(IUnitOfWork unitOfWork)
         {
-            _repository = userRepo;
+            _unitOfWork = unitOfWork;
+            _repository = _unitOfWork.Users;
         }
 
         // GET: api/Admin
@@ -41,6 +44,8 @@ namespace LVMiniAdminApi.Controllers
                 return BadRequest("Username or Email already exists.");
             }
             await _repository.Insert(user);
+            await _unitOfWork.Commit(); // Добавил съм Commit.
+
             return Ok(user);
         }
 
@@ -64,7 +69,9 @@ namespace LVMiniAdminApi.Controllers
             {
                 var userFromDb = usersMatched[FirstUserIndex];
                 user.Id = userFromDb.Id;
-                await _repository.Update(user);
+                _repository.Update(user);
+                await _unitOfWork.Commit(); // Добавил съм Commit.
+
                 return Ok("User was modified");
             }
             return BadRequest("More than one user matched to given credentials.");
@@ -83,9 +90,10 @@ namespace LVMiniAdminApi.Controllers
             {
                 return BadRequest("Invalid count of users");
             }
-            await _repository.Delete(resultCollectionUsers[FirstUserIndex].Id);
+            _repository.Delete(resultCollectionUsers[FirstUserIndex]);
+            await _unitOfWork.Commit(); // Добавил съм Commit.
             return Ok();
-            
+
         }
     }
 }

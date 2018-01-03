@@ -1,19 +1,18 @@
-﻿using System;
+﻿using Data.Service.Core;
+using Data.Service.Core.Entities;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Data.Service.Core;
-using Data.Service.Core.Entities;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace Data.Service.Persistance.Repositories
 {
     public abstract class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
-        protected DbContext Context;
-        protected DbSet<T> Entities;
+        protected readonly DbContext Context;
+        protected readonly DbSet<T> Entities;
 
         protected BaseRepository(DbContext context)
         {
@@ -37,26 +36,22 @@ namespace Data.Service.Persistance.Repositories
         {
             return await Entities
                 .AsNoTracking()
-                .FirstOrDefaultAsync(t => t.Id == id);
+                .FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task Insert(T entity)
         {
             await Entities.AddAsync(entity);
-            await Context.SaveChangesAsync();
         }
 
-        public async Task Update(T entity)
+        public void Update(T entity)
         {
             Entities.Update(entity);
-            await Context.SaveChangesAsync();
         }
 
-        public async Task Delete(int id)
+        public void Delete(T entity)
         {
-            var entity = await GetById(id);
             Entities.Remove(entity);
-            await Context.SaveChangesAsync();
         }
     }
 }

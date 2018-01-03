@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Data.Service.Core;
-using Data.Service.Core.Enums;
+﻿using Data.Service.Core;
 using LVMiniApi.Api.Service;
 using LVMiniApi.Filters;
 using LVMiniApi.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using static LVMiniApi.Api.Service.UserValidator;
 
 namespace LVMiniApi.Controllers
 {
@@ -17,11 +12,13 @@ namespace LVMiniApi.Controllers
     [Route("api/login")]
     public class LoginController : BaseController
     {
-        public LoginController(ILogRepository logRepository, IUserRepository userRepository, IPasswordHasher<IUser> hasher)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public LoginController(IUnitOfWork unitOfWork)
         {
-            LogRepository = logRepository;
-            UserRepository = userRepository;
-            Hasher = hasher;
+            _unitOfWork = unitOfWork;
+            LogRepository = _unitOfWork.Logs;
+            UserRepository = _unitOfWork.Users;
         }
 
         // POST api/login
@@ -29,16 +26,20 @@ namespace LVMiniApi.Controllers
         [ValidateModel]
         public async Task<IActionResult> Post([FromBody] LoginUserModel user)
         {
-            if (!ApiHelper.UserExists(user, UserRepository))
+            if (!ValidateUserExists(user, UserRepository))
             {
                 ModelState.AddModelError("Username", "No such user!");
                 return NotFound(ModelState);
             }
 
             var getUser = await UserRepository.GetByUsername(user.Username);
-            if (Hasher.VerifyHashedPassword(user, getUser.Password, user.Password) == PasswordVerificationResult.Success)
+            user.Password = Hasher.PasswordHash(user.Password);
+
+            if (user.Password == getUser.Password && user.Username == getUser.Username)
             {
-                await ApiHelper.InsertLog(getUser.Username, LogType.Login , DateTime.Now, LogRepository);
+                //await InsertLog(getUser.Username, LogType.Login, LogRepository);
+                //await _unitOfWork.Commit();
+
                 return Ok(user);
             }
 

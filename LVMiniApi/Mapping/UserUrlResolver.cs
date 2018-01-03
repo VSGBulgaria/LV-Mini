@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LVMiniApi.Mapping
 {
-    public class UserUrlResolver : IValueResolver<User, UserModel, string>
+    internal class UserUrlResolver : IValueResolver<User, UserModel, string>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -18,8 +18,8 @@ namespace LVMiniApi.Mapping
 
         public string Resolve(User source, UserModel destination, string destMember, ResolutionContext context)
         {
-            var url = (IUrlHelper) _httpContextAccessor.HttpContext.Items[BaseController.Urlhelper];
-            return url.Link("UserGet", new {username = source.Username});
+            var url = (IUrlHelper)_httpContextAccessor.HttpContext.Items[BaseController.Urlhelper];
+            return url.Link("UserGet", new { username = source.Username });
         }
     }
 }

@@ -4,7 +4,7 @@ using LVMiniApi.Models;
 
 namespace LVMiniApi.Mapping
 {
-    public class MappingProfile : Profile
+    internal class MappingProfile : Profile
     {
         public MappingProfile()
         {
