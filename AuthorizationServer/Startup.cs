@@ -1,4 +1,6 @@
-﻿using AuthorizationServer.Configuration;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using AuthorizationServer.Configuration;
 using Data.Service.Core;
 using Data.Service.Persistance;
 using Data.Service.Persistance.Repositories;
@@ -13,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Reflection;
+using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 using static AuthorizationServer.Configuration.InMemoryConfiguration;
 
 namespace AuthorizationServer
@@ -81,30 +84,33 @@ namespace AuthorizationServer
                 var context = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
                 context.Database.Migrate();
 
-                if (!context.Clients.Any())
+                foreach (Client client in Clients())
                 {
-                    foreach (Client client in Clients())
+                    if (!context.Clients.Any(opt => opt.ClientId == client.ClientId))
                     {
                         context.Clients.Add(client.ToEntity());
                     }
-                    context.SaveChanges();
                 }
-                if (!context.IdentityResources.Any())
+                context.SaveChanges();
+
+                foreach (IdentityResource identityResource in IdentityResources())
                 {
-                    foreach (IdentityResource identityResource in IdentityResources())
+                    if (!context.IdentityResources.Any(identity => identity.Name == identityResource.Name))
                     {
                         context.IdentityResources.Add(identityResource.ToEntity());
                     }
-                    context.SaveChanges();
                 }
-                if (!context.ApiResources.Any())
+                context.SaveChanges();
+
+                foreach (ApiResource apiResource in ApiResources())
                 {
-                    foreach (ApiResource apiResource in ApiResources())
+                    if (!context.ApiResources.Any(api => api.Name == apiResource.Name))
                     {
                         context.ApiResources.Add(apiResource.ToEntity());
                     }
-                    context.SaveChanges();
                 }
+
+                context.SaveChanges();
             }
         }
     }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2003
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LVMini", "LVMini\LVMini.csproj", "{ADB0FBEB-394D-4191-80C5-DB7366512565}"
 EndProject
@@ -10,8 +10,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LVMiniApi", "LVMiniApi\LVMiniApi.csproj", "{17DEABD3-0A39-4A40-ABC6-127AD6624325}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LVMiniAdminApi", "LVMiniAdminApi\LVMiniAdminApi.csproj", "{B8A35794-E6C3-4395-9E43-305657061110}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactProject", "ReactProject\ReactProject.csproj", "{276A4BEB-12A9-473A-95E3-6796EE1B9406}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthorizationServer", "AuthorizationServer\AuthorizationServer.csproj", "{9588447C-921D-4A52-A389-64BBAE44B88E}"
 EndProject
@@ -37,10 +35,6 @@ Global
 		{B8A35794-E6C3-4395-9E43-305657061110}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8A35794-E6C3-4395-9E43-305657061110}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8A35794-E6C3-4395-9E43-305657061110}.Release|Any CPU.Build.0 = Release|Any CPU
-		{276A4BEB-12A9-473A-95E3-6796EE1B9406}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{276A4BEB-12A9-473A-95E3-6796EE1B9406}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{276A4BEB-12A9-473A-95E3-6796EE1B9406}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{276A4BEB-12A9-473A-95E3-6796EE1B9406}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9588447C-921D-4A52-A389-64BBAE44B88E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9588447C-921D-4A52-A389-64BBAE44B88E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9588447C-921D-4A52-A389-64BBAE44B88E}.Release|Any CPU.ActiveCfg = Release|Any CPU

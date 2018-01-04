@@ -1,4 +1,10 @@
-﻿using Data.Service.Persistance;
+﻿using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Data.Service.Persistance;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OAuth.Claims;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -25,6 +31,8 @@ namespace LVMini
         {
             services.AddDbContext<LvMiniDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("LV_MiniDatabase")));
+
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             services.AddAuthentication(opt =>
                 {
