@@ -39,5 +39,11 @@ namespace IdentityServer4.Quickstart.UI
 
             return View("Error", vm);
         }
+
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
     }
 }

@@ -332,5 +332,12 @@ namespace AuthorizationServer.Quickstart.Account
 
             return View("LoggedOut", vm);
         }
+
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
     }
 }
