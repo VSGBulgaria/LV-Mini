@@ -40,5 +40,11 @@ namespace AuthorizationServer.Quickstart.Home
 
             return View("Error", vm);
         }
+
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
     }
 }

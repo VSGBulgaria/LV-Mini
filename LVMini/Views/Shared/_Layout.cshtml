@@ -42,6 +42,7 @@
                     }
                     @if (User.Identity.IsAuthenticated)
                     {
+                        <li>@Html.ActionLink("My Profile", "MyProfile", "Home")</li>
                         <li>@Html.ActionLink("Log out", "Logout", "Home")</li>
                     }
                 </ul>

@@ -1,4 +1,4 @@
-﻿@model LVMini.ViewModels.LoginViewModel
+﻿@*@model LVMini.ViewModels.LoginViewModel
 @{
     ViewData["Title"] = "Login";
 }
@@ -43,3 +43,6 @@
         </div>
     }
 </div>
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}*@
