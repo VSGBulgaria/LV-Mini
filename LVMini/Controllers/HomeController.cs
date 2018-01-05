@@ -143,6 +143,23 @@ namespace LVMini.Controllers
         //    return RedirectToAction("Login", "Home");
         //}
 
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+                var httpResponseMessage = await client.PostAsync($"http://localhost:53920/api/users", content);
+
+                if (httpResponseMessage.StatusCode == HttpStatusCode.OK)
+                {
+                    
+                }
+
+                return View(model);
+            }
+        }
+
         public IActionResult Register()
         {
 

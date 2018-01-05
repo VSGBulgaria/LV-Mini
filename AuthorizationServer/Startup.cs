@@ -115,8 +115,18 @@ namespace AuthorizationServer
                     {
                         context.Clients.Add(client.ToEntity());
                     }
+                    if (context.Clients.Any())
+                    {
+                        var entity = context.Clients.Single(x => x.ClientId == client.ClientId);
+                        if (entity != null)
+                        {
+                            var clientEntity = client.ToEntity();
+                            entity.AllowedScopes = clientEntity.AllowedScopes;
+                            context.Clients.Update(entity);
+                        }
+                    }
                 }
-                
+
                 context.SaveChanges();
             }
         }
