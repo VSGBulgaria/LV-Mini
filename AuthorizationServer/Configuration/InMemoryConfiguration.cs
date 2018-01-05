@@ -12,11 +12,8 @@ namespace AuthorizationServer.Configuration
         {
             return new[]
             {
-                new ApiResource("lvmini", "LV Mini")
-                {
-                    UserClaims = new List<string>(){"email"}
-                },
-                new ApiResource("lvmini_admin", "LV Mini Admin")
+                new ApiResource("lvminiAPI", "LV Mini API"),
+                new ApiResource("lvmini_admin", "LV Mini Admin") 
             };
         }
 
@@ -36,36 +33,6 @@ namespace AuthorizationServer.Configuration
             {
                 new Client
                 {
-                    ClientId = "lvmini",
-                    ClientSecrets = new []
-                    {
-                        new Secret("interns".Sha256())
-                    },
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-                    AllowedScopes = new [] { "lvmini" }
-                },
-
-                new Client
-                {
-                    ClientId = "lvmini_implicit",
-                    ClientSecrets = new []
-                    {
-                        new Secret("interns".Sha256())
-                    },
-                    AllowedGrantTypes = GrantTypes.Implicit,
-                    AllowedScopes = new []
-                    {
-                        "lvmini",
-                        IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile
-                    },
-                    AllowAccessTokensViaBrowser = true,
-                    RedirectUris = new [] { "http://localhost:49649/signin-oidc" },
-                    PostLogoutRedirectUris = { "http://localhost:49649/signout-callback-oidc" }
-                },
-
-                new Client
-                {
                     ClientName = "LV Mini",
                     ClientId = "lvmini_code",
                     ClientSecrets = new []
@@ -77,32 +44,13 @@ namespace AuthorizationServer.Configuration
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        IdentityServerConstants.StandardScopes.Email,
-                        "lvmini",
+                        "lvminiAPI",
                         "lvmini_admin"
                     },
                     AllowOfflineAccess = true,
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new [] { "http://localhost:49649/signin-oidc" },
-                    PostLogoutRedirectUris = { "http://localhost:49649/signout-callback-oidc" }
-                }
-            };
-        }
-
-
-        public static IEnumerable<TestUser> Users()
-        {
-            return new[]
-            {
-                new TestUser
-                {
-                    SubjectId = "1",
-                    Username = "simo",
-                    Password = "123456789",
-                    Claims = new List<Claim>()
-                    {
-                        new Claim("email", "simo@abv.bg")
-                    }
+                    PostLogoutRedirectUris = { "http://localhost:49649/signout-callback-oidc" },
                 }
             };
         }

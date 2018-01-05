@@ -4,7 +4,6 @@ using AuthorizationServer.Configuration;
 using Data.Service.Core;
 using Data.Service.Persistance;
 using Data.Service.Persistance.Repositories;
-using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using IdentityServer4.Models;
 using Microsoft.AspNetCore.Builder;
@@ -15,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Reflection;
+using IdentityServer4.EntityFramework.DbContexts;
 using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 using static AuthorizationServer.Configuration.InMemoryConfiguration;
 
@@ -35,6 +35,8 @@ namespace AuthorizationServer
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            string connectionString = Configuration.GetConnectionString("AuthrizationServer");
+
             var assembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
@@ -42,14 +44,16 @@ namespace AuthorizationServer
                 .AddConfigurationStore(opt =>
                 {
                     opt.ConfigureDbContext = builder =>
-                        builder.UseSqlServer(Configuration.GetConnectionString("AuthrizationServer"),
-                            options => options.MigrationsAssembly(assembly));
+                        builder.UseSqlServer(connectionString,
+                            sql => sql.MigrationsAssembly(assembly));
                 })
                 .AddOperationalStore(opt =>
                 {
                     opt.ConfigureDbContext = builder =>
-                        builder.UseSqlServer(Configuration.GetConnectionString("AuthrizationServer"),
-                            options => options.MigrationsAssembly(assembly));
+                        builder.UseSqlServer(connectionString,
+                            sql => sql.MigrationsAssembly(assembly));
+                    opt.EnableTokenCleanup = true;
+                    opt.TokenCleanupInterval = 30;
                 });
             services.AddDbContext<LvMiniDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("LV_MiniDatabase")));
@@ -65,6 +69,11 @@ namespace AuthorizationServer
 
             _loggerFactory.AddConsole();
             _loggerFactory.AddDebug();
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
 
             app.UseDeveloperExceptionPage();
 
@@ -84,24 +93,6 @@ namespace AuthorizationServer
                 var context = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
                 context.Database.Migrate();
 
-                foreach (Client client in Clients())
-                {
-                    if (!context.Clients.Any(opt => opt.ClientId == client.ClientId))
-                    {
-                        context.Clients.Add(client.ToEntity());
-                    }
-                }
-                context.SaveChanges();
-
-                foreach (IdentityResource identityResource in IdentityResources())
-                {
-                    if (!context.IdentityResources.Any(identity => identity.Name == identityResource.Name))
-                    {
-                        context.IdentityResources.Add(identityResource.ToEntity());
-                    }
-                }
-                context.SaveChanges();
-
                 foreach (ApiResource apiResource in ApiResources())
                 {
                     if (!context.ApiResources.Any(api => api.Name == apiResource.Name))
@@ -110,6 +101,22 @@ namespace AuthorizationServer
                     }
                 }
 
+                foreach (IdentityResource identityResource in IdentityResources())
+                {
+                    if (!context.IdentityResources.Any(identity => identity.Name == identityResource.Name))
+                    {
+                        context.IdentityResources.Add(identityResource.ToEntity());
+                    }
+                }
+
+                foreach (Client client in Clients())
+                {
+                    if (!context.Clients.Any(opt => opt.ClientId == client.ClientId))
+                    {
+                        context.Clients.Add(client.ToEntity());
+                    }
+                }
+                
                 context.SaveChanges();
             }
         }

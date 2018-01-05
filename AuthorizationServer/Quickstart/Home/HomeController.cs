@@ -2,11 +2,12 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using System.Threading.Tasks;
+using IdentityServer4.Quickstart.UI;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
-namespace IdentityServer4.Quickstart.UI
+namespace AuthorizationServer.Quickstart.Home
 {
     [SecurityHeaders]
     public class HomeController : Controller

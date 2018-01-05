@@ -13,16 +13,13 @@ namespace LVMiniApi
 {
     public class Startup
     {
-        private readonly IHostingEnvironment _env;
-
         public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
-            _env = env;
             Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
-        public string UserInformationEndpoint { get; private set; }
+        public string UserInformationEndpoint { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -40,7 +37,7 @@ namespace LVMiniApi
                 {
                     options.RequireHttpsMetadata = false;
                     options.Authority = "http://localhost:55817/";
-                    options.ApiName = "lvmini";
+                    options.ApiName = "lvminiAPI";
                 });
 
             //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
