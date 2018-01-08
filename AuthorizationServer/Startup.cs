@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using AuthorizationServer.Configuration;
+﻿using AuthorizationServer.Configuration;
 using Data.Service.Core;
 using Data.Service.Persistance;
 using Data.Service.Persistance.Repositories;
@@ -15,7 +13,7 @@ using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Reflection;
 using IdentityServer4.EntityFramework.DbContexts;
-using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
+using IdentityServer4.Services;
 using static AuthorizationServer.Configuration.InMemoryConfiguration;
 
 namespace AuthorizationServer
@@ -57,6 +55,7 @@ namespace AuthorizationServer
                 });
             services.AddDbContext<LvMiniDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("LV_MiniDatabase")));
+            services.AddTransient<IProfileService, IdentityService>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserValidator, UserValidator>();
             services.AddMvc();

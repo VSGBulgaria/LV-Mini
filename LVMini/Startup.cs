@@ -50,6 +50,7 @@ namespace LVMini
                     opt.ResponseType = "code id_token";
                     opt.Scope.Add("lvminiAPI");
                     opt.Scope.Add("lvmini_admin");
+                    opt.Scope.Add("roles");
                     opt.Scope.Add("offline_access");
                     opt.SaveTokens = true;
                     opt.GetClaimsFromUserInfoEndpoint = true;

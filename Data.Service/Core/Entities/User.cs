@@ -25,5 +25,9 @@ namespace Data.Service.Core.Entities
         [Required]
         [StringLength(50)]
         public string LastName { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string Role { get; set; } = "user";
     }
 }
