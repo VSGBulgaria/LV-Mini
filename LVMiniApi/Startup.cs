@@ -4,7 +4,6 @@ using Data.Service.Persistance;
 using Data.Service.Persistance.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,7 +27,6 @@ namespace LVMiniApi
             services.AddDbContext<LvMiniDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("LV_MiniDatabase")));
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IPasswordHasher<IUser>, PasswordHasher<IUser>>();
             services.AddScoped<ILogRepository, LogRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 

@@ -1,38 +1,10 @@
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-﻿@*@model LVMini.ViewModels.LoginViewModel
-=======
-﻿@model LVMini.ViewModels.LoginViewModel
->>>>>>> Stashed changes
-=======
-﻿@model LVMini.ViewModels.LoginViewModel
->>>>>>> Stashed changes
+@model LVMini.ViewModels.LoginViewModel
 @{
     ViewData["Title"] = "Login";
 }
 
 <h2>Login</h2>
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> Stashed changes
 
-@*<div class="login-box">
-        <h1>Login Here</h1>
-        <form action="main.html" method="post" onSubmit="return checkForm(this);" name="form">
-            <p>Username</p>
-            <input type="text" name="usr" placeholder="Username" required><br>
-            <p>Password</p>
-            <input type="password" name="pass" placeholder="Password" required><br>
-            <input type="submit" value="Submit">Don't Have An Account<br><a href="Register">Register here.</a>
-        </form>
-    </div>
-    <footer>
-        <div class="footer">
-            <p><span></span>Severin Karadzhov VSG Solutions 2017</p>
-        </div>
-    </footer>*@
 <div class="container">
     @using (Html.BeginForm("Login", "Home", FormMethod.Post))
     {
@@ -57,65 +29,3 @@
         </div>
     }
 </div>
-<!-- <script type="text/javascript">
-
-    function checkForm(form)
-  {
-     re = /^[A-Za-z0-9_]{4,20}$/;
-       rep = /^[A-Za-z0-9]{6,20}$/;
-    if(!re.test(form.usr.value)) {
-      alert("Error: Username must contain only letters, numbers and underscores!");
-      form.usr.focus();
-      return false;
-    }
->>>>>>> Stashed changes
-
-<div class="login-box">
-    @using (Html.BeginForm("Login", "Home", FormMethod.Post))
-    {
-        <div>
-            <div>
-                @Html.LabelFor(model => model.Username)
-                <div>
-                    @Html.TextBoxFor(model => model.Username)
-                    @Html.ValidationMessageFor(model => model.Username)
-                </div>
-            </div>
-            <div>
-                @Html.LabelFor(model => model.Password)
-                <div>
-                    @Html.PasswordFor(model => model.Password)
-                    @Html.ValidationMessageFor(model => model.Password)
-                </div>
-            </div>
-            <div>
-                <p>
-                    <a asp-action="ForgotPassword">Forgot your password?</a>
-                </p>
-            </div>
-            <div class="checkbox">
-                <label asp-for="RememberMe">
-                    <input asp-for="RememberMe" />
-                    @Html.DisplayNameFor(m => m.RememberMe)
-                </label>
-            </div>
-            <div>
-                <input type="submit" value="Login" />Don't Have An Account<br><a href="Register">Register here.</a>
-            </div>
-            <div>
-                <input type="button" value="Facebook Login" /><br />
-            </div>
-        </div>
-    }
-<<<<<<< Updated upstream
-</div>
-@section Scripts {
-    @await Html.PartialAsync("_ValidationScriptsPartial")
-}*@
-=======
-}
-</script>-->
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes

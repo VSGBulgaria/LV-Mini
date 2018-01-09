@@ -1,11 +1,11 @@
-﻿using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Data.Service.Core;
+﻿using Data.Service.Core;
 using Data.Service.Core.Entities;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace AuthorizationServer.Configuration
 {
@@ -40,7 +40,7 @@ namespace AuthorizationServer.Configuration
                 Task<User> clientByUsername = GetAsincClientByUsername(clientName);
                 context.IssuedClaims.Add(new Claim("role", clientByUsername.Result.Role));
             }
-            
+
             return Task.CompletedTask;
         }
 

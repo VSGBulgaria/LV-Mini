@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Data.Service.Core;
 
 namespace LVMiniAdminApi.Models
 {
-    public class LoginUserModel : IUser
+    public class LoginUserModel
     {
         [Required]
         [StringLength(20)]

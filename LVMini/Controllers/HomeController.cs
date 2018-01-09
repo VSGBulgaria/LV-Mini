@@ -147,9 +147,7 @@ namespace LVMini.Controllers
 
                     if (httpResponseMessage.StatusCode == HttpStatusCode.Created)
                     {
-                        var otac = user.GenerateOTAC(TimeSpan.FromMinutes(1));
-
-                        return Redirect($"http://localhost:55817/auth/login?otac=" + WebUtility.UrlEncode(otac));
+                        return RedirectToAction("Index", "Home");
                     }
                 }
             }

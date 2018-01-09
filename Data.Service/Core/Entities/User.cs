@@ -1,11 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 
 namespace Data.Service.Core.Entities
 {
-    public class User : BaseEntity, IUser
+    public class User : BaseEntity
     {
         [Required]
         [StringLength(20, MinimumLength = 3)]

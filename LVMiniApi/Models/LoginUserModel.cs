@@ -1,9 +1,8 @@
-﻿using Data.Service.Core;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace LVMiniApi.Models
 {
-    public class LoginUserModel : IUser
+    public class LoginUserModel
     {
         [Required]
         [StringLength(20)]

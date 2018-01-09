@@ -16,7 +16,7 @@ namespace LVMiniApi.Api.Service
         /// <returns>
         /// True or False.
         /// </returns>
-        public static bool ValidateUserExists(IUser user, IUserRepository userRepository)
+        public static bool ValidateUserExists(User user, IUserRepository userRepository)
         {
             return userRepository.GetAll(u => u.Username == user.Username).ToList().Count > 0;
         }
