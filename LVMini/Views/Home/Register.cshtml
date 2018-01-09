@@ -2,60 +2,63 @@
 @{
     ViewData["Title"] = "Register";
 }
+<head>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+</head>
+
 <div class="Register" .>
+        @using (Html.BeginForm("Register", "Home", FormMethod.Post))
+        {
 
-    @using (Html.BeginForm("Register", "Home", FormMethod.Post))
-    {
-
-        <div>
             <div>
-                @Html.LabelFor(model => model.Username)
+                <div >
+                    @Html.LabelFor(model => model.Username)
+                    <div>
+                        @Html.TextBoxFor(model => model.Username)
+                        @Html.ValidationMessageFor(model => model.Username)
+                    </div>
+                </div>
                 <div>
-                    @Html.TextBoxFor(model => model.Username)
-                    @Html.ValidationMessageFor(model => model.Username)
+                    @Html.LabelFor(model => model.Email)
+                    <div>
+                        @Html.TextBoxFor(model => model.Email)
+                        @Html.ValidationMessageFor(model => model.Email)
+                    </div>
+                </div>
+                <div>
+                    @Html.LabelFor(model => model.Firstname)
+                    <div>
+                        @Html.TextBoxFor(model => model.Firstname)
+                        @Html.ValidationMessageFor(model => model.Firstname)
+                    </div>
+                </div>
+                <div>
+                    @Html.LabelFor(model => model.Lastname)
+                    <div>
+                        @Html.TextBoxFor(model => model.Lastname)
+                        @Html.ValidationMessageFor(model => model.Lastname)
+                    </div>
+                </div>
+                <div>
+                    @Html.LabelFor(model => model.Password)
+                    <div>
+                        @Html.TextBoxFor(model => model.Password)
+                        @Html.ValidationMessageFor(model => model.Password)
+                    </div>
+                </div>
+                <div>
+                    @Html.LabelFor(model => model.ConfirmPassword)
+                    <div>
+                        @Html.TextBoxFor(model => model.ConfirmPassword)
+                        @Html.ValidationMessageFor(model => model.ConfirmPassword)
+                    </div>
+                </div>
+                <div>
+                    <input type="submit" value="Register" />
                 </div>
             </div>
-            <div>
-                @Html.LabelFor(model => model.Email)
-                <div>
-                    @Html.TextBoxFor(model => model.Email)
-                    @Html.ValidationMessageFor(model => model.Email)
-                </div>
-            </div>
-            <div>
-                @Html.LabelFor(model => model.Firstname)
-                <div>
-                    @Html.TextBoxFor(model => model.Firstname)
-                    @Html.ValidationMessageFor(model => model.Firstname)
-                </div>
-            </div>
-            <div>
-                @Html.LabelFor(model => model.Lastname)
-                <div>
-                    @Html.TextBoxFor(model => model.Lastname)
-                    @Html.ValidationMessageFor(model => model.Lastname)
-                </div>
-            </div>
-            <div>
-                @Html.LabelFor(model => model.Password)
-                <div>
-                    @Html.TextBoxFor(model => model.Password)
-                    @Html.ValidationMessageFor(model => model.Password)
-                </div>
-            </div>
-            <div>
-                @Html.LabelFor(model => model.ConfirmPassword)
-                <div>
-                    @Html.TextBoxFor(model => model.ConfirmPassword)
-                    @Html.ValidationMessageFor(model => model.ConfirmPassword)
-                </div>
-            </div>
-            <div>
-                <input type="submit" value="Register"/>
-            </div>
-        </div>
-
-    }
+        }
 </div>
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")

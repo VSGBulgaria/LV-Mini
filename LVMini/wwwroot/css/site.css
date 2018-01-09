@@ -1,20 +1,20 @@
 ﻿body {
     /*margin: 0;
-    padding: 0;
+    padding: 0;*/
     background: url(../images/ancient-Plovdiv-dreven-stariq-grad-lampi3-1024x683.jpg);
-    background-size: cover;*/
+    background-size: cover;
     font-family: sans-serif;
     padding-top: 50px;
     padding-bottom: 20px;
     background-attachment: fixed;
 }
 
-Style For Register Form
+/*Style For Register Form*/
 .Register {
-    width: 320px;
-    height: 420px;
+    width: 50%;
+    /*height: 720px;*/
     background: RGBA(0,0,0,0.5);
-    color: #fff;
+    /*color: #fff;*/
     position: absolute;
     left: 50%;
     top: 50%;
@@ -22,7 +22,6 @@ Style For Register Form
     transform: translate(-50%, -50%);
     padding: 70px 30px;
 }
-
 .Register input[type="submit"] {
         border: none;
         outline: none;
@@ -32,7 +31,26 @@ Style For Register Form
         background-color: #57FF7E;
         border-radius: 10px;
         margin-bottom: 10px;
+        margin-top:20px;
+}
 
+.row {
+    width: 100%;
+    position: center;
+    background: RGBA(0,0,0,0.5);
+    padding: 70px 30px;
+}
+
+.row input[type="submit"] {
+        border: none;
+        outline: none;
+        height: 40px;
+        font-size: 18px;
+        color: #fff;
+        background-color: #57FF7E;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        margin-top: 20px;
 }
 
 /*CSS For LogIn Form*/
@@ -136,7 +154,7 @@ h1 {
             color: #57FF7E;
         }
 
-.footer {
+/*.footer {
     font-style: italic;
     color: white;
     font-size: 13px;
@@ -145,7 +163,7 @@ h1 {
     bottom: 0;
     right: 10px;
     font-family: sans-serif;
-}
+}*/
 
 .p1 {
     color: white;

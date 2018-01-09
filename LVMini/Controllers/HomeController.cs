@@ -132,7 +132,6 @@ namespace LVMini.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
         }
-
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
@@ -162,10 +161,10 @@ namespace LVMini.Controllers
 
         }
 
-        //public IActionResult ForgotPassword()
-        //{
-        //    return View();
-        //}
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
 
         public IActionResult Error()
         {
