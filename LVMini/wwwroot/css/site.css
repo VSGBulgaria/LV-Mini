@@ -8,13 +8,25 @@
     padding-bottom: 20px;
     background-attachment: fixed;
 }
+.col-md-3 {
+    position: center;
+    text-align: center;
+    color: white;
+}
+
+.Contact {
+position:center;
+text-align:center;
+color:white;
+}
 
 /*Style For Register Form*/
 .Register {
+    position: center;
+    text-align: center;
+    color: black;
     width: 50%;
-    /*height: 720px;*/
     background: RGBA(0,0,0,0.5);
-    /*color: #fff;*/
     position: absolute;
     left: 50%;
     top: 50%;
@@ -34,24 +46,28 @@
         margin-top:20px;
 }
 
-.row {
+.fields {
     width: 100%;
     position: center;
     background: RGBA(0,0,0,0.5);
     padding: 70px 30px;
 }
 
-.row input[type="submit"] {
-        border: none;
-        outline: none;
-        height: 40px;
-        font-size: 18px;
-        color: #fff;
-        background-color: #57FF7E;
-        border-radius: 10px;
-        margin-bottom: 10px;
-        margin-top: 20px;
+.form-group label {
+    color:white;
 }
+
+/*.fields input[type="submit"] {
+    border: none;
+    outline: none;
+    height: 40px;
+    font-size: 18px;
+    color: #fff;
+    background-color: #57FF7E;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}*/
 
 /*CSS For LogIn Form*/
 #facebook {

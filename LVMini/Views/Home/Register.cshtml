@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
 </head>
 
+<body>
+
 <div class="Register" .>
         @using (Html.BeginForm("Register", "Home", FormMethod.Post))
         {
@@ -60,6 +62,7 @@
             </div>
         }
 </div>
+</body>
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }
