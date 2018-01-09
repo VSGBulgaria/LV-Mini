@@ -1,16 +1,14 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Data.Service.Core;
 using Data.Service.Core.Entities;
-using Data.Service.Core.Enums;
 using LVMiniApi.Api.Service;
 using LVMiniApi.Filters;
 using LVMiniApi.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using static LVMiniApi.Api.Service.Logger;
 using static LVMiniApi.Api.Service.UserValidator;
+
 
 namespace LVMiniApi.Controllers
 {
@@ -29,7 +27,6 @@ namespace LVMiniApi.Controllers
 
         // GET api/users
         [HttpGet]
-        [Authorize]
         public IActionResult Get()
         {
             var users = UserRepository.GetAll();
@@ -41,7 +38,6 @@ namespace LVMiniApi.Controllers
 
         // GET api/users/[username]
         [HttpGet("{username}", Name = "UserGet")]
-        [Authorize]
         public async Task<IActionResult> Get(string username)
         {
             using (_unitOfWork)
@@ -86,7 +82,7 @@ namespace LVMiniApi.Controllers
             ValidateUserUpdate(user, model);
 
             UserRepository.Update(user);
-            await InsertLog(user.Username, LogType.ProfileUpdate, LogRepository);
+            //await InsertLog(user.Username, LogType.ProfileUpdate, LogRepository);
 
             await _unitOfWork.Commit();
 

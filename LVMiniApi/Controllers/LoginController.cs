@@ -39,8 +39,6 @@ namespace LVMiniApi.Controllers
             {
                 //await InsertLog(getUser.Username, LogType.Login, LogRepository);
                 //await _unitOfWork.Commit();
-
-                return Ok(user);
             }
 
             return BadRequest("Login failed!");

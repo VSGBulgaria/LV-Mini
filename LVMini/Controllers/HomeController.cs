@@ -1,8 +1,9 @@
-﻿using IdentityModel.Client;
+using AutoMapper;
+using IdentityModel.Client;
 using LVMini.Models;
 using LVMini.ViewModels;
-using LVMiniApi.Models;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,12 +18,16 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace LVMini.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IMapper _mapper;
+        public HomeController(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
         public IActionResult Index()
         {
             return View();
@@ -128,36 +133,27 @@ namespace LVMini.Controllers
             await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Login(LoginViewModel model)
-        //{
-        //    var client = new HttpClient();
-        //    var stringContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
-        //    var response = await client.PostAsync("http://localhost:53920/api/login", stringContent);
-
-        //    if (response.StatusCode == HttpStatusCode.OK)
-        //    {
-        //        return RedirectToAction("Index", "Home");
-        //    }
-
-        //    return RedirectToAction("Login", "Home");
-        //}
-
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            using (HttpClient client = new HttpClient())
+            if (ModelState.IsValid)
             {
-                var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
-                var httpResponseMessage = await client.PostAsync($"http://localhost:53920/api/users", content);
-
-                if (httpResponseMessage.StatusCode == HttpStatusCode.OK)
+                using (HttpClient client = new HttpClient())
                 {
-                    
-                }
+                    var user = _mapper.Map<UserModel>(model);
+                    var content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
 
-                return View(model);
+                    var httpResponseMessage = await client.PostAsync($"http://localhost:53920/api/users", content);
+
+                    if (httpResponseMessage.StatusCode == HttpStatusCode.Created)
+                    {
+                        var otac = user.GenerateOTAC(TimeSpan.FromMinutes(1));
+
+                        return Redirect($"http://localhost:55817/auth/login?otac=" + WebUtility.UrlEncode(otac));
+                    }
+                }
             }
+            return View(model);
         }
 
         public IActionResult Register()

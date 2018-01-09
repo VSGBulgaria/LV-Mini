@@ -2,8 +2,10 @@
 using Data.Service.Core;
 using Data.Service.Persistance;
 using Data.Service.Persistance.Repositories;
+using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using IdentityServer4.Models;
+using IdentityServer4.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -12,8 +14,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Reflection;
-using IdentityServer4.EntityFramework.DbContexts;
-using IdentityServer4.Services;
 using static AuthorizationServer.Configuration.InMemoryConfiguration;
 
 namespace AuthorizationServer
@@ -79,7 +79,6 @@ namespace AuthorizationServer
             app.UseIdentityServer();
 
             app.UseStaticFiles();
-
             app.UseMvcWithDefaultRoute();
         }
 

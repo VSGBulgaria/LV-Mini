@@ -49,13 +49,17 @@ namespace LVMiniApi
             //        UserInformationEndpoint = "https://graph.facebook.com/v2.4/me?fields=id,email";
             //    });
 
-
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
             app.UseAuthentication();
             app.UseMvc();
         }

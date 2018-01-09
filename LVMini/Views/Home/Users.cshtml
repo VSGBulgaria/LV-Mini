@@ -1,6 +1,6 @@
 ﻿@using Data.Service.Core.Entities
-@using LVMiniApi.Models
-@model IEnumerable<LVMiniApi.Models.UserModel>
+@using LVMini.ViewModels
+@model IEnumerable<UserModel>
 @{
     ViewData["Title"] = "Users";
 }
@@ -11,4 +11,5 @@
 {
     <h2>@user.Username</h2>
     <h2>@user.Email</h2>
+    <h2>@User.Claims</h2>
 }

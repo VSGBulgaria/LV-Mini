@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Data.Service.Core;
+﻿using Data.Service.Core;
+using System.ComponentModel.DataAnnotations;
 
 namespace LVMiniApi.Models
 {

@@ -1,8 +1,6 @@
 ﻿using IdentityServer4;
 using IdentityServer4.Models;
-using IdentityServer4.Test;
 using System.Collections.Generic;
-using System.Security.Claims;
 
 namespace AuthorizationServer.Configuration
 {
@@ -13,7 +11,7 @@ namespace AuthorizationServer.Configuration
             return new[]
             {
                 new ApiResource("lvminiAPI", "LV Mini API"),
-                new ApiResource("lvmini_admin", "LV Mini Admin") 
+                new ApiResource("lvmini_admin", "LV Mini Admin")
             };
         }
 

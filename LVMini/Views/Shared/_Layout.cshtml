@@ -35,6 +35,8 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
                     @if (!User.Identity.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("Login", "Login", "Home")</li>
@@ -45,6 +47,12 @@
                         <li>@Html.ActionLink("My Profile", "MyProfile", "Home")</li>
                         <li>@Html.ActionLink("Log out", "Logout", "Home")</li>
                     }
+=======
+                    <li>@Html.ActionLink("Login", "Login", "Home")</li>
+>>>>>>> Stashed changes
+=======
+                    <li>@Html.ActionLink("Login", "Login", "Home")</li>
+>>>>>>> Stashed changes
                 </ul>
             </div>
         </div>
