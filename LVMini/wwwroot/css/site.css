@@ -1,22 +1,12 @@
-<<<<<<< Updated upstream
-﻿/*For Body*/
-body {
-    /*margin: 0;
-    padding: 0;*/
-=======
-﻿
 body {
     margin: 0;
     padding: 0;
->>>>>>> Stashed changes
     background: url(../images/ancient-Plovdiv-dreven-stariq-grad-lampi3-1024x683.jpg);
     background-size: cover;
     font-family: sans-serif;
     padding-top: 50px;
     padding-bottom: 20px;
-    background-attachment: fixed;
-   
-    
+    background-attachment: fixed;   
 }
 footer {
     position: fixed;
@@ -42,27 +32,10 @@ footer {
     text-align:center;
     color:white;
 }
-/*.nav {
-    background-color:black;
-    color:black;
-}*/
 
-#image {
-    padding-top:10px;
-}
-
-<<<<<<< Updated upstream
-/*Style For Register Form*/
-.Register {
-    position: center;
-    text-align: center;
-    color: black;
-    width: 50%;
-=======
-Style For Register Form .Register {
-       width: 320px;
+Register {
+    width: 320px;
     height: 420px;
->>>>>>> Stashed changes
     background: RGBA(0,0,0,0.5);
     position: absolute;
     left: 50%;
@@ -80,11 +53,10 @@ Style For Register Form .Register {
         background-color: #57FF7E;
         border-radius: 10px;
         margin-bottom: 10px;
-<<<<<<< Updated upstream
         margin-top:20px;
 }
 /*Style For My Profile Page*/
-
+/*
 .ProfPic {   
     width: 100%;
     position: center;
@@ -92,20 +64,21 @@ Style For Register Form .Register {
     padding: 70px 30px;
     color:white;
 }
-
+ */
+/*
 .fields {
     width: 100%;
     position: center;
     background: RGBA(0,0,0,0.5);
     padding: 70px 30px;
-=======
-}
+
+}*/
 #footer ul {
     position: relative;
     display: flex;
     top: 80%;
-    left:209%;
-   /* transform: translate(-10%,-50%);*/
+    left: 209%;
+    /* transform: translate(-10%,-50%);*/
 }
 #footer ul li {
     list-style: none;
@@ -162,9 +135,8 @@ Style For Register Form .Register {
 }
 #footer ul li:nth-child(4) a:before {
     background: #C32AA3;
->>>>>>> Stashed changes
 }
 
-.form-group label {
+/*.form-group label {
     color:white;
-}
+}*/
