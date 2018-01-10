@@ -3,18 +3,18 @@
     ViewData["Title"] = "Register";
 }
 <head>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
 </head>
 
 <body>
 
-<div class="Register" .>
+    <div class="Register" .>
         @using (Html.BeginForm("Register", "Home", FormMethod.Post))
         {
 
             <div>
-                <div >
+                <div>
                     @Html.LabelFor(model => model.Username)
                     <div>
                         @Html.TextBoxFor(model => model.Username)
@@ -61,7 +61,7 @@
                 </div>
             </div>
         }
-</div>
+    </div>
 </body>
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")

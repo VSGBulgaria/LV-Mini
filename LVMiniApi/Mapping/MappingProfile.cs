@@ -17,6 +17,9 @@ namespace LVMiniApi.Mapping
             CreateMap<User, EditUserModel>()
                 .ReverseMap();
 
+            CreateMap<User, RegisterUserModel>()
+                .ReverseMap();
+
             //From Model to Entity
         }
     }

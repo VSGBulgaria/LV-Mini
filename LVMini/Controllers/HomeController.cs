@@ -1,7 +1,6 @@
 using AutoMapper;
 using IdentityModel.Client;
 using LVMini.Models;
-using LVMini.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -17,7 +16,6 @@ using System.Globalization;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LVMini.Controllers
@@ -114,10 +112,10 @@ namespace LVMini.Controllers
         }
 
 
-        public IActionResult Contact()
+        public async Task<IActionResult> Contact()
         {
-            //var discoveryClient = new DiscoveryClient("http://localhost:55817/");
-            //var doc = await discoveryClient.GetAsync();
+            var discoveryClient = new DiscoveryClient("http://localhost:55817/");
+            var doc = await discoveryClient.GetAsync();
 
             //var client = new TokenClient(
             //    address: doc.TokenEndpoint,
@@ -130,6 +128,11 @@ namespace LVMini.Controllers
             //Response.Cookies.Append("mvchybrid", accessToken);
 
             //await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, User);
+
+            using (HttpClient client = new HttpClient())
+            {
+                var response = await client.GetAsync("http://localhost:55817/account/login/");
+            }
 
             return RedirectToAction("Index", "Home");
         }
@@ -148,34 +151,32 @@ namespace LVMini.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
         }
-        [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                using (HttpClient client = new HttpClient())
-                {
-                    var user = _mapper.Map<UserModel>(model);
-                    var content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
 
-                    var httpResponseMessage = await client.PostAsync($"http://localhost:53920/api/users", content);
+        //[HttpPost]
+        //public IActionResult Register(RegisterViewModel model)
+        //{
+        //    //if (ModelState.IsValid)
+        //    //{
+        //    //    using (HttpClient client = new HttpClient())
+        //    //    {
+        //    //        var user = _mapper.Map<UserModel>(model);
+        //    //        var content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
 
-                    if (httpResponseMessage.StatusCode == HttpStatusCode.Created)
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
-                }
-            }
-            return View(model);
-        }
+        //    //        var httpResponseMessage = await client.PostAsync($"http://localhost:53920/api/users", content);
+
+        //    //        if (httpResponseMessage.StatusCode == HttpStatusCode.Created)
+        //    //        {
+        //    //            return RedirectToAction("Index", "Home");
+        //    //        }
+        //    //    }
+        //    //}
+        //    return Redirect("http://localhost:55817/account/register");
+        //}
 
         [HttpGet]
         public IActionResult Register()
         {
-
-            ViewData["Message"] = "Register Page";
-            return View();
-
+            return Redirect("http://localhost:55817/account/register?returnUrl=" + "");
         }
 
         public IActionResult ForgotPassword()

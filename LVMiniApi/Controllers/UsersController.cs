@@ -53,7 +53,7 @@ namespace LVMiniApi.Controllers
         // POST api/users
         [HttpPost]
         [ValidateModel]
-        public async Task<IActionResult> Register([FromBody] UserModel model)
+        public async Task<IActionResult> Register([FromBody] RegisterUserModel model)
         {
             var user = Mapper.Map<User>(model);
             if (ValidateUserExists(user, UserRepository))
