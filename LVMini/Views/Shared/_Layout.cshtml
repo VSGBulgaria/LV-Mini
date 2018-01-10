@@ -49,6 +49,13 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("My Profile", "MyProfile", "Home")</li>
+
+                        var user = await UserModel.CurrentLoggedUser(User.Identity.Name);
+                        if (user.Role == "admin")
+                        {
+                            <li>@Html.ActionLink("Admin", "Index", "Home")</li>
+                        }
+
                         <li>@Html.ActionLink("Log out", "Logout", "Home")</li>
                     }
                 </ul>

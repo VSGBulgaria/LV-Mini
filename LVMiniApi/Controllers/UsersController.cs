@@ -70,6 +70,7 @@ namespace LVMiniApi.Controllers
             return Created(newUri, Mapper.Map<UserModel>(user));
         }
 
+        // PATCH/PUT api/users/[username]
         [HttpPatch("{username}")]
         [HttpPut("{username}")]
         [ValidateModel]

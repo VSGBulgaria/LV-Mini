@@ -4,14 +4,11 @@ using Data.Service.Persistance;
 using Data.Service.Persistance.Repositories;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
-using IdentityServer4.Models;
-using IdentityServer4.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Reflection;
 using static AuthorizationServer.Configuration.InMemoryConfiguration;
@@ -20,23 +17,37 @@ namespace AuthorizationServer
 {
     public class Startup
     {
-        private readonly ILoggerFactory _loggerFactory;
-        public Startup(IConfiguration configuration, ILoggerFactory loggerFactory)
+        public Startup(IConfiguration configuration, IHostingEnvironment environment)
         {
             Configuration = configuration;
-            _loggerFactory = loggerFactory;
+            Environment = environment;
         }
 
         public IConfiguration Configuration { get; }
+        public IHostingEnvironment Environment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            string connectionString = Configuration.GetConnectionString("AuthrizationServer");
+            services.AddMvc();
 
+            services.Configure<IISOptions>(options =>
+            {
+                options.AutomaticAuthentication = false;
+                options.AuthenticationDisplayName = "Windows";
+            });
+
+            string connectionString = Configuration.GetConnectionString("AuthrizationServer");
             var assembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
-            services.AddIdentityServer()
+
+            services.AddIdentityServer(options =>
+                {
+                    options.Events.RaiseErrorEvents = true;
+                    options.Events.RaiseInformationEvents = true;
+                    options.Events.RaiseFailureEvents = true;
+                    options.Events.RaiseSuccessEvents = true;
+                })
                 .AddDeveloperSigningCredential()
                 .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
                 .AddConfigurationStore(opt =>
@@ -50,34 +61,30 @@ namespace AuthorizationServer
                     opt.ConfigureDbContext = builder =>
                         builder.UseSqlServer(connectionString,
                             sql => sql.MigrationsAssembly(assembly));
-                    opt.EnableTokenCleanup = true;
-                    opt.TokenCleanupInterval = 30;
                 });
+
             services.AddDbContext<LvMiniDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("LV_MiniDatabase")));
-            services.AddTransient<IProfileService, IdentityService>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserValidator, UserValidator>();
-            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             MigrateInMemoryDataToSqlServer(app);
-
-            _loggerFactory.AddConsole();
-            _loggerFactory.AddDebug();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseDeveloperExceptionPage();
 
             app.UseIdentityServer();
-
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
         }
@@ -91,7 +98,7 @@ namespace AuthorizationServer
                 var context = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
                 context.Database.Migrate();
 
-                foreach (ApiResource apiResource in ApiResources())
+                foreach (var apiResource in ApiResources())
                 {
                     if (!context.ApiResources.Any(api => api.Name == apiResource.Name))
                     {
@@ -99,7 +106,7 @@ namespace AuthorizationServer
                     }
                 }
 
-                foreach (IdentityResource identityResource in IdentityResources())
+                foreach (var identityResource in IdentityResources())
                 {
                     if (!context.IdentityResources.Any(identity => identity.Name == identityResource.Name))
                     {
@@ -107,7 +114,7 @@ namespace AuthorizationServer
                     }
                 }
 
-                foreach (Client client in Clients())
+                foreach (var client in Clients())
                 {
                     if (!context.Clients.Any(opt => opt.ClientId == client.ClientId))
                     {

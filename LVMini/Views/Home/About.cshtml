@@ -32,6 +32,10 @@
 </div>
 @{
     var claims = User.Claims;
+    var role = new Claim("role", "user");
+    bool contains = claims.Contains(role);
+    var name = User.Identity.Name;
+
     foreach (var claim in claims)
     {
         <div>

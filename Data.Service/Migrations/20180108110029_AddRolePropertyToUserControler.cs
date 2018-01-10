@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
 
 namespace Data.Service.Migrations
 {
@@ -13,7 +11,7 @@ namespace Data.Service.Migrations
                 table: "Users",
                 maxLength: 50,
                 nullable: false,
-                defaultValue: "");
+                defaultValue: "user");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

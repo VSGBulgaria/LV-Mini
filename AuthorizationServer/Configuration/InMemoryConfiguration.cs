@@ -8,7 +8,7 @@ namespace AuthorizationServer.Configuration
     {
         public static IEnumerable<ApiResource> ApiResources()
         {
-            return new[]
+            return new ApiResource[]
             {
                 new ApiResource("lvminiAPI", "LV Mini API"),
                 new ApiResource("lvmini_admin", "LV Mini Admin")
@@ -21,7 +21,6 @@ namespace AuthorizationServer.Configuration
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
-                new IdentityResources.Email()
             };
         }
 
@@ -33,11 +32,10 @@ namespace AuthorizationServer.Configuration
                 {
                     ClientName = "LV Mini",
                     ClientId = "lvmini_code",
-                    ClientSecrets = new []
-                    {
-                        new Secret("interns".Sha256())
-                    },
-                    AllowedGrantTypes = GrantTypes.Hybrid,
+
+                    ClientSecrets = { new Secret("interns".Sha256())},
+                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
+
                     AllowedScopes = new []
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
@@ -48,7 +46,7 @@ namespace AuthorizationServer.Configuration
                     AllowOfflineAccess = true,
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new [] { "http://localhost:49649/signin-oidc" },
-                    PostLogoutRedirectUris = { "http://localhost:49649/signout-callback-oidc" },
+                    PostLogoutRedirectUris = { "http://localhost:49649/Home/Login" },
                 }
             };
         }

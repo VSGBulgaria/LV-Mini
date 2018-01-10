@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Newtonsoft.Json;
@@ -112,11 +113,25 @@ namespace LVMini.Controllers
             return View();
         }
 
+
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+            //var discoveryClient = new DiscoveryClient("http://localhost:55817/");
+            //var doc = await discoveryClient.GetAsync();
 
-            return View();
+            //var client = new TokenClient(
+            //    address: doc.TokenEndpoint,
+            //    clientId: "lvmini_code",
+            //    clientSecret: "interns");
+
+            //var response = await client.RequestClientCredentialsAsync("lvminiAPI lvmini_admin");
+            //var accessToken = response.AccessToken;
+
+            //Response.Cookies.Append("mvchybrid", accessToken);
+
+            //await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, User);
+
+            return RedirectToAction("Index", "Home");
         }
 
 
@@ -126,6 +141,7 @@ namespace LVMini.Controllers
         {
             return RedirectToAction("Index", "Home");
         }
+
 
         public async Task Logout()
         {
@@ -153,6 +169,7 @@ namespace LVMini.Controllers
             return View(model);
         }
 
+        [HttpGet]
         public IActionResult Register()
         {
 

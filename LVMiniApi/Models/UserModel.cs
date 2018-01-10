@@ -26,5 +26,7 @@ namespace LVMiniApi.Models
         [StringLength(50, MinimumLength = 5)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        public string Role { get; set; }
     }
 }
