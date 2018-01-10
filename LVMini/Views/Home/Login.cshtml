@@ -1,0 +1,48 @@
+﻿@@model LVMini.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h2>Login</h2>
+
+<div class="login-box">
+    @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+    {
+        <div>
+            <div>
+                @Html.LabelFor(model => model.Username)
+                <div>
+                    @Html.TextBoxFor(model => model.Username)
+                    @Html.ValidationMessageFor(model => model.Username)
+                </div>
+            </div>
+            <div>
+                @Html.LabelFor(model => model.Password)
+                <div>
+                    @Html.PasswordFor(model => model.Password)
+                    @Html.ValidationMessageFor(model => model.Password)
+                </div>
+            </div>
+            <div>
+                <p>
+                    <a asp-action="ForgotPassword">Forgot your password?</a>
+                </p>
+            </div>
+            <div class="checkbox">
+                <label asp-for="RememberMe">
+                    <input asp-for="RememberMe" />
+                    @Html.DisplayNameFor(m => m.RememberMe)
+                </label>
+            </div>
+            <div>
+                <input type="submit" value="Login" />Don't Have An Account<br><a href="Register">Register here.</a>
+            </div>
+            <div>
+                <input type="button" value="Facebook Login" /><br />
+            </div>
+        </div>
+    }
+</div>
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}*@

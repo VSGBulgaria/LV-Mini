@@ -7,7 +7,9 @@
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="../css/site.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -29,8 +31,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
+<<<<<<< Updated upstream
                 <img src="~/images/icon.png"  id="image">
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">@*LVMini*@</a>
+=======
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><img src="~/images/iconr.png" width="30" height="30" /></a>
+               
+>>>>>>> Stashed changes
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -58,6 +65,10 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     </div>
 
     <environment include="Development">
@@ -84,4 +95,13 @@
 
     @RenderSection("Scripts", required: false)
 </body>
+<footer class="ftr" id="footer">
+    <p>&copy; 2017 - LVMini</p>
+    <ul>
+        <li><a href="https://www.facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+        <li><a href="https://twitter.com" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        <li><a href="https://plus.google.com/" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+        <li><a href="https://www.instagram.com/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+    </ul>
+</footer>
 </html>
