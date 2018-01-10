@@ -19,6 +19,7 @@
 </head>
 <body>
     <!--Navigation Bar-->
+<div class="nav">
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -28,7 +29,8 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">LVMini</a>
+                <img src="~/images/icon.png"  id="image">
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">@*LVMini*@</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -52,12 +54,10 @@
             </div>
         </div>
     </nav>
+</div>
     <div class="container body-content">
         @RenderBody()
         <hr />
-        @*<footer>
-            <p>&copy; 2017 - LVMini</p>
-        </footer>*@
     </div>
 
     <environment include="Development">

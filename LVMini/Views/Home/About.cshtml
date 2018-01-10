@@ -14,21 +14,22 @@
 <h2>@ViewData["Title"]</h2>
 <h3>@ViewData["Message"]</h3>
 
-<div>
-    <strong>id_token</strong>
-    <span>@await ViewContext.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.IdToken)</span>
-</div>
+<div class="About">
+    <div>
+        <strong>id_token</strong>
+        <span>@await ViewContext.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.IdToken)</span>
+    </div>
 
-<div>
-    <strong>access_token</strong>
-    <span>@await ViewContext.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken)</span>
-</div>
+    <div>
+        <strong>access_token</strong>
+        <span>@await ViewContext.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken)</span>
+    </div>
 
-<div>
-    <strong>refresh_token</strong>
-    <span>@await ViewContext.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken)</span>
+    <div>
+        <strong>refresh_token</strong>
+        <span>@await ViewContext.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken)</span>
+    </div>
 </div>
-
 @{
     var claims = User.Claims;
     foreach (var claim in claims)

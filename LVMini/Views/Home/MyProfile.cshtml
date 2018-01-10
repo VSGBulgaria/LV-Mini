@@ -8,9 +8,20 @@
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
 </head>
 
-<h2>My Profile</h2>
+<h2>Edit Your Profile</h2>
 <hr />
 <div class="row">
+
+    <!-- left column -->
+    <div class="ProfPic">
+        <div class="text-center">
+            @*<img src="http://lorempixel.com/200/200/people/9/" class="avatar img-circle img-thumbnail" alt="avatar">*@
+            <img src="~/images/Vsg_Logo200x200.png" class="avatar img-circle img-thumbnail" alt="avatar">
+            <h6>Upload a different photo...</h6>
+            <input type="file" class="text-center center-block well well-sm">
+        </div>
+    </div>
+
     <div class="fields">
         <form method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
