@@ -5,6 +5,8 @@
 
 <h2>Register</h2>
 
+<div class="Register">
+
 @using (Html.BeginForm("Register", "Account", FormMethod.Post))
 {
 
@@ -45,7 +47,14 @@
             </div>
         </div>
         <div>
+            @Html.LabelFor(model => model.ConfirmPassword)
+            <div>
+                @Html.TextBoxFor(model => model.ConfirmPassword)
+                @Html.ValidationMessageFor(model => model.ConfirmPassword)
+            </div>
+        </div>
+        <div>
             <input type="submit" value="Register" />
         </div>
     </div>
-}
+}</div>
