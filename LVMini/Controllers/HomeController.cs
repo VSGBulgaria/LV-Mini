@@ -195,5 +195,12 @@ namespace LVMini.Controllers
         {
             return View();
         }
+
+        //AdminPage
+        [HttpGet]
+        public IActionResult AdminPage()
+        {
+            return View();
+        }
     }
 }
