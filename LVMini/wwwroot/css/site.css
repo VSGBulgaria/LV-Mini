@@ -29,9 +29,11 @@ body {
     color:white;
 }
 
-Register {
-    width: 320px;
-    height: 420px;
+.Register {
+    position: center;
+    text-align: center;
+    color: black;
+    width: 50%;
     background: RGBA(0,0,0,0.5);
     position: absolute;
     left: 50%;
@@ -52,7 +54,7 @@ Register {
         margin-top:20px;
 }
 /*Style For My Profile Page*/
-/*
+
 .ProfPic {   
     width: 100%;
     position: center;
@@ -60,15 +62,14 @@ Register {
     padding: 70px 30px;
     color:white;
 }
- */
-/*
+ 
+
 .fields {
     width: 100%;
     position: center;
     background: RGBA(0,0,0,0.5);
     padding: 70px 30px;
-
-}*/
+}
 footer {
     position: fixed;
     left: 0px;
