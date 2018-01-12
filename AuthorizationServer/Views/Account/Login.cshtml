@@ -2,8 +2,10 @@
 <head>
     <link rel="stylesheet" href="~/css/Style.css" />
     <link rel="icon" type="image/x-icon" href="~/images/iconr.png" />
-    <link rel="stylesheet" href="~/css/site.css">
+    @*<link rel="stylesheet" href="~/css/site.css">*@
 </head>
+
+<body>
 <div class="login-page">
     <div class="page-header">
         <h1>Login</h1>
@@ -15,10 +17,13 @@
 
         @if (Model.EnableLocalLogin)
         {
-            <div class="col-sm-6">
-                <div class="panel panel-default">
+            //Div For The Container Under The Login Line. Contains The Buttons Fields And Checkboxes
+            <div @*class="col-sm-6"*@>
+                @*This Removes the White Background*@
+                <div @*class="panel panel-default"*@>
+
                     <div class="panel-heading">
-                        <h3 class="panel-title">Local Login</h3>
+                        <h3 class="panel-title">Login From Here</h3>
                     </div>
                     <div class="panel-body">
 
@@ -60,7 +65,7 @@
                                 </div>
 
                                 <div>
-                                    <input type="button" value="Facebook Login" /><br />
+                                    <input type="Submit" value="Facebook Login" /><br />
                                 </div>
 
                             </fieldset>
@@ -105,3 +110,4 @@
         }
     </div>
 </div>
+</body>
