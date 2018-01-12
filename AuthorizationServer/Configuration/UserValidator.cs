@@ -1,6 +1,6 @@
 ﻿using AuthorizationServer.Helpers;
-using Data.Service.Core;
 using Data.Service.Core.Entities;
+using Data.Service.Core.Interfaces;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;

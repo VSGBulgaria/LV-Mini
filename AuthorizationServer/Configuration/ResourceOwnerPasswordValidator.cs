@@ -1,5 +1,5 @@
 ﻿using AuthorizationServer.Helpers;
-using Data.Service.Core;
+using Data.Service.Core.Interfaces;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
 using System.Threading.Tasks;

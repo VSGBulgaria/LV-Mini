@@ -1,5 +1,5 @@
 ﻿using AuthorizationServer.Configuration;
-using Data.Service.Core;
+using Data.Service.Core.Interfaces;
 using Data.Service.Persistance;
 using Data.Service.Persistance.Repositories;
 using IdentityServer4.EntityFramework.DbContexts;

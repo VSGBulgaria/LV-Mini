@@ -1,4 +1,4 @@
-﻿using Data.Service.Core;
+﻿using Data.Service.Core.Interfaces;
 using System.Threading.Tasks;
 
 namespace Data.Service.Persistance

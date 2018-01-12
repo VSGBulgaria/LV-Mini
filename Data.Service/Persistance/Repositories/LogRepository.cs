@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Data.Service.Core;
-using Data.Service.Core.Entities;
+﻿using Data.Service.Core.Entities;
+using Data.Service.Core.Interfaces;
 
 namespace Data.Service.Persistance.Repositories
 {

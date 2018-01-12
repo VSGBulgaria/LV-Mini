@@ -1,6 +1,6 @@
-﻿using Data.Service.Core;
-using Data.Service.Core.Entities;
+﻿using Data.Service.Core.Entities;
 using Data.Service.Core.Enums;
+using Data.Service.Core.Interfaces;
 using System;
 using System.Threading.Tasks;
 

@@ -1,5 +1,5 @@
-﻿using Data.Service.Core;
-using Data.Service.Core.Entities;
+﻿using Data.Service.Core.Entities;
+using Data.Service.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 

@@ -13,15 +13,11 @@ using IdentityServer4.Stores;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Principal;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AuthorizationServer.Quickstart.Account
@@ -341,41 +337,6 @@ namespace AuthorizationServer.Quickstart.Account
         public IActionResult ForgotPassword()
         {
             return View();
-        }
-
-        [HttpGet]
-        public IActionResult Register(string returnUrl)
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                using (HttpClient client = new HttpClient())
-                {
-                    var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
-
-                    var httpResponseMessage = await client.PostAsync($"http://localhost:53920/api/users", content);
-
-                    if (httpResponseMessage.StatusCode == HttpStatusCode.Created)
-                    {
-                        var loginInputModel = new LoginInputModel()
-                        {
-                            Username = model.Username,
-                            Password = model.Password,
-                            RememberLogin = false,
-                            ReturnUrl = "/connect/authorize/callback?client_id=lvmini_code&redirect_uri=http%3A%2F%2Flocalhost%3A49649%2Fsignin-oidc&response_type=code%20id_token&scope=openid%20profile%20lvminiAPI%20lvmini_admin%20offline_access&response_mode=form_post&nonce=636512057311827438.YjJlZTM4OTctMTk1My00MzBkLTg4YzAtZTg2MDMxYTc0MmVjY2UzMTUwZWItYzllMy00YmRmLTk2MzUtYWM3NDk3NWE2MDk0&state=CfDJ8NjY67tH-LZHlnEaz5tMzoITDjnRzuzOunJ8-Opwb5vmp4cSLOI9KnWYOas9kHFTTxoc4YcL5Dkujg_clu4VqncWgp_64OyhJT9SiFF2t2GBD43dlV57DFnPeC6DeKlyNcxlO43XSQ231oj9rVZXvYYbPVPOEyE5-eSwVq13QA1ThlM2aBby0oj1T4sfQ5FVT7V1WfiSyVT4LXEjEx07EDJzRdLe9jx9ggbOrVMy45ieEQV2_QcL9Wpxn1T0jHIL45c90gv9bSgztYwS4deBFLyT4ViFeDfCzz4SJpOtoe2jpgAl-h8bv6WOyq0p8YwqmnOw4_LbrXU8waU6JKf6jyM&x-client-SKU=ID_NET&x-client-ver=2.1.4.0"
-                        };
-
-                        return await Login(loginInputModel, "login");
-                    }
-                }
-            }
-
-            return View(model);
         }
     }
 }

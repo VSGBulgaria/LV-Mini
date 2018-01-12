@@ -1,5 +1,5 @@
-﻿using Data.Service.Core;
-using Data.Service.Core.Entities;
+﻿using Data.Service.Core.Entities;
+using Data.Service.Core.Interfaces;
 using LVMiniApi.Models;
 using System.Linq;
 

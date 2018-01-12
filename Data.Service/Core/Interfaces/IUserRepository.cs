@@ -1,7 +1,7 @@
 ﻿using Data.Service.Core.Entities;
 using System.Threading.Tasks;
 
-namespace Data.Service.Core
+namespace Data.Service.Core.Interfaces
 {
     public interface IUserRepository : IBaseRepository<User>
     {

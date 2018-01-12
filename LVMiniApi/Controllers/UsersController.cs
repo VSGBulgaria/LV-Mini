@@ -1,6 +1,6 @@
 using AutoMapper;
-using Data.Service.Core;
 using Data.Service.Core.Entities;
+using Data.Service.Core.Interfaces;
 using LVMiniApi.Api.Service;
 using LVMiniApi.Filters;
 using LVMiniApi.Models;
@@ -53,7 +53,7 @@ namespace LVMiniApi.Controllers
         // POST api/users
         [HttpPost]
         [ValidateModel]
-        public async Task<IActionResult> Register([FromBody] RegisterUserModel model)
+        public async Task<IActionResult> Post([FromBody] RegisterUserModel model)
         {
             var user = Mapper.Map<User>(model);
             if (ValidateUserExists(user, UserRepository))
@@ -68,6 +68,12 @@ namespace LVMiniApi.Controllers
 
             var newUri = Url.Link("UserGet", new { username = user.Username });
             return Created(newUri, Mapper.Map<UserModel>(user));
+        }
+
+        [HttpPost("{object}")]
+        public IActionResult Post()
+        {
+            return BadRequest("The post request doesn't take any parameters!");
         }
 
         // PATCH/PUT api/users/[username]
@@ -88,6 +94,25 @@ namespace LVMiniApi.Controllers
             await _unitOfWork.Commit();
 
             return Ok(Mapper.Map<UserModel>(user));
+        }
+
+        [HttpPatch]
+        public IActionResult Patch()
+        {
+            return BadRequest("You have to pass a user to the patch request!");
+        }
+
+        [HttpPut]
+        public IActionResult Put()
+        {
+            return BadRequest("You have to pass a user to the put request!");
+        }
+
+        [HttpDelete]
+        [HttpDelete("{object}")]
+        public IActionResult Delete()
+        {
+            return BadRequest("You can't delete users!");
         }
     }
 }

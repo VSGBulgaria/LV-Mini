@@ -1,10 +1,10 @@
-﻿using Data.Service.Core;
-using Data.Service.Core.Entities;
+﻿using Data.Service.Core.Entities;
+using Data.Service.Core.Interfaces;
+using LVMiniAdminApi.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
-using LVMiniAdminApi.Helper;
-using Microsoft.AspNetCore.Authorization;
 
 namespace LVMiniAdminApi.Controllers
 {
@@ -13,7 +13,7 @@ namespace LVMiniAdminApi.Controllers
     [Authorize]
     public class AdminController : Controller
     {
-        
+
         private readonly IUserRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
 

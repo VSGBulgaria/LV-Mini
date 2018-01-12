@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Data.Service.Core;
+using Data.Service.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -9,7 +9,6 @@ namespace LVMiniApi.Controllers
     {
         public const string Urlhelper = "URLHELPER";
         protected IMapper Mapper;
-        protected ILogRepository LogRepository;
         protected IUserRepository UserRepository;
 
         public override void OnActionExecuting(ActionExecutingContext context)

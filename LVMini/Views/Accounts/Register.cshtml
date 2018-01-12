@@ -1,0 +1,66 @@
+﻿@model LVMini.ViewModels.RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+<head>
+    <link rel="stylesheet" href="~/css/Style.css" />
+    <link rel="icon" type="image/x-icon" href="~/images/iconr.png" />
+    @*<link rel="stylesheet" href="~/css/site.css">*@
+</head>
+
+<h2>Register</h2>
+
+<div class="Register">
+
+    @using (Html.BeginForm("Register", "Accounts", FormMethod.Post))
+    {
+
+        <div>
+            <div>
+                @Html.LabelFor(model => model.Username)
+                <div>
+                    @Html.TextBoxFor(model => model.Username)
+                    @Html.ValidationMessageFor(model => model.Username)
+                </div>
+            </div>
+            <div>
+                @Html.LabelFor(model => model.Email)
+                <div>
+                    @Html.TextBoxFor(model => model.Email)
+                    @Html.ValidationMessageFor(model => model.Email)
+                </div>
+            </div>
+            <div>
+                @Html.LabelFor(model => model.Firstname)
+                <div>
+                    @Html.TextBoxFor(model => model.Firstname)
+                    @Html.ValidationMessageFor(model => model.Firstname)
+                </div>
+            </div>
+            <div>
+                @Html.LabelFor(model => model.Lastname)
+                <div>
+                    @Html.TextBoxFor(model => model.Lastname)
+                    @Html.ValidationMessageFor(model => model.Lastname)
+                </div>
+            </div>
+            <div>
+                @Html.LabelFor(model => model.Password)
+                <div>
+                    @Html.TextBoxFor(model => model.Password)
+                    @Html.ValidationMessageFor(model => model.Password)
+                </div>
+            </div>
+            <div>
+                @Html.LabelFor(model => model.ConfirmPassword)
+                <div>
+                    @Html.TextBoxFor(model => model.ConfirmPassword)
+                    @Html.ValidationMessageFor(model => model.ConfirmPassword)
+                </div>
+            </div>
+            <div>
+                <input type="submit" value="Register" />
+            </div>
+        </div>
+    }
+</div>

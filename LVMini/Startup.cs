@@ -17,13 +17,10 @@ namespace LVMini
 {
     public class Startup
     {
-        public Startup()
-        {
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-        }
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
         }
 
         public IConfiguration Configuration { get; }
@@ -55,7 +52,7 @@ namespace LVMini
 
                      opt.ClientId = "lvmini_code";
                      opt.ClientSecret = "interns";
-                     opt.SignedOutRedirectUri = new PathString("/Home/Login");
+                     opt.SignedOutRedirectUri = new PathString("/Accounts/Login");
                      opt.ResponseType = "code id_token";
 
                      opt.Scope.Clear();

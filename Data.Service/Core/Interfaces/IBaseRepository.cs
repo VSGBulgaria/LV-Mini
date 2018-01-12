@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Data.Service.Core
+namespace Data.Service.Core.Interfaces
 {
     public interface IBaseRepository<T> where T : BaseEntity
     {

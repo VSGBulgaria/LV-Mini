@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="~/images/iconr.png"/>
+    <link rel="icon" href="~/images/iconr.png" />
     <title>@ViewData["Title"] - LVMini</title>
 
     <environment include="Development">
@@ -22,48 +22,42 @@
 </head>
 <body>
     <!--Navigation Bar-->
-<div class="nav">
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><img src="~/images/iconr.png" width="30" height="30" /></a>  
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    @if (!User.Identity.IsAuthenticated)
-                    {
-                        <li>@Html.ActionLink("Login", "Login", "Home")</li>
-                        <li>@Html.ActionLink("Register", "Register", "Home")</li>
-                    }
-                    <!--When User Is Logged In Show This-->
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <li>@Html.ActionLink("My Profile", "MyProfile", "Home")</li>
-
-                        var user = await UserModel.CurrentLoggedUser(User.Identity.Name);
-                        if (user.Role == "admin")
+    <div class="nav">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><img src="~/images/iconr.png" width="30" height="30" /></a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        @if (!User.Identity.IsAuthenticated)
                         {
-                            <li>@Html.ActionLink("Admin", "AdminPage", "Home")</li>
+                            <li>@Html.ActionLink("Login", "Login", "Accounts")</li>
+                            <li>@Html.ActionLink("Register", "Register", "Accounts")</li>
                         }
 
-                        <li>@Html.ActionLink("Log out", "Logout", "Home")</li>
-                    }
-                </ul>
+                        <!--When User Is Logged In Show This-->
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li>@Html.ActionLink("My Profile", "MyProfile", "Accounts")</li>
+                            <li>@Html.ActionLink("Log out", "Logout", "Accounts")</li>
+                        }
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
-</div>
+        </nav>
+    </div>
     <div class="container body-content">
         @RenderBody()
         <hr />
