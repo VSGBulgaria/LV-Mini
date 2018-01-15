@@ -92,6 +92,25 @@
     transform: translate(-50%, -50%);
     padding: 70px 30px;
 }
+#Username {
+    width: 100%;
+    border-radius: 4px;
+    height: 35px;
+    /*-webkit-border-radius: 4px;*/
+}
+
+#Email {
+    width: 100%;
+    border-radius: 4px;
+    height: 35px;
+}
+
+.RegFields {
+    width: 100%;
+    border-radius: 4px;
+    height: 35px;
+    /*-webkit-border-radius:4px;*/
+}
 
 .Register input[type="submit"] {
         border: none;
@@ -128,7 +147,7 @@
 }
 
 .page-consent {
-    .client-logo;
+    /*client-logo;*/
    float: left;
     width: 80px;
     height: 80px;
@@ -140,13 +159,13 @@
 }
 
 .consent-form {
-    .consent-scopecheck;
+    /*.consent-scopecheck;*/
     display: inline-block;
     margin-right: 5px;
 }
 
 .consent-scopecheck[disabled] {
-    //visibility:hidden;
+    /*visibility:hidden;*/
 }
 
 .consent-description {
@@ -203,11 +222,11 @@ li {
 .displayname {
 }
 
-}
-}
-}
+        /*}
+    }
+}*/
 
-footer {
+.footer {
     position: fixed;
     left: 0px;
     bottom: 0px;
@@ -218,7 +237,6 @@ footer {
     display: flex;
     top: 80%;
     left: 209%;
-    /* transform: translate(-10%,-50%);*/
 }
 
     #footer ul li {
