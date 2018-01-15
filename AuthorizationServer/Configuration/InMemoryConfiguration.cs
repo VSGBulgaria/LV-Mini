@@ -47,6 +47,7 @@ namespace AuthorizationServer.Configuration
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new [] { "http://localhost:49649/signin-oidc" },
                     PostLogoutRedirectUris = { "http://localhost:49649/Home/Login" },
+                    RequireConsent = false
                 }
             };
         }

@@ -10,6 +10,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace LVMini
 {
@@ -40,7 +43,7 @@ namespace LVMini
                     opttions.ExpireTimeSpan = TimeSpan.FromMinutes(60);
 
                 })
-                .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, opt =>
+                .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, "OpenID Connect", opt =>
                  {
                      opt.Authority = "http://localhost:55817/";
                      opt.RequireHttpsMetadata = false;
@@ -64,6 +67,21 @@ namespace LVMini
                      {
                          NameClaimType = JwtClaimTypes.Name,
                          RoleClaimType = JwtClaimTypes.Role
+                     };
+                     opt.Events = new OpenIdConnectEvents()
+                     {
+                         OnTokenValidated = ctx =>
+                         {
+                             var identity = ctx.Principal.Identity as ClaimsIdentity;
+                             var subjectClaim = identity.Claims.FirstOrDefault(z => z.Type == "sub");
+
+                             var newClaimsIdentity = new ClaimsIdentity(ctx.Principal.Identity.AuthenticationType, "given_name", "role");
+                             newClaimsIdentity.AddClaim(subjectClaim);
+
+                             ctx.Principal = new ClaimsPrincipal(newClaimsIdentity);
+
+                             return Task.FromResult(0);
+                         }
                      };
                  });
         }
@@ -94,3 +112,4 @@ namespace LVMini
         }
     }
 }
+
