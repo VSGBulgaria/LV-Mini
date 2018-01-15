@@ -19,7 +19,7 @@
             <div>
                 @Html.LabelFor(model => model.Username)
                 <div>
-                    @Html.TextBoxFor(model => model.Username)
+                    <input type="text" id="Username" onkeyup="CheckValid(this.value)" />
                     @Html.ValidationMessageFor(model => model.Username)
                 </div>
             </div>
@@ -64,3 +64,21 @@
         </div>
     }
 </div>
+
+<script src="http://code.jquery.com/jquery-latest.min.js"
+        type="text/javascript"></script>
+<script type="text/javascript">
+    function CheckValid(tagValue) {
+        var data = { username: tagValue }
+        $.ajax({
+            type: 'POST',
+            url: 'HomeController/ValidateUser',
+            data: JSON.stringify(data),
+            success: displayIsUsernameAllreadyUsed,
+            error: function () { console.log('Exception=username validation') }
+        });
+    }
+    function displayIsUsernameAllreadyUsed(data) {
+        console.log(data);
+    }
+</script>
