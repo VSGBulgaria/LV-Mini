@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
-using Data.Service.Persistance;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -31,9 +29,6 @@ namespace LVMini
             services.AddMvc();
 
             services.AddAutoMapper();
-            services.AddDbContext<LvMiniDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("LV_MiniDatabase")));
-
 
             services.AddAuthentication(opt =>
                 {

@@ -1,3 +1,4 @@
+using IdentityModel;
 using IdentityModel.Client;
 using LVMini.Models;
 using Microsoft.AspNetCore.Authentication;
@@ -107,15 +108,20 @@ namespace LVMini.Controllers
 
         public async Task<IActionResult> Contact()
         {
-            //DiscoveryResponse authenticationServer = await DiscoveryClient.GetAsync($"http://localhost:55817/");
+            DiscoveryResponse authenticationServer = await DiscoveryClient.GetAsync($"http://localhost:55817/");
 
-            //var tokenClient = new TokenClient(authenticationServer.TokenEndpoint, "lvmini_code", "interns");
+            var request = new AuthorizeRequest(authenticationServer.AuthorizeEndpoint);
+            var url = request.CreateAuthorizeUrl(
+                clientId: "lvmini_code",
+                scope: "lvminiAPI lvmini_admin",
+                responseType: OidcConstants.ResponseTypes.CodeIdToken,
+                redirectUri: "http://localhost:49649/signin-oidc",
+                state: CryptoRandom.CreateUniqueId(),
+                nonce: CryptoRandom.CreateUniqueId());
 
-            //TokenResponse tokenResponse = await tokenClient.RequestClientCredentialsAsync(scope: "lvminiAPI lvmini_admin");
-            //if (tokenResponse.HttpStatusCode == HttpStatusCode.OK)
-            //{
+            var response = new AuthorizeResponse(url);
 
-            //}
+            var code = response.Code;
 
             return View();
         }
@@ -125,7 +131,7 @@ namespace LVMini.Controllers
             return View();
         }
 
-     
+
 
         public IActionResult Error()
         {

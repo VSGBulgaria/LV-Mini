@@ -1,4 +1,5 @@
-﻿using LVMini.ViewModels;
+﻿using LVMini.Models;
+using LVMini.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -66,6 +67,27 @@ namespace LVMini.Controllers
         public IActionResult AdminPage()
         {
             return View();
+        }
+
+        public async Task<IActionResult> CheckUser(string name)
+        {
+            using (var client = new HttpClient())
+            {
+                if (string.IsNullOrEmpty(name))
+                {
+                    return NotFound();
+                }
+                var httpResponse = await client.GetAsync($"http://localhost:53920/api/users/" + name);
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    var content = await httpResponse.Content.ReadAsStringAsync();
+                    var user = JsonConvert.DeserializeObject<UserModel>(content);
+
+                    return Json(Ok());
+                }
+
+                return Json(httpResponse.StatusCode);
+            }
         }
     }
 }
