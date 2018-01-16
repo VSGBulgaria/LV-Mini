@@ -1,11 +1,5 @@
 ﻿@model LoginViewModel
-<head>
-    <link rel="stylesheet" href="~/css/Style.css" />
-    <link rel="icon" type="image/x-icon" href="~/images/iconr.png" />
-    @*<link rel="stylesheet" href="~/css/site.css">*@
-</head>
 
-<body>
 <div class="login-page">
     <div class="page-header">
         <h1>Login</h1>
@@ -56,7 +50,7 @@
                             </div>
 }
                                 <div>
-                                   Don't Have An Account<br>@Html.ActionLink("Register","Register","Accounts")
+                                    Don't Have An Account<br>@Html.ActionLink("Register", "Register", "Accounts")
                                 </div>
                                 <br>
                                 <div class="form-group">
@@ -64,9 +58,9 @@
                                     <button class="btn btn-default" name="button" value="cancel">Cancel</button>
                                 </div>
 
-                                <div>
-                                    <input type="Submit" value="Facebook Login" /><br />
-                                </div>
+                                @*<div>
+            <input type="Submit" value="Facebook Login" /><br />
+        </div>*@
 
                             </fieldset>
                         </form>
@@ -109,16 +103,4 @@
             </div>
         }
     </div>
-</div>
-</body>
-
-<div class="footer">
-<footer id="footer">
-    <ul>
-        <li><a href="https://www.facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-        <li><a href="https://twitter.com" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-        <li><a href="https://plus.google.com/" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-        <li><a href="https://www.instagram.com/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-    </ul>
-</footer>
 </div>
