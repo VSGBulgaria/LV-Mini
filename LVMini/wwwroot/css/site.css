@@ -96,6 +96,10 @@ body {
     color: red;
 }
 
+/*#errmsg1{
+    color:green;
+}*/
+
 /*Style For Footer*/
 .footer {
     position: fixed;

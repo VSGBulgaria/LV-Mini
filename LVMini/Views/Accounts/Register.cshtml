@@ -30,7 +30,7 @@
                 @Html.LabelFor(model => model.Email)
                 <div>
                     <input type="text" id="Email" placeholder="Example@mail.com" />
-                    <input type="button" id="Click" value="Click" />
+                    @*<input type="button" id="Click" value="Click" />*@
                     <span id="errmsg"></span>
                     @Html.ValidationMessageFor(model => model.Email)
                 </div>
@@ -65,7 +65,7 @@
                 </div>
             </div>
             <div>
-                <input type="submit" value="Register" />
+                <input type="submit" id="Click" value="Register" />
             </div>
         </div>
     }
@@ -103,20 +103,20 @@
             }
         });
     }
-
+//Validate E-mail
     function ValidateEmail(email) {
-        // Validate email format
+        // Validate Email Format
         return expr.test(email);
     };
 
-$("#Click").live("click", function () {
-        if (!ValidateEmail($("#Email").val())) {
-            $("#errmsg").html("Invalid Email Address!").show().fadeOut("slow");
-               return false;
+        $("#Click").live("click", function () {
+            if (!ValidateEmail($("#Email").val())) {
+                $("#errmsg").html("Invalid Email Address!").show().fadeOut("slow");
+                return false;
         }
-        else {
-             $("#errmsg").html("Valid Email Address!!").show().fadeOut("slow");
-               return false;
+            else {
+                $("#errmsg").html("Valid Email Address!!").show().fadeOut("slow");
+                return false;
         }
     });
 
