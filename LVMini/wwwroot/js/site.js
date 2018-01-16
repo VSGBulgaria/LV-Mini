@@ -25,7 +25,7 @@ var finished_rendering = function () {
     facebook.removeAttribute("style");
     facebook.removeChild(facebook.childNodes[0]);
 }
-FB.Event.subscribe('xfbml.render', finished_rendering);
+//FB.Event.subscribe('xfbml.render', finished_rendering);
 
 //Functions For Registration Form
 var div = document.getElementById('errors');
@@ -39,10 +39,10 @@ function formValidator() {
     //Checks each input it this order
 
     if (isAlphabet(name, "Please enter only letters")) {
-        if (emailvalidator(email, "Email unvalid") && notEmpty(email, "Email field should be filled")) {
-            if (lengthRestriction(username, 6, 8) && notEmpty(username, "Username should be filled")) {
-                if (lengthRestriction(password, 7, 9) && notEmpty(password, "Enter a password")) {
-                    if (lengthRestriction(confirm, 7, 9) && notEmpty(confirm, "Repeat Password")) {
+        if (emailvalidator(email, "Email unvalid")) {
+            if (lengthRestriction(username, 6, 8)) {
+                if (lengthRestriction(password, 7, 9)) {
+                    if (lengthRestriction(confirm, 7, 9)) {
                         alert("Registrtion succesfuly completed");
                         return true;
                     }

@@ -49,8 +49,7 @@ body {
 #Username {
     width: 100%;
     border-radius: 4px;
-    height: 35px;
-    /*-webkit-border-radius: 4px;*/
+    height: 35px;   
 }
 #Email {
     width: 100%;
@@ -91,6 +90,10 @@ body {
     position: center;
     background: RGBA(0,0,0,0.5);
     padding: 70px 30px;
+}
+
+#errmsg {
+    color: red;
 }
 
 /*Style For Footer*/

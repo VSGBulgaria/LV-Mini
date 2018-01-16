@@ -4,16 +4,17 @@ namespace LVMini.ViewModels
 {
     public class RegisterViewModel
     {
-        [Required]
+        //[Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.")]
         [DataType(DataType.Text)]
         [Display(Name = "Username")]
         public string Username { get; set; }
 
-        [Required]
+        //[Required]
         [EmailAddress]
         [Display(Name = "E-mail")]
         [DataType(DataType.EmailAddress)]
+        [RegularExpression(pattern:"/^[w\\.+] + @ [A-Z a-z 0-9\\-] + .[A-Z a-z 0-9]{2,4}$/;")]
         public string Email { get; set; }
 
         [Required]

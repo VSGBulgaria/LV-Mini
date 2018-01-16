@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -68,7 +70,7 @@ namespace LVMini.Controllers
         {
             return View();
         }
-
+//Validate Username
         public async Task<IActionResult> CheckUser(string name)
         {
             using (var client = new HttpClient())
@@ -82,11 +84,38 @@ namespace LVMini.Controllers
                 {
                     var content = await httpResponse.Content.ReadAsStringAsync();
                     var user = JsonConvert.DeserializeObject<UserModel>(content);
-
+                    
                     return Json(Ok());
                 }
 
                 return Json(httpResponse.StatusCode);
+            }
+        }
+        //Validate Email
+        public async Task<IActionResult> CheckEmail(string email)
+        {
+            using (var client = new HttpClient())
+            {
+                if (string.IsNullOrEmpty(email))
+                {
+                    return NotFound();
+                }
+
+                var httpResponse = await client.GetAsync($"http://localhost:53920/api/users/");
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    var content = await httpResponse.Content.ReadAsStringAsync();
+                    var users = JsonConvert.DeserializeObject<IEnumerable<UserModel>>(content);
+
+                    foreach (var user in users)
+                    {
+                        if (user.Email == email)
+                        {
+                            return Json(Ok());
+                        }
+                    }
+                }
+                return Json(NotFound());
             }
         }
     }
