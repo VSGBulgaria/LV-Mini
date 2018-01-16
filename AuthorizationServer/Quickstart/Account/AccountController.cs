@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using AuthorizationServer.Configuration;
 using IdentityModel;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
@@ -10,6 +9,7 @@ using IdentityServer4.Models;
 using IdentityServer4.Quickstart.UI;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
+using IdentityServer4.Test;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +30,7 @@ namespace AuthorizationServer.Quickstart.Account
     [SecurityHeaders]
     public class AccountController : Controller
     {
-        private readonly IUserValidator _userValidator;
+        private readonly TestUserStore _users;
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IEventService _events;
         private readonly AccountService _account;
@@ -40,11 +40,11 @@ namespace AuthorizationServer.Quickstart.Account
             IClientStore clientStore,
             IHttpContextAccessor httpContextAccessor,
             IAuthenticationSchemeProvider schemeProvider,
-            IEventService events, IUserValidator userValidator)
+            IEventService events, TestUserStore users)
         {
             _interaction = interaction;
             _events = events;
-            _userValidator = userValidator;
+            _users = users;
             _account = new AccountService(interaction, httpContextAccessor, schemeProvider, clientStore);
         }
 
@@ -97,10 +97,10 @@ namespace AuthorizationServer.Quickstart.Account
             if (ModelState.IsValid)
             {
                 // validate username/password against in-memory store
-                if (await _userValidator.ValidateCredentialsAsync(model.Username, model.Password))
+                if (_users.ValidateCredentials(model.Username, model.Password))
                 {
-                    var user = await _userValidator.FindByUsernameAsync(model.Username);
-                    await _events.RaiseAsync(new UserLoginSuccessEvent(user.Username, user.Id.ToString(), user.Username));
+                    var user = _users.FindByUsername(model.Username);
+                    await _events.RaiseAsync(new UserLoginSuccessEvent(user.Username, user.SubjectId, user.Username));
 
                     // only set explicit expiration here if user chooses "remember me".
                     // otherwise we rely upon expiration configured in cookie middleware.
@@ -115,7 +115,7 @@ namespace AuthorizationServer.Quickstart.Account
                     };
 
                     // issue authentication cookie with subject ID and username
-                    await HttpContext.SignInAsync(user.Id.ToString(), user.Username, props);
+                    await HttpContext.SignInAsync(user.SubjectId, user.Username, props);
 
                     // make sure the returnUrl is still valid, and if so redirect back to authorize endpoint or a local page
                     if (_interaction.IsValidReturnUrl(model.ReturnUrl) || Url.IsLocalUrl(model.ReturnUrl))
@@ -235,12 +235,12 @@ namespace AuthorizationServer.Quickstart.Account
             // external provider's authentication result, and provision the user as you see fit.
             // 
             // check if the external user is already provisioned
-            var user = await _userValidator.FindByExternalProviderAsync(provider, userId);
+            var user = _users.FindByExternalProvider(provider, userId);
             if (user == null)
             {
                 // this sample simply auto-provisions new external user
                 // another common approach is to start a registrations workflow first
-                user = await _userValidator.AutoProvisionUserAsync(provider, userId, claims);
+                user = _users.AutoProvisionUser(provider, userId, claims);
             }
 
             var additionalClaims = new List<Claim>();
@@ -263,8 +263,8 @@ namespace AuthorizationServer.Quickstart.Account
             }
 
             // issue authentication cookie for user
-            await _events.RaiseAsync(new UserLoginSuccessEvent(provider, userId, user.Id.ToString(), user.Username));
-            await HttpContext.SignInAsync(user.Id.ToString(), user.Username, provider, props, additionalClaims.ToArray());
+            await _events.RaiseAsync(new UserLoginSuccessEvent(provider, userId, user.SubjectId, user.Username));
+            await HttpContext.SignInAsync(user.SubjectId, user.Username, provider, props, additionalClaims.ToArray());
 
             // delete temporary cookie used during external authentication
             await HttpContext.SignOutAsync(IdentityServer4.IdentityServerConstants.ExternalCookieAuthenticationScheme);
@@ -330,7 +330,7 @@ namespace AuthorizationServer.Quickstart.Account
                 return SignOut(new AuthenticationProperties { RedirectUri = url }, vm.ExternalAuthenticationScheme);
             }
 
-            return View("LoggedOut", vm);
+            return Redirect(vm.PostLogoutRedirectUri);
         }
 
         [HttpGet]

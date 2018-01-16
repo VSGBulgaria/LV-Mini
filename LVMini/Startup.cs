@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using IdentityModel;
+﻿using IdentityModel;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
@@ -8,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using System;
+using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -21,7 +20,6 @@ namespace LVMini
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
         }
 
         public IConfiguration Configuration { get; }
@@ -29,21 +27,15 @@ namespace LVMini
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-
-            services.AddAutoMapper();
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             services.AddAuthentication(opt =>
                 {
                     opt.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                     opt.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
                 })
-                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, opttions =>
-                {
-                    opttions.ExpireTimeSpan = TimeSpan.FromMinutes(60);
-
-                })
-                .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, "OpenID Connect", opt =>
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, opt =>
                  {
                      opt.Authority = "http://localhost:55817/";
                      opt.RequireHttpsMetadata = false;
@@ -59,31 +51,31 @@ namespace LVMini
                      opt.Scope.Add("lvminiAPI");
                      opt.Scope.Add("lvmini_admin");
                      opt.Scope.Add("offline_access");
+                     opt.Scope.Add("roles");
 
                      opt.GetClaimsFromUserInfoEndpoint = true;
                      opt.SaveTokens = true;
 
-                     opt.TokenValidationParameters = new TokenValidationParameters
+                     opt.Events = new OpenIdConnectEvents()
+                     {
+                         OnUserInformationReceived = ctx =>
+                         {
+                             var claimsId = ctx.Principal.Identity as ClaimsIdentity;
+
+                             var roles = ctx.User.Children().FirstOrDefault(j => j.Path == JwtClaimTypes.Role).Values().ToList();
+                             claimsId.AddClaims(roles.Select(r => new Claim(JwtClaimTypes.Role, r.Value<string>())));
+                             return Task.CompletedTask;
+                         }
+                     };
+                     opt.TokenValidationParameters = new TokenValidationParameters()
                      {
                          NameClaimType = JwtClaimTypes.Name,
                          RoleClaimType = JwtClaimTypes.Role
                      };
-                     opt.Events = new OpenIdConnectEvents()
-                     {
-                         OnTokenValidated = ctx =>
-                         {
-                             var identity = ctx.Principal.Identity as ClaimsIdentity;
-                             var subjectClaim = identity.Claims.FirstOrDefault(z => z.Type == "sub");
-
-                             var newClaimsIdentity = new ClaimsIdentity(ctx.Principal.Identity.AuthenticationType, "given_name", "role");
-                             newClaimsIdentity.AddClaim(subjectClaim);
-
-                             ctx.Principal = new ClaimsPrincipal(newClaimsIdentity);
-
-                             return Task.FromResult(0);
-                         }
-                     };
                  });
+
+            services.AddMvc();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

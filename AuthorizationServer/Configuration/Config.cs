@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace AuthorizationServer.Configuration
 {
-    public static class InMemoryConfiguration
+    public static class Config
     {
         public static IEnumerable<ApiResource> ApiResources()
         {
@@ -21,12 +21,13 @@ namespace AuthorizationServer.Configuration
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
+                new IdentityResource("roles", "Your role(s)", new []{"role"}),
             };
         }
 
         public static IEnumerable<Client> Clients()
         {
-            return new[]
+            return new Client[]
             {
                 new Client
                 {
@@ -41,12 +42,13 @@ namespace AuthorizationServer.Configuration
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         "lvminiAPI",
-                        "lvmini_admin"
+                        "lvmini_admin",
+                        "roles"
                     },
                     AllowOfflineAccess = true,
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new [] { "http://localhost:49649/signin-oidc" },
-                    PostLogoutRedirectUris = { "http://localhost:49649/Home/Login" },
+                    PostLogoutRedirectUris = { "http://localhost:49649/signout-callback-oidc" },
                     RequireConsent = false
                 }
             };
