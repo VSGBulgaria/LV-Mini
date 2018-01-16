@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net;
@@ -66,8 +67,20 @@ namespace LVMini.Controllers
         //AdminPage
         [HttpGet]
         [Authorize(Roles = "admin")]
-        public IActionResult Admin()
+        public async Task<IActionResult> Admin()
         {
+            var accessToken = await this.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
+            using (var client = new HttpClient())
+            {
+                client.SetBearerToken(accessToken);
+                var httpResponse = await client.GetAsync("http://localhost:53990/api/Admin/users");
+                if (httpResponse.StatusCode.Equals(HttpStatusCode.OK))
+                {
+                    var content = await httpResponse.Content.ReadAsStringAsync();
+                    var users = JsonConvert.DeserializeObject<List<UserModel>>(content);
+                    return View(users);
+                }
+            }
             return View();
         }
 
