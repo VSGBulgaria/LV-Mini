@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -66,11 +65,13 @@ namespace LVMini.Controllers
 
         //AdminPage
         [HttpGet]
-        public IActionResult AdminPage()
+        [Authorize(Roles = "admin")]
+        public IActionResult Admin()
         {
             return View();
         }
-//Validate Username
+
+        //Validate Username
         public async Task<IActionResult> CheckUser(string name)
         {
             using (var client = new HttpClient())
@@ -84,13 +85,14 @@ namespace LVMini.Controllers
                 {
                     var content = await httpResponse.Content.ReadAsStringAsync();
                     var user = JsonConvert.DeserializeObject<UserModel>(content);
-                    
+
                     return Json(Ok());
                 }
 
                 return Json(httpResponse.StatusCode);
             }
         }
+
         //Validate Email
         public async Task<IActionResult> CheckEmail(string email)
         {

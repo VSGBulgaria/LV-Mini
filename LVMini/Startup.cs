@@ -29,12 +29,26 @@ namespace LVMini
         {
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(
+                    "CanGetUsers",
+                    builder =>
+                    {
+                        builder.RequireAuthenticatedUser();
+                        builder.RequireRole("admin");
+                    });
+            });
+
             services.AddAuthentication(opt =>
                 {
                     opt.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                     opt.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
                 })
-                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+                {
+                    options.AccessDeniedPath = "/Authorization/AccessDenied";
+                })
                 .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, opt =>
                  {
                      opt.Authority = "http://localhost:55817/";

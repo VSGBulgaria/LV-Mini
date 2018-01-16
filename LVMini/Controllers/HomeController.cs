@@ -27,7 +27,7 @@ namespace LVMini.Controllers
             return View();
         }
 
-        [Authorize]
+        [Authorize(Policy = "CanGetUsers")]
         public async Task<IActionResult> Users()
         {
             var token = await HttpContext.GetTokenAsync("access_token");
