@@ -49,7 +49,8 @@ namespace AuthorizationServer.Configuration
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new [] { "http://localhost:49649/signin-oidc" },
                     PostLogoutRedirectUris = { "http://localhost:49649/signout-callback-oidc" },
-                    RequireConsent = false
+                    RequireConsent = false,
+                    AlwaysIncludeUserClaimsInIdToken = true
                 }
             };
         }

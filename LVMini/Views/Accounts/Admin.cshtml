@@ -1,7 +1,11 @@
-﻿
+﻿@model List<UserModel>
 @{
     ViewData["Title"] = "Admin";
 }
 
 <h2>Admin</h2>
 
+@foreach (var user in Model)
+{
+    <h2>@user.Username</h2>
+}

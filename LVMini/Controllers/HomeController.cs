@@ -1,4 +1,3 @@
-using IdentityModel;
 using IdentityModel.Client;
 using LVMini.Models;
 using Microsoft.AspNetCore.Authentication;
@@ -112,17 +111,6 @@ namespace LVMini.Controllers
             DiscoveryResponse authenticationServer = await DiscoveryClient.GetAsync($"http://localhost:55817/");
 
             var request = new AuthorizeRequest(authenticationServer.AuthorizeEndpoint);
-            var url = request.CreateAuthorizeUrl(
-                clientId: "lvmini_code",
-                scope: "lvminiAPI lvmini_admin",
-                responseType: OidcConstants.ResponseTypes.CodeIdToken,
-                redirectUri: "http://localhost:49649/signin-oidc",
-                state: CryptoRandom.CreateUniqueId(),
-                nonce: CryptoRandom.CreateUniqueId());
-
-            var response = new AuthorizeResponse(url);
-
-            var code = response.Code;
 
             return View();
         }

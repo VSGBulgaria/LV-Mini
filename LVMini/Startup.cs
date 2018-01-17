@@ -7,11 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace LVMini
 {
@@ -70,17 +66,6 @@ namespace LVMini
                      opt.GetClaimsFromUserInfoEndpoint = true;
                      opt.SaveTokens = true;
 
-                     opt.Events = new OpenIdConnectEvents()
-                     {
-                         OnUserInformationReceived = ctx =>
-                         {
-                             var claimsId = ctx.Principal.Identity as ClaimsIdentity;
-
-                             var roles = ctx.User.Children().FirstOrDefault(j => j.Path == JwtClaimTypes.Role).Values().ToList();
-                             claimsId.AddClaims(roles.Select(r => new Claim(JwtClaimTypes.Role, r.Value<string>())));
-                             return Task.CompletedTask;
-                         }
-                     };
                      opt.TokenValidationParameters = new TokenValidationParameters()
                      {
                          NameClaimType = JwtClaimTypes.Name,

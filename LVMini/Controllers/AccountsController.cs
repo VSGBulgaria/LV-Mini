@@ -78,6 +78,7 @@ namespace LVMini.Controllers
                 {
                     var content = await httpResponse.Content.ReadAsStringAsync();
                     var users = JsonConvert.DeserializeObject<List<UserModel>>(content);
+
                     return View(users);
                 }
             }
