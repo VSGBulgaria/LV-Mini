@@ -1,6 +1,7 @@
 ﻿using AuthorizationServer.Quickstart;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using static AuthorizationServer.Configuration.Config;
@@ -57,6 +58,11 @@ namespace AuthorizationServer
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            FileExtensionContentTypeProvider typeProvider = new FileExtensionContentTypeProvider();
+            if (!typeProvider.Mappings.ContainsKey(".woff2"))
+            {
+                typeProvider.Mappings.Add(".woff2", "application/font-woff2");
+            }
             app.UseIdentityServer();
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
