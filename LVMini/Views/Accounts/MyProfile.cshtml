@@ -25,12 +25,7 @@
     <div class="fields">
         <form method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
-            <input asp-for="Code" type="hidden" />
-            <div class="form-group">
-                <label asp-for="Username"></label>
-                <input asp-for="Username" class="form-control" />
-                <span asp-validation-for="Username" class="text-danger"></span>
-            </div>
+            <input asp-for="Code" type="hidden" placeholder="Email" />
             <div class="form-group">
                 <label asp-for="Email"></label>
                 <input asp-for="Email" class="form-control" />
@@ -38,28 +33,18 @@
             </div>
             <div class="form-group">
                 <label asp-for="FirstName"></label>
-                <input asp-for="FirstName" class="form-control" />
+                <input asp-for="FirstName" class="form-control" placeholder="First Name" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="LastName"></label>
-                <input asp-for="LastName" class="form-control" />
+                <input asp-for="LastName" class="form-control" placeholder="Last Name"/>
                 <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ConfirmPassword"></label>
-                <input asp-for="ConfirmPassword" class="form-control" />
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
             <div>
                 <button type="submit" class="btn btn-default">Save changes</button>
                 <button type="submit" class="btn btn-default">Delete Profile</button>
-                <button type="submit" class="btn btn-default">Cancel</button>
+                <input type="button" value="Cancel"  id="Cancel" onclick="location.href='@Url.Action("Index","Home")';" />
             </div>
         </form>
     </div>
