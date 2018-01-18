@@ -36,8 +36,14 @@ namespace LVMiniAdminApi
                     options.Authority = "http://localhost:55817/";
                     options.ApiName = "lvmini_admin";
                 });
-
-        }
+            services.AddAuthorization(options =>
+                {
+                    options.AddPolicy("AdminOnly", policy =>
+                    {
+                        policy.RequireClaim("role", "admin");
+                    });
+                });
+            }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

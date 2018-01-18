@@ -10,7 +10,7 @@ namespace LVMiniAdminApi.Controllers
 {
     [Produces("application/json")]
     [Route("api/Admin/users")]
-    [Authorize]
+    [Authorize("AdminOnly")]
     public class AdminController : Controller
     {
 

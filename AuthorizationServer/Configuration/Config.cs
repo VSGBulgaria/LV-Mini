@@ -1,4 +1,5 @@
-﻿using IdentityServer4;
+﻿using IdentityModel;
+using IdentityServer4;
 using IdentityServer4.Models;
 using System.Collections.Generic;
 
@@ -12,6 +13,26 @@ namespace AuthorizationServer.Configuration
             {
                 new ApiResource("lvminiAPI", "LV Mini API"),
                 new ApiResource("lvmini_admin", "LV Mini Admin")
+                {
+                    UserClaims =
+                    {
+                        JwtClaimTypes.Role
+                    },
+                    Scopes =
+                    {
+                        new Scope
+                        {
+                            Name = "lvmini_admin.full_access",
+                            Emphasize = true,
+
+                            // include additional claim for that scope
+                            UserClaims =
+                            {
+                                "role"
+                            }
+                        }
+                    }
+                }
             };
         }
 
