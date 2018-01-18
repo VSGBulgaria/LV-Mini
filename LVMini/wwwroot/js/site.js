@@ -129,3 +129,15 @@ function formValidator() {
         }
     }
 }
+
+function initMap() {
+    var location = { lat: 42.142517, lng: 24.720753 };
+    var map = new google.maps.Map(document.getElementById("map"), {
+        zoom: ,
+        center: location
+    });
+    var marker = new google.maps.Marker({
+        position: location,
+        map: map
+    });
+}

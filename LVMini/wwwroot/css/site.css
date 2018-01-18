@@ -28,6 +28,7 @@ body {
     color:white;
 }
 /*Style For Register*/
+
 .Register {
     position: center;
     text-align: center;
@@ -46,7 +47,7 @@ body {
         font-size: 20px;
     }
 #Username {
-    width: 80%;
+    width: 60%;
     border-radius: 4px;
     height: 35px;
     border: none;
@@ -56,7 +57,7 @@ body {
     color: #fff;
 }
 #Email {
-    width: 80%;
+    width: 60%;
     height: 35px;
     border: none;
     border-bottom: 1px solid;
@@ -66,7 +67,7 @@ body {
     font-size: 16px;
 }
 .RegFields {
-    width: 80%;
+    width: 60%;
     height: 35px;
     border: none;
     border-bottom: 1px solid;
@@ -199,4 +200,11 @@ body {
 }
 #footer ul li:nth-child(4) a:before {
                 background: #C32AA3;
+}
+
+#map{
+    margin-top:100px;
+    height:500px;
+    width:100%;
+
 }

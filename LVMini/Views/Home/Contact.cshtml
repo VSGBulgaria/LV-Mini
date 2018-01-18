@@ -5,6 +5,7 @@
 <head>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    
 </head>
 
     <h2 style="color:white">@ViewData["Title"]</h2>
@@ -24,3 +25,6 @@
             <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
         </address>
     </div>
+    <div id="map"></div>
+    <script src="~/js/site.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnw-lxmT8_e7p4-o1IpTlO185n-y2eHXk&callback=initMap"></script>

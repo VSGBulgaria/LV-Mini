@@ -12,7 +12,7 @@
         $('.fa.fa-google-plus').parent().click(e => {
             e.preventDefault();
             window.location = 'https://www.plus.google.com/';
-        });
+            });
     });
 })();
 
