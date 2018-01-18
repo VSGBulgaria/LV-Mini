@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="~/css/site.css">
 </head>
 
-<h2>Register</h2>
+<h2 style="color:white">Register</h2>
 
 <div class="Register">
 
@@ -30,7 +30,6 @@
                 @Html.LabelFor(model => model.Email)
                 <div>
                     <input type="text" id="Email" placeholder="Example@mail.com" />
-                    @*<input type="button" id="Click" value="Click" />*@
                     <span id="errmsg"></span>
                     @Html.ValidationMessageFor(model => model.Email)
                 </div>
@@ -52,14 +51,14 @@
             <div>
                 @Html.LabelFor(model => model.Password)
                 <div>
-                    @Html.TextBoxFor(model => model.Password, new { @class = "RegFields", @placeholder = "Enter Your Password" })
+                    @Html.PasswordFor(model => model.Password, new { @class = "RegFields", @placeholder = "Enter Your Password" })
                     @Html.ValidationMessageFor(model => model.Password)
                 </div>
             </div>
             <div>
                 @Html.LabelFor(model => model.ConfirmPassword)
                 <div>
-                    @Html.TextBoxFor(model => model.ConfirmPassword, new { @class = "RegFields", @placeholder = "Repeat Your Password" })
+                    @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "RegFields", @placeholder = "Repeat Your Password" })
                     @Html.ValidationMessageFor(model => model.ConfirmPassword)
 
                 </div>

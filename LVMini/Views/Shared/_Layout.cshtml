@@ -62,7 +62,7 @@
 
                             if (AuthorizationService.AuthorizeAsync(User, "CanGetUsers").Result.Succeeded)
                             {
-                                <li>@Html.ActionLink("GetUsers", "Users", "Home")</li>
+                                <li>@Html.ActionLink("Get Users", "Users", "Home")</li>
                             }
 
                             <li>@Html.ActionLink("Log out", "Logout", "Accounts")</li>

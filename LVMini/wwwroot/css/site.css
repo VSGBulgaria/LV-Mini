@@ -8,7 +8,6 @@ body {
     padding-bottom: 20px;
     background-attachment: fixed;   
 }
-
 /*For About Page*/
 .About {
     position: center;
@@ -124,10 +123,13 @@ body {
     color: red;
 }
 
-/*#errmsg1{
-    color:green;
-}*/
-
+/*For Users Page*/
+.UserTitle {
+    color:white;
+}
+.Users ul{
+    color:white;
+}
 /*Style For Footer*/
 .footer {
     position: fixed;

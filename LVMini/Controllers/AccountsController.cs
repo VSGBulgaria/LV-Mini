@@ -64,6 +64,13 @@ namespace LVMini.Controllers
             return View();
         }
 
+        //Users Page
+        //[HttpGet]
+        //public IActionResult Users()
+        //{
+        //    return View();
+        //}
+
         //AdminPage
         [HttpGet]
         [Authorize(Roles = "admin")]
