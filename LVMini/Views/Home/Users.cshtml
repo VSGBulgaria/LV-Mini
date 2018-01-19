@@ -37,8 +37,8 @@
                                                             <h4 class="UserTitle">
                                                                 User Information
                                                                 <span class="pull-right pagado">
-                                                                    <button type="button" class="btn btn-warning btn-filter" data-target="edit">Edit</button>
-                                                                    <button type="button" class="btn btn-danger btn-filter" data-target="delete">Delete</button>
+                                                                     <input type="submit", value="Edit", id=@user.Username onclick="OpenUserInView(this.id)">
+                                                                    <button name="X-HTTP-Method-Override" value="DELETE"class="btn btn-danger btn-filter" data-target="delete">Delete</button>
                                                                 </span>
                                                             </h4>
                                                         </div>
@@ -47,6 +47,7 @@
                                                             <h4 style="color:white;">@user.Email</h4>
                                                             <h4 style="color:white;">@user.FirstName</h4>
                                                             <h4 style="color:white;">@user.LastName</h4>
+                                                            <h4 style="color:white;">@user.Role</h4>
                                                         </div>
                                                     </div>
                                                 </td>

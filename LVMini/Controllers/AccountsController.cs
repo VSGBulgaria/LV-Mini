@@ -63,56 +63,17 @@ namespace LVMini.Controllers
         [AuthorizeFilter]
         public ActionResult MyProfile()
         {
-            //if (AuthenticationManager.LoggedUser.IsAdmin)
-            //{
-            //    return RedirectToAction("AdminProfile", "User");
-            //}
-            //MyProfileViewModel model = new MyProfileViewModel
-            //{
-                
-            //    Email = HttpUtility.HtmlEncode(AuthenticationManager.LoggedUser.Email),
-            //    FirstName = AuthenticationManager.LoggedUser.FirstName,
-            //    LastName = AuthenticationManager.LoggedUser.LastName
-            //};
-
-            return View(/*model*/);
+            return View();
         }
 
         [HttpPost]
         public IActionResult MyProfile(MyProfileViewModel model)
         {
-            // User user = new User()
-            //{
-                
-            //    Email = model.Email,
-            //    FirstName = model.FirstName,
-            //    LastName = model.LastName,
-             
-            //};
-
-            
-
-            //model = new MyProfileViewModel()
-            //{
-               
-            //    Email = user.Email,
-            //    FirstName = user.FirstName,
-            //    LastName = user.LastName
-            //};
-
-           
             return View(model);
         }
 
-        //Users Page
-        //[HttpGet]
-        //public IActionResult Users()
-        //{
-        //    return View();
-        //}
-
         //AdminPage
-        [HttpGet]
+        [HttpPost]
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Admin()
         {
@@ -181,9 +142,50 @@ namespace LVMini.Controllers
                 return Json(NotFound());
             }
         }
-    }
+        //Edit User
 
-    internal class AuthorizeFilterAttribute : Attribute
-    {
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> DisplayUserInfo(string username)
+        {
+            using (var client = new HttpClient())
+            {
+                if (string.IsNullOrEmpty(username))
+                {
+                    // return bad request view
+                    return View();
+                }
+                var uri = "http://localhost:53920/api/users/" + username;
+
+                var httpResponse = await client.GetAsync(uri);
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    var content = await httpResponse.Content.ReadAsStringAsync();
+                    var currentUser = JsonConvert.DeserializeObject<UserModel>(content);
+
+                    if (currentUser != null)
+                    {
+                        //return view with user data 
+                        return View(currentUser);
+                    }
+
+                }
+                //return bad request view
+                return View();
+            }
+        }
+
+        internal class HttpStatusCodeResult : ActionResult
+        {
+            private HttpStatusCode badRequest;
+
+            public HttpStatusCodeResult(HttpStatusCode badRequest)
+            {
+                this.badRequest = badRequest;
+            }
+        }
+
+        internal class AuthorizeFilterAttribute : Attribute
+        {
+        }
     }
 }

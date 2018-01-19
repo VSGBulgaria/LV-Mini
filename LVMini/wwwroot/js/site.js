@@ -81,6 +81,21 @@ function CheckEmail(ev) {
         }
     });
 }
+
+function OpenUserInView(userid) {
+    console.log(userid);
+    $.ajax({
+        url: '/Accounts/DisplayUserInfo',
+        contentType: "application/json",
+        data: { username: userid },
+        success: function (response) {
+            console.log(response);
+        },
+        error: function (data) {
+            console.log(data);
+        }
+    })
+}
 //For Get Users Page
     //$(document).ready(function () {
 
