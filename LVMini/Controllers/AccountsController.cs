@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace LVMini.Controllers
 {
@@ -58,10 +60,48 @@ namespace LVMini.Controllers
         }
 
         //MyProfile
-        [HttpGet]
-        public IActionResult MyProfile()
+        [AuthorizeFilter]
+        public ActionResult MyProfile()
         {
-            return View();
+            //if (AuthenticationManager.LoggedUser.IsAdmin)
+            //{
+            //    return RedirectToAction("AdminProfile", "User");
+            //}
+            //MyProfileViewModel model = new MyProfileViewModel
+            //{
+                
+            //    Email = HttpUtility.HtmlEncode(AuthenticationManager.LoggedUser.Email),
+            //    FirstName = AuthenticationManager.LoggedUser.FirstName,
+            //    LastName = AuthenticationManager.LoggedUser.LastName
+            //};
+
+            return View(/*model*/);
+        }
+
+        [HttpPost]
+        public IActionResult MyProfile(MyProfileViewModel model)
+        {
+            // User user = new User()
+            //{
+                
+            //    Email = model.Email,
+            //    FirstName = model.FirstName,
+            //    LastName = model.LastName,
+             
+            //};
+
+            
+
+            //model = new MyProfileViewModel()
+            //{
+               
+            //    Email = user.Email,
+            //    FirstName = user.FirstName,
+            //    LastName = user.LastName
+            //};
+
+           
+            return View(model);
         }
 
         //Users Page
@@ -141,5 +181,9 @@ namespace LVMini.Controllers
                 return Json(NotFound());
             }
         }
+    }
+
+    internal class AuthorizeFilterAttribute : Attribute
+    {
     }
 }

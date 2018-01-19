@@ -110,13 +110,14 @@ body {
     padding: 70px 30px;
     color:white;
 }
-.fields {
+.col-lg-6 {
     width: 100%;
     position: center;
     background: RGBA(0,0,0,0.5);
     padding: 70px 30px;
 }
-    .fields label {
+
+    .col-lg-6 label {
         color: white;
         font-size: 20px;
     }

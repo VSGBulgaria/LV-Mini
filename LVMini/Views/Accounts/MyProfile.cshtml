@@ -13,16 +13,15 @@
 <div class="row">
 
     <!-- left column -->
-    <div class="ProfPic">
-        <div class="text-center">
-            @*<img src="http://lorempixel.com/200/200/people/9/" class="avatar img-circle img-thumbnail" alt="avatar">*@
-            <img src="~/images/Vsg_Logo200x200.png" class="avatar img-circle img-thumbnail" alt="avatar">
-            <h6>Upload a different photo...</h6>
-            <input type="file" class="text-center center-block well well-sm">
-        </div>
-    </div>
-
-    <div class="fields">
+    @*<div class="ProfPic">
+            <div class="text-center">
+                @*<img src="http://lorempixel.com/200/200/people/9/" class="avatar img-circle img-thumbnail" alt="avatar">
+                <img src="~/images/Vsg_Logo200x200.png" class="avatar img-circle img-thumbnail" alt="avatar">
+                <h6>Upload a different photo...</h6>
+                <input type="file" class="text-center center-block well well-sm">
+            </div>
+        </div>*@
+    <div class="col-lg-6">
         <form method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
             <input asp-for="Code" type="hidden" placeholder="Email" />
@@ -38,17 +37,44 @@
             </div>
             <div class="form-group">
                 <label asp-for="LastName"></label>
-                <input asp-for="LastName" class="form-control" placeholder="Last Name"/>
+                <input asp-for="LastName" class="form-control" placeholder="Last Name" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div>
                 <button type="submit" class="btn btn-default">Save changes</button>
-                <button type="submit" class="btn btn-default">Delete Profile</button>
-                <input type="button" value="Cancel"  id="Cancel" onclick="location.href='@Url.Action("Index","Home")';" />
+                <button type="submit" class="btn btn-default" style="margin-left:10px; margin-right:10px;">Delete Profile</button>
+                <input type="button" value="Cancel" id="Cancel" onclick="location.href='@Url.Action("Index","Home")';" />
             </div>
         </form>
     </div>
 </div>
+
+
 @section Scripts {
+    
     @await Html.PartialAsync("_ValidationScriptsPartial")
+
 }
+
+@*@using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+    <div class="form-horizontal well">
+        <h4 class="text-center">My Profile</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2 col col-md-offset-4", style = "font-weight:bold;" })
+            <div class="col-md-1">
+                @Html.LabelFor(model => model.Email, Model.Email, htmlAttributes: new { @class = "control-label" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2 col-md-offset-4", style = "font-weight:bold;" })
+            <div class="col-md-1">
+                @Html.LabelFor(model =>model.FirstName, Model.FirstName, new { @class = "control-label" })
+            </div>
+        </div>
+    </div>
+        }*@

@@ -13,13 +13,13 @@ namespace LVMini.ViewModels
         [EmailAddress]
         public string Email { get; set; }
 
-        // [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.")]
+        //[Required]
+        [StringLength(100)]
         [DataType(DataType.Text)]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.")]
+        [StringLength(100)]
         [DataType(DataType.Text)]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }

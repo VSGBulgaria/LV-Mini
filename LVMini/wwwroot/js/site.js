@@ -133,7 +133,7 @@ function formValidator() {
 function initMap() {
     var location = { lat: 42.142517, lng: 24.720753 };
     var map = new google.maps.Map(document.getElementById("map"), {
-        zoom: ,
+        zoom: 13,
         center: location
     });
     var marker = new google.maps.Marker({
@@ -141,3 +141,61 @@ function initMap() {
         map: map
     });
 }
+
+var url = '/Accounts/CheckUser';
+var emailurl = '/Accounts/CheckEmail';
+var expr = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+
+$('#Username').on('keyup', CheckValid);
+
+function CheckValid(ev) {
+    ev.preventDefault()
+    let data = $('#Username').val();
+    $.ajax({
+        url: '/Accounts/CheckUser',
+            contentType: "application/json",
+                data: { name: data },
+        success: function (response) {
+            console.log(response);
+        },
+        error: function (data) {
+            console.log(data);
+        }
+    });
+}
+
+$('#Email').on('keyup', CheckEmail);
+
+function CheckEmail(ev) {
+    ev.preventDefault()
+    let data = $('#Email').val();
+    $.ajax({
+        url: emailurl,
+            contentType: "application/json",
+            data: { email: data },
+        success: function (response) {
+            console.log(response);
+        },
+        error: function (data) {
+            console.log(data);
+        }
+    });
+}
+//Validate E-mail
+function ValidateEmail(email) {
+    // Validate Email Format
+    return email.match(expr);
+};
+
+$("#Email").on("click", function () {
+    if (!ValidateEmail($("#Email").val())) {
+        $("#errmsg").html("Invalid Email Address!").show().fadeOut("slow");
+        return false;
+    }
+    else {
+        $("#errmsg").html("Valid Email Address!!").show().fadeOut("slow");
+        return false;
+    }
+});
+
