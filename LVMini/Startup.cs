@@ -1,4 +1,5 @@
 ﻿using IdentityModel;
+using LVMini.Service.Constants;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
@@ -32,7 +33,7 @@ namespace LVMini
                     builder =>
                     {
                         builder.RequireAuthenticatedUser();
-                        builder.RequireRole("admin");
+                        builder.RequireRole(Role.Admin);
                     });
             });
 
@@ -50,7 +51,7 @@ namespace LVMini
                      opt.Authority = "http://localhost:55817/";
                      opt.RequireHttpsMetadata = false;
 
-                     opt.ClientId = "lvmini_code";
+                     opt.ClientId = "lvmini";
                      opt.ClientSecret = "interns";
                      opt.SignedOutRedirectUri = new PathString("/Accounts/Login");
                      opt.ResponseType = "code id_token";

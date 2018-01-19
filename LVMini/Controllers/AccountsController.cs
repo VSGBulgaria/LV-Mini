@@ -1,4 +1,5 @@
 ﻿using LVMini.Models;
+using LVMini.Service.Constants;
 using LVMini.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -19,7 +20,6 @@ namespace LVMini.Controllers
 {
     public class AccountsController : Controller
     {
-
         [Authorize]
         public IActionResult Login()
         {
@@ -47,7 +47,7 @@ namespace LVMini.Controllers
                 {
                     var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
 
-                    var httpResponseMessage = await client.PostAsync($"http://localhost:53920/api/users", content);
+                    var httpResponseMessage = await client.PostAsync(client.BaseAddress, content);
 
                     if (httpResponseMessage.StatusCode == HttpStatusCode.Created)
                     {
@@ -113,7 +113,7 @@ namespace LVMini.Controllers
 
         //AdminPage
         [HttpGet]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = Role.Admin)]
         public async Task<IActionResult> Admin()
         {
             var accessToken = await this.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);

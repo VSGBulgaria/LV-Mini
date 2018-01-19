@@ -53,7 +53,7 @@ namespace AuthorizationServer.Configuration
                 new Client
                 {
                     ClientName = "LV Mini",
-                    ClientId = "lvmini_code",
+                    ClientId = "lvmini",
 
                     ClientSecrets = { new Secret("interns".Sha256())},
                     AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
@@ -64,7 +64,7 @@ namespace AuthorizationServer.Configuration
                         IdentityServerConstants.StandardScopes.Profile,
                         "lvminiAPI",
                         "lvmini_admin",
-                        "roles"
+                        "roles",
                     },
                     AllowOfflineAccess = true,
                     AllowAccessTokensViaBrowser = true,

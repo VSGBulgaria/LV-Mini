@@ -1,20 +1,16 @@
 using IdentityModel.Client;
 using LVMini.Models;
+using LVMini.Service.Classes;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using TokenResponse = IdentityModel.Client.TokenResponse;
 
 namespace LVMini.Controllers
 {
@@ -29,17 +25,12 @@ namespace LVMini.Controllers
         [Authorize(Policy = "CanGetUsers")]
         public async Task<IActionResult> Users()
         {
-            var token = await HttpContext.GetTokenAsync("access_token");
-
             using (HttpClient client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Authorization =
-                    new AuthenticationHeaderValue("Bearer", token);
-
-                var httpResponseMessage = await client.GetAsync($"http://localhost:53920/api/users");
+                var httpResponseMessage = await client.GetAsync(client.BaseAddress + "users");
                 if (httpResponseMessage.StatusCode == HttpStatusCode.Unauthorized)
                 {
-                    await RefreshTokensAsync();
+                    await TokenService.RefreshTokensAsync();
                 }
 
                 var data = httpResponseMessage.Content.ReadAsStringAsync().Result;
@@ -47,53 +38,6 @@ namespace LVMini.Controllers
                 var users = JsonConvert.DeserializeObject<IEnumerable<UserModel>>(data);
 
                 return View(users);
-            }
-        }
-
-        private async Task RefreshTokensAsync()
-        {
-            DiscoveryResponse authServerInfo = await DiscoveryClient.GetAsync($"http://localhost:55817");
-
-            var tokenClient = new TokenClient(authServerInfo.TokenEndpoint, "lvmini_code", "interns");
-
-            string refreshToken = await HttpContext.GetTokenAsync("refresh_token");
-
-            TokenResponse tokenResponse = await tokenClient.RequestRefreshTokenAsync(refreshToken);
-            if (tokenResponse.HttpStatusCode == HttpStatusCode.OK)
-            {
-
-                string identityToken = await HttpContext.GetTokenAsync("id_token");
-
-                var expiresAt = DateTime.UtcNow + TimeSpan.FromSeconds(tokenResponse.ExpiresIn);
-
-                AuthenticationToken[] tokens = new[]
-                {
-                    new AuthenticationToken()
-                    {
-                        Name = OpenIdConnectParameterNames.IdToken,
-                        Value = identityToken
-                    },
-                    new AuthenticationToken()
-                    {
-                        Name = OpenIdConnectParameterNames.AccessToken,
-                        Value = tokenResponse.AccessToken
-                    },
-                    new AuthenticationToken()
-                    {
-                        Name = OpenIdConnectParameterNames.RefreshToken,
-                        Value = tokenResponse.RefreshToken
-                    },
-                    new AuthenticationToken()
-                    {
-                        Name = "expires_at",
-                        Value = expiresAt.ToString("O", CultureInfo.InvariantCulture)
-                    }
-                };
-
-                AuthenticateResult authenticationInformation = await HttpContext.AuthenticateAsync("Cookies");
-                authenticationInformation.Properties.StoreTokens(tokens);
-
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, authenticationInformation.Principal, authenticationInformation.Properties);
             }
         }
 

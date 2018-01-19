@@ -1,4 +1,7 @@
-﻿@using Microsoft.AspNetCore.Authorization
+﻿@using LVMini.Service
+@using LVMini.Service.Constants
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
 @inject IAuthorizationService AuthorizationService
 
 <!DOCTYPE html>
@@ -55,7 +58,7 @@
                         {
                             <li>@Html.ActionLink("My Profile", "MyProfile", "Accounts")</li>
 
-                            if (User.IsInRole("admin"))
+                            if (User.IsInRole(Role.Admin))
                             {
                                 <li>@Html.ActionLink("Admin", "Admin", "Accounts")</li>
                             }
