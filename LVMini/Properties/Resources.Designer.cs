@@ -61,11 +61,11 @@ namespace LVMini.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://localhost:53920/api/.
+        ///   Looks up a localized string similar to http://localhost:53920/api/users.
         /// </summary>
-        internal static string MainApiUrl {
+        internal static string MainApiUsersUrl {
             get {
-                return ResourceManager.GetString("MainApiUrl", resourceCulture);
+                return ResourceManager.GetString("MainApiUsersUrl", resourceCulture);
             }
         }
     }

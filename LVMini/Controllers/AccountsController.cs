@@ -14,7 +14,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
+using Resources = LVMini.Properties.Resources;
 
 namespace LVMini.Controllers
 {
@@ -47,7 +47,7 @@ namespace LVMini.Controllers
                 {
                     var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
 
-                    var httpResponseMessage = await client.PostAsync(client.BaseAddress, content);
+                    var httpResponseMessage = await client.PostAsync(Resources.MainApiUsersUrl, content);
 
                     if (httpResponseMessage.StatusCode == HttpStatusCode.Created)
                     {
@@ -69,7 +69,7 @@ namespace LVMini.Controllers
             //}
             //MyProfileViewModel model = new MyProfileViewModel
             //{
-                
+
             //    Email = HttpUtility.HtmlEncode(AuthenticationManager.LoggedUser.Email),
             //    FirstName = AuthenticationManager.LoggedUser.FirstName,
             //    LastName = AuthenticationManager.LoggedUser.LastName
@@ -83,24 +83,24 @@ namespace LVMini.Controllers
         {
             // User user = new User()
             //{
-                
+
             //    Email = model.Email,
             //    FirstName = model.FirstName,
             //    LastName = model.LastName,
-             
+
             //};
 
-            
+
 
             //model = new MyProfileViewModel()
             //{
-               
+
             //    Email = user.Email,
             //    FirstName = user.FirstName,
             //    LastName = user.LastName
             //};
 
-           
+
             return View(model);
         }
 

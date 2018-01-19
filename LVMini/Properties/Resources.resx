@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="MainApiUrl" xml:space="preserve">
-    <value>http://localhost:53920/api/</value>
+  <data name="MainApiUsersUrl" xml:space="preserve">
+    <value>http://localhost:53920/api/users</value>
     <comment>The Url for the Main LVMini API.</comment>
   </data>
 </root>

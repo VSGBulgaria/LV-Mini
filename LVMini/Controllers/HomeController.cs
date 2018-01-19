@@ -1,5 +1,6 @@
 using IdentityModel.Client;
 using LVMini.Models;
+using LVMini.Properties;
 using LVMini.Service.Classes;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -27,7 +28,7 @@ namespace LVMini.Controllers
         {
             using (HttpClient client = new HttpClient())
             {
-                var httpResponseMessage = await client.GetAsync(client.BaseAddress + "users");
+                var httpResponseMessage = await client.GetAsync(Resources.MainApiUsersUrl);
                 if (httpResponseMessage.StatusCode == HttpStatusCode.Unauthorized)
                 {
                     await TokenService.RefreshTokensAsync();
