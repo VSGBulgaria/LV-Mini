@@ -36,11 +36,11 @@
     bool contains = claims.Contains(role);
     var name = User.Identity.Name;
 
-    <h2>@User.Identity.Name</h2>
+    <h2 style="color:white;">@User.Identity.Name</h2>
 
     foreach (var claim in claims)
     {
-        <div>
+        <div class="About">
             <strong>@claim.Type</strong>
             <span>@claim.Value</span>
         </div>

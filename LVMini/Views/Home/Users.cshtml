@@ -3,19 +3,10 @@
 @{
     ViewData["Title"] = "Users";
 }
-
-<h2 style="color:white">Users</h2>
-
-@foreach (UserModel user in Model)
-{
-    <h2>@user.Username</h2>
-    <h2>@user.Email</h2>
-    <h2>@User.Claims</h2>
-}
+<h2 style="color:white">Users List</h2>
 <div class="Users">
-<div class="row">
+    <div class="row">
         <section class="content">
-            <h1 style="color:white">Users List</h1>
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel-body">
                     <div class="pull-left">
@@ -25,246 +16,47 @@
                             <button type="button" class="btn btn-default btn-filter" data-target="all">All</button>
                         </div>
                     </div>
-<div class="table-container"> 
-    <table class="table table-filter">
-        @*<tbody>
-        <tr>
-            @foreach (UserModel item in Model)
-            {
-            
-            <td>@item.Username</td>
-                }
-        </tr>
-        <tr>
-            @foreach (UserModel item in Model)
-        {
-            <td>@item.Email</td>
-    }
-        </tr>
-        <tr>
-            @foreach (UserModel item in Model)
-        {
-            <td>@item.FirstName</td>
-    }
-        </tr>
-        <tr>
-            @foreach (UserModel item in Model)
-        {
-            <td>@item.LastName</td>
-    }
-        </tr>
-        <tr>
-            @foreach (UserModel item in Model)
-        {
-            <td>@item.Role</td>
-    }
-        </tr>
-        </tbody>*@
-        <tbody>
-            <tr data-status="active">
-                <td>
-                    <div class="ckbox">
-                    <br>
-                    <input type="checkbox" id="checkbox1">
-                    </div>
-                </td>
-                <td>
-                    <a href="javascript:;" class="star">
-                        <br>
-                        <i class="glyphicon glyphicon-star"></i>
-                    </a>
-                </td>
-                <td>
-                    <div class="media">
-                        <a href="#" class="pull-left">
-                            <img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
-                        </a>
-                        <div class="media-body">
-                            <h4 class="UserTitle">
-                                User Information
-                                <span class="pull-right">
-                                    <button type="button" class="btn btn-warning btn-filter" data-target="edit">Edit</button>
-                                    <button type="button" class="btn btn-danger btn-filter" data-target="delete">Delete</button>
-                                </span>
-                            </h4>
-                            <ul>
-                            <li>Username:@@Username</li>
-                            <li>Email:@@Email</li>
-                            <li>@@Claims</li>
-                            </ul>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr data-status="active">
-                <td>
-                    <div class="ckbox">
-                        <br>
-                        <input type="checkbox" id="checkbox3">
-                    </div>
-                </td>
-                <td>
-                    <a href="javascript:;" class="star">
-                        <br>
-                        <i class="glyphicon glyphicon-star"></i>
-                    </a>
-                </td>
-                <td>
-                    <div class="media">
-                        <a href="#" class="pull-left">
-                            <img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
-                        </a>
-                        <div class="media-body">
-                            <h4 class="UserTitle">
-                                User Information
-                                <span class="pull-right pendiente">
-                                    <button type="button" class="btn btn-warning btn-filter" data-target="edit">Edit</button>
-                                    <button type="button" class="btn btn-danger btn-filter" data-target="delete">Delete</button>
-                                </span>
-                            </h4>
-                            <ul>
-                                <li>Username:@@Username</li>
-                                <li>Email:@@Email</li>
-                                <li>@@Claims</li>
-                            </ul>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr data-status="unactive">
-                <td>
-                    <div class="ckbox">
-                        <br>
-                        <input type="checkbox" id="checkbox2">
-                    </div>
-                </td>
-                <td>
-                    <a href="javascript:;" class="star">
-                        <br>
-                        <i class="glyphicon glyphicon-star"></i>
-                    </a>
-                </td>
-                <td>
-                    <div class="media">
-                        <a href="#" class="pull-left">
-                            <img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
-                        </a>
-                        <div class="media-body">
-                            <h4 class="UserTitle">
-                                User Information
-                                <span class="pull-right cancelado">
-                                    <button type="button" class="btn btn-warning btn-filter" data-target="edit">Edit</button>
-                                    <button type="button" class="btn btn-danger btn-filter" data-target="delete">Delete</button>
-                                </span>
-                            </h4>
-                            <ul>
-                                <li>Username:@@Username</li>
-                                <li>Email:@@Email</li>
-                                <li>@@Claims</li>
-                            </ul>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr data-status="active">
-                <td>
-                    <div class="ckbox">
-                        <br>
-                        <input type="checkbox" id="checkbox4" checked>
-                    </div>
-                </td>
-                <td>
-                    <a href="javascript:;" class="star star-checked">
-                        <br>
-                        <i class="glyphicon glyphicon-star"></i>
-                    </a>
-                </td>
-                <td>
-                    <div class="media">
-                        <a href="#" class="pull-left">
-                            <img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
-                        </a>
-                        <div class="media-body">
-                            <h4 class="UserTitle">
-                                User Information
-                                <span class="pull-right pagado">
-                                    <button type="button" class="btn btn-warning btn-filter" data-target="edit">Edit</button>
-                                    <button type="button" class="btn btn-danger btn-filter" data-target="delete">Delete</button>
-                                </span>
-                            </h4>
-                            <ul>
-                                <li>Username:@@Username</li>
-                                <li>Email:@@Email</li>
-                                <li>@@Claims</li>
-                            </ul>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr data-status="unactive">
-                <td>
-                    <div class="ckbox">
-                        <br>
-                        <input type="checkbox" id="checkbox5">
-                    </div>
-                </td>
-                <td>
-                    <a href="javascript:;" class="star">
-                        <br>
-                        <i class="glyphicon glyphicon-star"></i>
-                    </a>
-                </td>
-                <td>
-                    <div class="media">
-                        <a href="#" class="pull-left">
-                            <img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
-                        </a>
-                        <div class="media-body">
-                            <h4 class="UserTitle">
-                                User Information
-                                <span class="pull-right pendiente">
-                                    <button type="button" class="btn btn-warning btn-filter" data-target="edit">Edit</button>
-                                    <button type="button" class="btn btn-danger btn-filter" data-target="delete">Delete</button>
-                                </span>
-                            </h4>
-                            <ul>
-                                <li>Username:@@Username</li>
-                                <li>Email:@@Email</li>
-                                <li>@@Claims</li>
-                            </ul>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+                            @foreach (UserModel user in Model)
+                            {
+                                <div class="table-container"> 
+                                    <table class="table table-filter">
+                                        <tbody>
+                                            <tr data-status="active">
+                                                <td>
+                                                    <div class="ckbox"><br><input type="checkbox" id="checkbox4"></div>
+                                                </td>
+                                                <td>
+                                                    <a href="javascript:;" class="star star-checked"><br><i class="glyphicon glyphicon-star"></i></a>
+                                                </td>
+                                                <td>
+                                                    <div class="media">
+                                                        <a href="#" class="pull-left">
+                                                            <img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo" style="height:50px; width:50px;">
+                                                        </a>
+                                                        <div class="media-body">
+                                                            <h4 class="UserTitle">
+                                                                User Information
+                                                                <span class="pull-right pagado">
+                                                                    <button type="button" class="btn btn-warning btn-filter" data-target="edit">Edit</button>
+                                                                    <button type="button" class="btn btn-danger btn-filter" data-target="delete">Delete</button>
+                                                                </span>
+                                                            </h4>
+                                                        </div>
+                                                        <div>
+                                                            <h4 style="color:white;">@user.Username</h4>
+                                                            <h4 style="color:white;">@user.Email</h4>
+                                                            <h4 style="color:white;">@user.FirstName</h4>
+                                                            <h4 style="color:white;">@user.LastName</h4>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            }
                 </div>
             </div>
         </section>
     </div>
 </div>
-@*<script type="text/javascript">
-
-    $(document).ready(function () {
-
-        $('.star').on('click', function () {
-            $(this).toggleClass('star-checked');
-        });
-
-        $('.ckbox label').on('click', function () {
-            $(this).parents('tr').toggleClass('selected');
-        });
-
-        $('.btn-filter').on('click', function () {
-            var $target = $(this).data('target');
-            if ($target != 'all') {
-                $('.table tr').css('display', 'none');
-                $('.table tr[data-status="' + $target + '"]').fadeIn('slow');
-            } else {
-                $('.table tr').css('display', 'none').fadeIn('slow');
-            }
-        });
-
-    });
-</script>*@

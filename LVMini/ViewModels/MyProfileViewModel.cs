@@ -9,11 +9,11 @@ namespace LVMini.ViewModels
     public class MyProfileViewModel
     {
 
-        // [Required]
+        
         [EmailAddress]
         public string Email { get; set; }
 
-        //[Required]
+       
         [StringLength(100)]
         [DataType(DataType.Text)]
         [Display(Name = "First Name")]

@@ -23,14 +23,14 @@
             <div>
                 @Html.LabelFor(model => model.Username)
                 <div>
-                    @Html.TextBoxFor(model => model.Username, new { @class = "RegFields", @placeholder = "Enter Your Username" })
+                    @Html.TextBoxFor(model => model.Username, new { @class = "RegFields", @placeholder = "Choose Username" })
                     @Html.ValidationMessageFor(model => model.Username)
                 </div>
             </div>
             <div>
                 @Html.LabelFor(model => model.Email)
                 <div>
-                    @Html.TextBoxFor(model => model.Email, new { @class = "RegFields", @placeholder = "Enter Your Email" })
+                    @Html.TextBoxFor(model => model.Email, new { @class = "RegFields", @placeholder = "Example@mail.com" })
                     @Html.ValidationMessageFor(model => model.Email)
                 </div>
             </div>

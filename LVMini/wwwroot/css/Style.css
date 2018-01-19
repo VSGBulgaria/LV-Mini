@@ -16,7 +16,6 @@
 
 .login-page {
     width: 720px;
-    /* height: 420px;*/
     background: rgba(0,0,0,0.5);
     color: #fff;
     position: absolute;
@@ -79,7 +78,10 @@
             cursor: pointer;
             color: #57FF7E;
         }
-/*Style For Register Form*/
+/*Style For MyProfile Form*/
+.fields label {
+    color:white;
+}
 
 /*Style For Navigation Bar*/
 .navbar-header {
@@ -105,7 +107,6 @@
 }
 
 .page-consent {
-    /*client-logo;*/
     float: left;
     width: 80px;
     height: 80px;
@@ -117,13 +118,8 @@
 }
 
 .consent-form {
-    /*.consent-scopecheck;*/
     display: inline-block;
     margin-right: 5px;
-}
-
-.consent-scopecheck[disabled] {
-    /*visibility:hidden;*/
 }
 
 .consent-description {
@@ -179,11 +175,6 @@ li {
 
 .displayname {
 }
-
-/*}
-    }
-}*/
-
 .footer {
     position: fixed;
     left: 0px;
