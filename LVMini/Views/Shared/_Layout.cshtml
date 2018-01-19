@@ -1,4 +1,7 @@
-﻿@using Microsoft.AspNetCore.Authorization
+﻿@using LVMini.Service
+@using LVMini.Service.Constants
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
 @inject IAuthorizationService AuthorizationService
 
 <!DOCTYPE html>
@@ -55,7 +58,7 @@
                         {
                             <li>@Html.ActionLink("My Profile", "MyProfile", "Accounts")</li>
 
-                            if (User.IsInRole("admin"))
+                            if (User.IsInRole(Role.Admin))
                             {
                                 <li>@Html.ActionLink("Admin", "Admin", "Accounts")</li>
                             }
@@ -106,7 +109,7 @@
 <div class="footer">
     <footer id="footer">
         <ul>
-            <li><a href="https://www.facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+            <li><a href="https://www.facebook.com/VSGBulgaria/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
             <li><a href="https://twitter.com" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
             <li><a href="https://plus.google.com/" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
             <li><a href="https://www.instagram.com/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>

@@ -2,10 +2,13 @@ using AutoMapper;
 using Data.Service.Core.Entities;
 using Data.Service.Core.Interfaces;
 using LVMiniApi.Api.Service;
+using LVMiniApi.Authorization;
 using LVMiniApi.Filters;
 using LVMiniApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using static LVMiniApi.Api.Service.UserValidator;
 
@@ -53,6 +56,7 @@ namespace LVMiniApi.Controllers
         // POST api/users
         [HttpPost]
         [ValidateModel]
+        [AllowAnonymous]
         public async Task<IActionResult> Post([FromBody] RegisterUserModel model)
         {
             var user = Mapper.Map<User>(model);
@@ -80,14 +84,18 @@ namespace LVMiniApi.Controllers
         [HttpPatch("{username}")]
         [HttpPut("{username}")]
         [ValidateModel]
+        [Authorize(Policy = Policies.OnlyLoggedInUser)]
         public async Task<IActionResult> UpdateUser(string username, [FromBody] EditUserModel model)
         {
             var user = await UserRepository.GetByUsername(username);
             if (user == null)
                 return NotFound();
 
-            ValidateUserUpdate(user, model);
+            var clientUserId = User.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
+            if (clientUserId != null && user.Id.ToString() != clientUserId)
+                return Forbid();
 
+            ValidateUserUpdate(user, model);
             UserRepository.Update(user);
             //await InsertLog(user.Username, LogType.ProfileUpdate, LogRepository);
 

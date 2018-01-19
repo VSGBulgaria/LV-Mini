@@ -143,8 +143,9 @@ input#LastName.form-control {
     outline: none;
     color: #fff;
 }
-#errmsg {
+.field-validation-error{
     color: red;
+    position:absolute;
 }
 
 /*For Users Page*/

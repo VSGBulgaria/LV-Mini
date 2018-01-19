@@ -2,6 +2,8 @@
 using Data.Service.Core.Interfaces;
 using Data.Service.Persistance;
 using Data.Service.Persistance.Repositories;
+using LVMiniApi.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +32,18 @@ namespace LVMiniApi
             services.AddScoped<ILogRepository, LogRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy(
+                    Policies.OnlyLoggedInUser,
+                    builder =>
+                    {
+                        builder.RequireAuthenticatedUser();
+                        builder.AddRequirements(new MustBeLoggedInUserRequirement());
+                    });
+            });
+            services.AddScoped<IAuthorizationHandler, MustBeLoggedInUserHandler>();
+
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication(options =>
                 {
@@ -47,6 +61,12 @@ namespace LVMiniApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<LvMiniDbContext>();
+                context.Database.Migrate();
             }
 
             app.UseAuthentication();
