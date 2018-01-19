@@ -182,20 +182,3 @@ function CheckEmail(ev) {
         }
     });
 }
-//Validate E-mail
-function ValidateEmail(email) {
-    // Validate Email Format
-    return email.match(expr);
-};
-
-$("#Email").on("click", function () {
-    if (!ValidateEmail($("#Email").val())) {
-        $("#errmsg").html("Invalid Email Address!").show().fadeOut("slow");
-        return false;
-    }
-    else {
-        $("#errmsg").html("Valid Email Address!!").show().fadeOut("slow");
-        return false;
-    }
-});
-

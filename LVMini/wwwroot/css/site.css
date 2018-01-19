@@ -82,27 +82,30 @@ body {
 .Register input[type="submit"] {
     border: none;
     outline: none;
-    height: 40px;
-    font-size: 18px;
     color: #fff;
-    background-color: #337ab7;
-    border-radius: 10px;
+    background-color: #337ab7;    
     margin-bottom: 10px;
     margin-top: 20px;
-}
-#Cancel {
-    border: none;
-    outline: none;
+    padding: 6px 12px;
     height: 34px;
     font-size: 14px;
     font-weight: normal;
     text-align: center;
+    border-radius:4px;
+}
+#Cancel {
+    border: none;
+    outline: none;
     color: #fff;
     background-color: red;
     border-radius: 4px;
     margin-bottom: 0px;
     /*margin-top: 20px;*/
     padding: 6px 12px;
+    height: 34px;
+    font-size: 14px;
+    font-weight: normal;
+    text-align: center;
 }
 
 /*Style For My Profile Page*/

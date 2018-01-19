@@ -11,10 +11,9 @@ namespace LVMini.ViewModels
         public string Username { get; set; }
 
         //[Required]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Please enter valid email adress")]
         [Display(Name = "E-mail")]
         [DataType(DataType.EmailAddress)]
-        [RegularExpression(pattern:"/^[w\\.+] + @ [A-Z a-z 0-9\\-] + .[A-Z a-z 0-9]{2,4}$/;")]
         public string Email { get; set; }
 
         [Required]
