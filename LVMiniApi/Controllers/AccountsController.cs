@@ -1,40 +1,39 @@
-﻿using Data.Service.Core.Entities;
-using Data.Service.Core.Enums;
+﻿using Data.Service.Core.Enums;
 using Data.Service.Core.Interfaces;
+using LVMiniApi.Api.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Threading.Tasks;
 
 namespace LVMiniApi.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class AccountsController : Controller
+    public class AccountsController : BaseController
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ILogRepository _logRepository;
+        private readonly Logger _logger;
 
         public AccountsController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _logRepository = _unitOfWork.Logs;
+            _logger = new Logger(_unitOfWork.Logs);
         }
 
-        [Route("/logout")]
-        [HttpPost("{username}")]
+        [Route("logout")]
+        [HttpPost]
         [Authorize]
         public async Task Logout([FromBody] string username)
         {
-            string logOutAction = UserAction.Logout.ToString();
-            Log logoutLog = new Log()
-            {
-                Action = logOutAction,
-                Username = username,
-                Time = DateTime.Now
-            };
+            await _logger.InsertLog(username, UserAction.Logout);
+            await _unitOfWork.Commit();
+        }
 
-            await _logRepository.Insert(logoutLog);
+        [Route("login")]
+        [HttpPost]
+        public async Task Login([FromBody] string username)
+        {
+            await _logger.InsertLog(username, UserAction.Login);
             await _unitOfWork.Commit();
         }
     }

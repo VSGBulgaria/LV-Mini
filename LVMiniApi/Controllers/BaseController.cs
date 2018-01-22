@@ -10,6 +10,7 @@ namespace LVMiniApi.Controllers
         public const string Urlhelper = "URLHELPER";
         protected IMapper Mapper;
         protected IUserRepository UserRepository;
+        protected ILogRepository LogRepository;
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {

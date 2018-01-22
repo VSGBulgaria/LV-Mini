@@ -13,11 +13,15 @@ using IdentityServer4.Test;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Principal;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace AuthorizationServer.Quickstart.Account
@@ -116,6 +120,17 @@ namespace AuthorizationServer.Quickstart.Account
 
                     // issue authentication cookie with subject ID and username
                     await HttpContext.SignInAsync(user.SubjectId, user.Username, props);
+
+                    using (var client = new HttpClient())
+                    {
+                        var content = new StringContent(JsonConvert.SerializeObject(user.Username), encoding: Encoding.UTF8, mediaType: "application/json");
+                        var result = await client.PostAsync("http://localhost:53920/api/accounts/login", content);
+
+                        if (result.StatusCode != HttpStatusCode.OK)
+                        {
+                            return Json("WASNT ABLE TO INSERT THE LOG IN THE DATABSE!");
+                        }
+                    }
 
                     // make sure the returnUrl is still valid, and if so redirect back to authorize endpoint or a local page
                     if (_interaction.IsValidReturnUrl(model.ReturnUrl) || Url.IsLocalUrl(model.ReturnUrl))

@@ -27,14 +27,19 @@ namespace LVMini.Controllers
 
         public async Task Logout()
         {
-            //using (var client = new HttpClient())
-            //{
-            //    var token = await HttpContext.GetTokenAsync("access_token");
-            //    client.SetBearerToken(token);
+            using (var client = new HttpClient())
+            {
+                var token = await HttpContext.GetTokenAsync("access_token");
+                client.SetBearerToken(token);
 
-            //    var content = new StringContent(JsonConvert.SerializeObject(User.Identity.Name), encoding: Encoding.UTF8, mediaType: "application/json");
-            //    var result = await client.PostAsync("http://localhost:53920/api/accounts/logout", content);
-            //}
+                var content = new StringContent(JsonConvert.SerializeObject(User.Identity.Name), encoding: Encoding.UTF8, mediaType: "application/json");
+                var result = await client.PostAsync("http://localhost:53920/api/accounts/logout", content);
+
+                if (result.StatusCode != HttpStatusCode.OK)
+                {
+                    return;
+                }
+            }
 
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
