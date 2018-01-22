@@ -18,15 +18,14 @@
 
     @using (Html.BeginForm("Register", "Accounts", FormMethod.Post))
     {
-
         <div>
             <div>
                 @Html.LabelFor(model => model.Username)
                 <div>
                     @Html.TextBoxFor(model => model.Username, new { @class = "RegFields", @placeholder = "Choose Username"})
                     @Html.ValidationMessageFor(model => model.Username)
-                    <i class="fa fa-check" aria-hidden="true" style="color:green; "></i>
-                    <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                    <i class="fa fa-check" aria-hidden="true" id = "available" style="display:none;"></i>
+                    <i class="fa fa-times" aria-hidden="true" id ="unavailable" style="display:none;"></i>
                 </div>
             </div>
             <div>

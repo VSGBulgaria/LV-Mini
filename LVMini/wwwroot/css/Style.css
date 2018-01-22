@@ -78,6 +78,18 @@
             cursor: pointer;
             color: #57FF7E;
         }
+
+/*For Ticks*/
+#available {
+    display: none;
+    color: green;
+}
+
+#unavailable {
+    display: none;
+    color: red;
+}
+
 /*Style For MyProfile Form*/
 .fields label {
     color:white;

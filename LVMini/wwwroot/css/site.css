@@ -74,16 +74,23 @@ body {
     background: transparent;
     outline: none;
     color: #fff;
-    /*-webkit-border-radius:4px;*/
 }
     .RegFields input [type = "text"] {
         background: transparent;
     }
+#available {
+    display:none;
+    color:green;
+}
+#unavailable {
+    display: none;
+    color: red;
+}
 .Register input[type="submit"] {
     border: none;
     outline: none;
     color: #fff;
-    background-color: #337ab7;    
+    background-color: #337ab7;
     margin-bottom: 10px;
     margin-top: 20px;
     padding: 6px 12px;
@@ -91,7 +98,7 @@ body {
     font-size: 14px;
     font-weight: normal;
     text-align: center;
-    border-radius:4px;
+    border-radius: 4px;
 }
 #Cancel {
     border: none;
