@@ -2,7 +2,6 @@ using AutoMapper;
 using Data.Service.Core.Entities;
 using Data.Service.Core.Interfaces;
 using LVMiniApi.Api.Service;
-using LVMiniApi.Authorization;
 using LVMiniApi.Filters;
 using LVMiniApi.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -84,7 +83,6 @@ namespace LVMiniApi.Controllers
         [HttpPatch("{username}")]
         [HttpPut("{username}")]
         [ValidateModel]
-        [Authorize(Policy = Policies.OnlyLoggedInUser)]
         public async Task<IActionResult> UpdateUser(string username, [FromBody] EditUserModel model)
         {
             var user = await UserRepository.GetByUsername(username);
@@ -97,7 +95,7 @@ namespace LVMiniApi.Controllers
 
             ValidateUserUpdate(user, model);
             UserRepository.Update(user);
-            //await InsertLog(user.Username, LogType.ProfileUpdate, LogRepository);
+            //await InsertLog(user.Username, UserAction.ProfileUpdate);
 
             await _unitOfWork.Commit();
 
@@ -105,15 +103,10 @@ namespace LVMiniApi.Controllers
         }
 
         [HttpPatch]
-        public IActionResult Patch()
+        [HttpPut]
+        public IActionResult PatchPut()
         {
             return BadRequest("You have to pass a user to the patch request!");
-        }
-
-        [HttpPut]
-        public IActionResult Put()
-        {
-            return BadRequest("You have to pass a user to the put request!");
         }
 
         [HttpDelete]

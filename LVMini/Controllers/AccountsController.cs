@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -28,6 +27,15 @@ namespace LVMini.Controllers
 
         public async Task Logout()
         {
+            //using (var client = new HttpClient())
+            //{
+            //    var token = await HttpContext.GetTokenAsync("access_token");
+            //    client.SetBearerToken(token);
+
+            //    var content = new StringContent(JsonConvert.SerializeObject(User.Identity.Name), encoding: Encoding.UTF8, mediaType: "application/json");
+            //    var result = await client.PostAsync("http://localhost:53920/api/accounts/logout", content);
+            //}
+
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
         }
@@ -63,9 +71,7 @@ namespace LVMini.Controllers
         [Authorize]
         public ActionResult MyProfile()
         {
-
             return View();
-
         }
 
         [HttpPost]
@@ -75,7 +81,6 @@ namespace LVMini.Controllers
         }
 
         //AdminPage
-
         [HttpGet]
         [Authorize(Roles = Role.Admin)]
         public async Task<IActionResult> Admin()
@@ -169,20 +174,6 @@ namespace LVMini.Controllers
                 //return bad request view
                 return View();
             }
-        }
-
-        internal class HttpStatusCodeResult : ActionResult
-        {
-            private HttpStatusCode badRequest;
-
-            public HttpStatusCodeResult(HttpStatusCode badRequest)
-            {
-                this.badRequest = badRequest;
-            }
-        }
-
-        internal class AuthorizeFilterAttribute : Attribute
-        {
         }
     }
 }

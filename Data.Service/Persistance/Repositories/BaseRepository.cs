@@ -15,7 +15,7 @@ namespace Data.Service.Persistance.Repositories
         protected readonly DbContext Context;
         protected readonly DbSet<T> Entities;
 
-        protected BaseRepository(DbContext context)
+        protected BaseRepository(LvMiniDbContext context)
         {
             Context = context;
             Entities = Context.Set<T>();

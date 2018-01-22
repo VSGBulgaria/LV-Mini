@@ -11,19 +11,28 @@ namespace LVMiniApi.Api.Service
     /// </summary>
     internal class Logger
     {
+        private ILogRepository _logRepository;
+
+        public Logger(ILogRepository logRepository)
+        {
+            _logRepository = logRepository;
+        }
+
         /// <summary>
         ///Inserts a log of the current user and action in the database.
         /// </summary>
-        public static async Task InsertLog(string username, LogType type, ILogRepository logRepository)
+        public async Task InsertLog(string username, UserAction action)
         {
+            string actionName = action.ToString();
+
             Log log = new Log
             {
-                ActionId = (int)type,
+                Action = actionName,
                 Username = username,
                 Time = DateTime.Now
             };
 
-            await logRepository.Insert(log);
+            await _logRepository.Insert(log);
         }
     }
 }

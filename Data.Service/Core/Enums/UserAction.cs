@@ -1,6 +1,6 @@
 ﻿namespace Data.Service.Core.Enums
 {
-    public enum LogType
+    public enum UserAction
     {
         Login = 1,
         Logout = 2,

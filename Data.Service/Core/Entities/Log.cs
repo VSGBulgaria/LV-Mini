@@ -9,8 +9,7 @@ namespace Data.Service.Core.Entities
         public string Username { get; set; }
 
         [Required]
-        public int ActionId { get; set; }
-        public LogAction Action { get; set; }
+        public string Action { get; set; }
 
         [Required]
         public DateTime Time { get; set; }
