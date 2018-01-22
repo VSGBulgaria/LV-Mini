@@ -36,8 +36,8 @@
                                                 <div class="media-body">
                                                     <h4 class="UserTitle">
                                                         User Information
-                                                        <span class="pull-right pagado">
-                                                            <input type="submit" , value="Edit" , id=@user.Username onclick="OpenUserInView(this.id)">
+                                                        <span class="pull-right">
+                                                            <input type="submit" , value="Edit" , id=btnUEdit>
                                                         </span>
                                                     </h4>
                                                 </div><br>
@@ -56,11 +56,11 @@
                         </div>
 
                         <div id="adminEdit" class="col-lg-6 hidden">
-                            @using (Html.BeginForm("Users", "Home", FormMethod.Post))
+                            @using (Html.BeginForm("Home", "Users", FormMethod.Post))
                             {
                                 @Html.AntiForgeryToken()
-                                <div class="form-horizontal well">
-                                    <h4 class="text-center">Edit This USer</h4>
+                                <div class="fields form-horizontal well">
+                                    <h4 class="text-center">Edit This User</h4>
                                     <hr />
                                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                     <div class="form-group">
@@ -89,10 +89,3 @@
         </section>
     </div>
 </div>
-
-<script type="text/javascript">
-    $("#user.Username").click(function () {
-        if ($("#adminEdit").hasClass("hidden"))
-            $("#adminEdit").removeClass("hidden");
-    });
-</script>

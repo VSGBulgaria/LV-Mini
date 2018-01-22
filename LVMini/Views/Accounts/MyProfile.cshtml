@@ -11,67 +11,79 @@
 <h2 style="color:white">Edit Your Profile</h2>
 <hr />
 <div class="row">
+    <div class="fields col-lg-6">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
 
-    <div class="fields">
+            <div class="fields form-horizontal well">
+                <h4 class="text-center" style="color:white;">My profile</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2 col-md-offset-4", style = "font-weight:bold;" })
+                    <div class="col-md-1">
+                        @*@Html.LabelFor(model => model.Email, Model.Email, htmlAttributes: new { @class = "control-label" })*@
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2 col-md-offset-4", style = "font-weight:bold;" })
+                    <div class="col-md-1">
+                        @*@Html.LabelFor(Model.FirstName, new { @class = "control-label" })*@
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2 col-md-offset-4", style = "font-weight:bold;" })
+                    <div class="col-md-1">
+                        @*@Html.Label(Model.LastName, new { @class = "control-label" })*@
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-1 col-md-12">
+                        <input id="btnEdit" type="button" value="Edit" class="btn btn-success col-sm-3" style="margin-right: 15px;" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div id="editMyProfile" class="fields col-lg-6 hidden">
         <div class="ProfPic">
             <div class="text-center">
                 @*<img src="http://lorempixel.com/200/200/people/9/" class="avatar img-circle img-thumbnail" alt="avatar">*@
                 <img src="~/images/Vsg_Logo200x200.png" class="avatar img-circle img-thumbnail" alt="avatar">
                 <h6>Upload a different photo...</h6>
-                <input type="file" class="text-center center-block well well-sm">
+                <input type="file" class="fields">
             </div>
         </div>
-            <form method="post">
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <input asp-for="Code" type="hidden" placeholder="Email" />
-                <div class="form-group">
-                    <label asp-for="Email"></label>
-                    <input asp-for="Email" class="form-control" placeholder="Email" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="FirstName"></label>
-                    <input asp-for="FirstName" class="form-control" placeholder="First Name" />
-                    <span asp-validation-for="FirstName" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="LastName"></label>
-                    <input asp-for="LastName" class="form-control" placeholder="Last Name" />
-                    <span asp-validation-for="LastName" class="text-danger"></span>
-                </div>
-                <div>
-                    <button type="submit" class="btn btn-default">Save changes</button>
-                    <button type="submit" class="btn btn-default">Delete Profile</button>
-                    <input type="button" value="Cancel" id="Cancel" onclick="location.href='@Url.Action("Index","Home")';" />
-                </div>
-            </form>
-        </div>
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input asp-for="Code" type="hidden" placeholder="Email" />
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" placeholder="Email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstName"></label>
+                <input asp-for="FirstName" class="form-control" placeholder="First Name" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName"></label>
+                <input asp-for="LastName" class="form-control" placeholder="Last Name" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-default" id="Click">Save changes</button>
+                <input type="button" value="Cancel" id="Cancel" onclick="location.href='@Url.Action("Index","Home")';" />
+            </div>
+        </form>
     </div>
+</div>
 @section Scripts {
-    
+
     @await Html.PartialAsync("_ValidationScriptsPartial")
 
 }
-
-@*@using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-    <div class="form-horizontal well">
-        <h4 class="text-center">My Profile</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2 col col-md-offset-4", style = "font-weight:bold;" })
-            <div class="col-md-1">
-                @Html.LabelFor(model => model.Email, Model.Email, htmlAttributes: new { @class = "control-label" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2 col-md-offset-4", style = "font-weight:bold;" })
-            <div class="col-md-1">
-                @Html.LabelFor(model =>model.FirstName, Model.FirstName, new { @class = "control-label" })
-            </div>
-        </div>
-    </div>
-        }*@

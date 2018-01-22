@@ -58,7 +58,6 @@ let registerUsernameAvailableSignId = '#username_available_sign';
 let registrationUsernameUnavailableSignId = '#username_unavailable_sign';
 let minimumUsernameLenght = 3;
 
-
 //Validate Username
 $(registerUsernameTagId).on(jqueryKeyUpKeyWord, checkForAvailableUsername);
 
@@ -85,7 +84,6 @@ function logErrorInConsole(err) {
 }
 
 function displayUsernameSign(isAvailable) {
-    console.log(isAvailable);
     let av_sign = $(registerUsernameAvailableSignId);
     let unav_sign = $(registrationUsernameUnavailableSignId);
     if (!isAvailable) {
@@ -98,8 +96,17 @@ function displayUsernameSign(isAvailable) {
         $(unav_sign).css(cssDisplayKeyWord, cssInlineBlockKeyWord);
     }
 }
+//MyProfile Edit Finctions
+$("#btnEdit").click(function () {
+    if ($("#editMyProfile").hasClass("hidden"))
+        $("#editMyProfile").removeClass("hidden");
+});
 
-
+//Get Users Edit
+$("#btnUEdit").click(function () {
+        if ($("#adminEdit").hasClass("hidden"))
+            $("#adminEdit").removeClass("hidden");
+ });
 //For Get Users Page
     //$(document).ready(function () {
 
