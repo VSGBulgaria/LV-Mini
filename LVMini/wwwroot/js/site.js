@@ -41,61 +41,65 @@ function initMap() {
 }
 
 //Variables
-var url = '/Accounts/CheckUser';
-var emailurl = '/Accounts/CheckEmail';
-var expr = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+let url = '/Accounts/CheckUser';
+let emailurl = '/Accounts/CheckEmail';
+let defaultContentType = 'application/json';
+let expr = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+let registerUsernameTagId = '#Username';
+let registerEmailTagId = '#Email';
+let cssDisplayKeyWord = 'display';
+let cssColorKeyWord = 'color';
+let cssNoneKeyWord = 'none';
+let cssInlineBlockKeyWord = 'inline-block';
+let cssRedKeyWord = 'red';
+let cssGreenKeyWord = 'green';
+let jqueryKeyUpKeyWord = 'keyup';
+let registerUsernameAvailableSignId = '#username_available_sign';
+let registrationUsernameUnavailableSignId = '#username_unavailable_sign';
+let minimumUsernameLenght = 3;
+
 
 //Validate Username
-$('#Username').on('keyup', CheckValid);
+$(registerUsernameTagId).on(jqueryKeyUpKeyWord, checkForAvailableUsername);
 
-function CheckValid(ev) {
+function checkForAvailableUsername(ev) {
     ev.preventDefault()
-    let data = $('#Username').val();
-    $.ajax({
-        url: '/Accounts/CheckUser',
-            contentType: "application/json",
-                data: { name: data },
-        success: function (response) {
-            console.log(response);
-        },
-        error: function (data) {
-            console.log(data);
-        }
-    });
-}
-//Validate Email
-$('#Email').on('keyup', CheckEmail);
-
-function CheckEmail(ev) {
-    ev.preventDefault()
-    let data = $('#Email').val();
-    $.ajax({
-        url: emailurl,
-            contentType: "application/json",
-            data: { email: data },
-        success: function (response) {
-            console.log(response);
-        },
-        error: function (data) {
-            console.log(data);
-        }
-    });
+    let data = $(registerUsernameTagId).val();
+    if (data.length >= minimumUsernameLenght) {
+        $.ajax({
+            url: url,
+            contentType: defaultContentType,
+            data: { name: data },
+            success: displayUsernameSign,
+            error: logErrorInConsole
+        });
+    } else {
+        $(registerUsernameAvailableSignId).css(cssDisplayKeyWord, cssNoneKeyWord);
+        $(registrationUsernameUnavailableSignId).css(cssDisplayKeyWord, cssInlineBlockKeyWord);
+        $(registrationUsernameUnavailableSignId).css(cssColorKeyWord, cssRedKeyWord);
+    }
 }
 
-function OpenUserInView(userid) {
-    console.log(userid);
-    $.ajax({
-        url: '/Accounts/DisplayUserInfo',
-        contentType: "application/json",
-        data: { username: userid },
-        success: function (response) {
-            console.log(response);
-        },
-        error: function (data) {
-            console.log(data);
-        }
-    })
+function logErrorInConsole(err) {
+    console.log('Error: ' + err);
 }
+
+function displayUsernameSign(isAvailable) {
+    console.log(isAvailable);
+    let av_sign = $(registerUsernameAvailableSignId);
+    let unav_sign = $(registrationUsernameUnavailableSignId);
+    if (!isAvailable) {
+        $(av_sign).css(cssDisplayKeyWord, cssInlineBlockKeyWord);
+        $(av_sign).css(cssColorKeyWord, cssGreenKeyWord);
+        $(unav_sign).css(cssDisplayKeyWord, cssNoneKeyWord);
+    } else {
+        $(av_sign).css(cssDisplayKeyWord, cssNoneKeyWord);
+        $(unav_sign).css(cssColorKeyWord, cssRedKeyWord);
+        $(unav_sign).css(cssDisplayKeyWord, cssInlineBlockKeyWord);
+    }
+}
+
+
 //For Get Users Page
     //$(document).ready(function () {
 

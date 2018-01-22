@@ -60,7 +60,7 @@ namespace LVMini.Controllers
         }
 
         //MyProfile
-        [AuthorizeFilter]
+        [Authorize]
         public ActionResult MyProfile()
         {
 
@@ -76,12 +76,8 @@ namespace LVMini.Controllers
 
         //AdminPage
 
-        [HttpPost]
-        [Authorize(Roles = "admin")]
-
         [HttpGet]
         [Authorize(Roles = Role.Admin)]
-
         public async Task<IActionResult> Admin()
         {
             var accessToken = await this.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
@@ -101,80 +97,74 @@ namespace LVMini.Controllers
         }
 
         //Validate Username
-        public async Task<IActionResult> CheckUser(string name)
+        public async Task<bool> CheckUser(string name)
         {
             using (var client = new HttpClient())
             {
                 if (string.IsNullOrEmpty(name))
                 {
-                    return NotFound();
+                    return false;
                 }
                 var httpResponse = await client.GetAsync($"http://localhost:53920/api/users/" + name);
                 if (httpResponse.StatusCode == HttpStatusCode.OK)
                 {
                     var content = await httpResponse.Content.ReadAsStringAsync();
                     var user = JsonConvert.DeserializeObject<UserModel>(content);
-
-                    return Json(Ok());
+                    return true;
                 }
-
-                return Json(httpResponse.StatusCode);
+                return false;
             }
         }
 
         //Validate Email
-        public async Task<IActionResult> CheckEmail(string email)
+        public async Task<bool> CheckEmail(string email)
         {
             using (var client = new HttpClient())
             {
-                if (string.IsNullOrEmpty(email))
+                if (!string.IsNullOrEmpty(email))
                 {
-                    return NotFound();
-                }
-
-                var httpResponse = await client.GetAsync($"http://localhost:53920/api/users/");
-                if (httpResponse.StatusCode == HttpStatusCode.OK)
-                {
-                    var content = await httpResponse.Content.ReadAsStringAsync();
-                    var users = JsonConvert.DeserializeObject<IEnumerable<UserModel>>(content);
-
-                    foreach (var user in users)
+                    var httpResponse = await client.GetAsync($"http://localhost:53920/api/users/");
+                    if (httpResponse.StatusCode == HttpStatusCode.OK)
                     {
-                        if (user.Email == email)
+                        var content = await httpResponse.Content.ReadAsStringAsync();
+                        var users = JsonConvert.DeserializeObject<IEnumerable<UserModel>>(content);
+
+                        foreach (var user in users)
                         {
-                            return Json(Ok());
+                            if (user.Email == email)
+                            {
+                                return true;
+                            }
                         }
                     }
                 }
-                return Json(NotFound());
+                return false;
             }
         }
         //Edit User
-
+        [HttpGet]
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> DisplayUserInfo(string username)
         {
             using (var client = new HttpClient())
             {
-                if (string.IsNullOrEmpty(username))
+                if (!string.IsNullOrEmpty(username))
                 {
-                    // return bad request view
-                    return View();
-                }
-                var uri = "http://localhost:53920/api/users/" + username;
+                    var uri = "http://localhost:53920/api/users/" + username;
 
-                var httpResponse = await client.GetAsync(uri);
-                if (httpResponse.StatusCode == HttpStatusCode.OK)
-                {
-                    var content = await httpResponse.Content.ReadAsStringAsync();
-                    var currentUser = JsonConvert.DeserializeObject<UserModel>(content);
-
-                    if (currentUser != null)
+                    var httpResponse = await client.GetAsync(uri);
+                    if (httpResponse.StatusCode == HttpStatusCode.OK)
                     {
-                        //return view with user data 
-                        return View(currentUser);
-                    }
+                        var content = await httpResponse.Content.ReadAsStringAsync();
+                        var currentUser = JsonConvert.DeserializeObject<UserModel>(content);
 
+                        if (currentUser != null)
+                        {
+                            //return view with user data 
+                            return View(currentUser);
+                        }
+
+                    }
                 }
                 //return bad request view
                 return View();

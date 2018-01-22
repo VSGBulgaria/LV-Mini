@@ -24,8 +24,8 @@
                 <div>
                     @Html.TextBoxFor(model => model.Username, new { @class = "RegFields", @placeholder = "Choose Username"})
                     @Html.ValidationMessageFor(model => model.Username)
-                    <i class="fa fa-check" aria-hidden="true" id = "available" style="display:none;"></i>
-                    <i class="fa fa-times" aria-hidden="true" id ="unavailable" style="display:none;"></i>
+                    <i class="fa fa-check" aria-hidden="true" id = "username_available_sign" style="display:none;"></i>
+                    <i class="fa fa-times" aria-hidden="true" id ="username_unavailable_sign" style="display:none;"></i>
                 </div>
             </div>
             <div>
