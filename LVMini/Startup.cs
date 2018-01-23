@@ -63,6 +63,7 @@ namespace LVMini
                      opt.Scope.Add("lvmini_admin");
                      opt.Scope.Add("offline_access");
                      opt.Scope.Add("roles");
+                     opt.Scope.Add("email");
 
                      opt.GetClaimsFromUserInfoEndpoint = true;
                      opt.SaveTokens = true;
