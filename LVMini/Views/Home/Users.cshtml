@@ -9,79 +9,70 @@
         <section class="content">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel-body">
-                    <div class="pull-left">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-success btn-filter" data-target="active">Active</button>
-                            <button type="button" class="btn btn-danger btn-filter" data-target="unactive">Unactive</button>
-                            <button type="button" class="btn btn-default btn-filter" data-target="all">All</button>
-                        </div>
-                    </div>
+
                     @foreach (UserModel user in Model)
                     {
-                        <div class="table-container">
-                            <table class="table table-filter">
-                                <tbody>
-                                    <tr data-status="active">
-                                        <td>
-                                            <div class="ckbox"><br><input type="checkbox" id="checkbox4"></div>
-                                        </td>
-                                        <td>
-                                            <a href="javascript:;" class="star star-checked"><br><i class="glyphicon glyphicon-star"></i></a>
-                                        </td>
-                                        <td>
-                                            <div class="media">
-                                                <a href="#" class="pull-left">
-                                                    <img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo" style="height:50px; width:50px;">
-                                                </a>
-                                                <div class="media-body">
-                                                    <h4 class="UserTitle">
-                                                        User Information
-                                                        <span class="pull-right">
-                                                            <input type="submit" , value="Edit" , id=btnUEdit>
-                                                        </span>
-                                                    </h4>
-                                                </div><br>
-                                                <div>
-                                                    <h4 style="color:white;"><label>Username:&nbsp;</label>@user.Username</h4>
-                                                    <h4 style="color:white;"><label>E-mail:&nbsp;</label>@user.Email</h4>
-                                                    <h4 style="color:white;"><label>First Name:&nbsp;</label>@user.FirstName</h4>
-                                                    <h4 style="color:white;"><label>Last Name:&nbsp;</label>@user.LastName</h4>
-                                                    <h4 style="color:white;"><label>User's Role Is:&nbsp;</label>@user.Role</h4>
+                        <div class="user-container">
+                            <div class="table-container">
+                                <table class="table table-filter">
+                                    <tbody>
+                                        <tr data-status="active">
+                                            <td><div class="ckbox"><br><input type="checkbox" id="checkbox4"></div></td>
+                                            <td><a href="javascript:;" class="star star-checked"><br><i class="glyphicon glyphicon-star"></i></a></td>
+                                            <td>
+                                                <div class="media">
+                                                    <a href="#" class="pull-left">
+                                                        <img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo" style="height:50px; width:50px;">
+                                                    </a>
+                                                    <div class="media-body">
+                                                        <h4 class="UserTitle">
+                                                            User Information
+                                                            <span class="pull-right">
+                                                                <input type="submit" , value="Edit" id="@user.Username" class="btnUEdit" />
+                                                            </span>
+                                                        </h4>
+                                                    </div><br>
+                                                    <div>
+                                                        <h4 style="color:white;"><label>Username:&nbsp;</label>@user.Username</h4>
+                                                        <h4 style="color:white;"><label>E-mail:&nbsp;</label>@user.Email</h4>
+                                                        <h4 style="color:white;"><label>First Name:&nbsp;</label>@user.FirstName</h4>
+                                                        <h4 style="color:white;"><label>Last Name:&nbsp;</label>@user.LastName</h4>
+                                                        <h4 style="color:white;"><label>User's Role Is:&nbsp;</label>@user.Role</h4>
+                                                    </div>
                                                 </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-lg-6 hidden" id="@("hidden"+user.Username)">
+                                @using (Html.BeginForm("Users", "Home", FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <div class="fields form-horizontal well">
+                                        <h4 class="text-center" style="color:white;">Edit This User</h4>
+                                        <hr />
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => user.FirstName, new { @class = "control-label col-sm-4" })
+                                            <div class="col-sm-5">
+                                                @Html.TextBoxFor(model => user.FirstName, new { @class = "form-control", placeholder = "First Name" })
                                             </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div id="adminEdit" class="col-lg-6 hidden">
-                            @using (Html.BeginForm("Home", "Users", FormMethod.Post))
-                            {
-                                @Html.AntiForgeryToken()
-                                <div class="fields form-horizontal well">
-                                    <h4 class="text-center">Edit This User</h4>
-                                    <hr />
-                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => user.FirstName, new { @class = "control-label col-sm-4" })
-                                        <div class="col-sm-5">
-                                            @Html.TextBoxFor(model => user.FirstName, new { @class = "form-control", placeholder = "First Name" })
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => user.LastName, new { @class = "control-label col-sm-4" })
+                                            <div class="col-sm-5">
+                                                @Html.TextBoxFor(model => user.LastName, new { @class = "form-control", placeholder = "Last Name" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-offset-4 col-md-12">
+                                                <input id="btnModify" type="submit" value="Modify" class="btn btn-primary col-sm-5" />
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => user.LastName, new { @class = "control-label col-sm-4" })
-                                        <div class="col-sm-5">
-                                            @Html.TextBoxFor(model => user.LastName, new { @class = "form-control", placeholder = "Last Name" })
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-md-offset-4 col-md-12">
-                                            <input id="btnModify" type="submit" value="Modify" class="btn btn-primary col-sm-5" />
-                                        </div>
-                                    </div>
-                                </div>
-                            }
+                                }
+                            </div>
                         </div>
                     }
                 </div>
