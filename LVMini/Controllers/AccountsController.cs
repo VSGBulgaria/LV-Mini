@@ -1,4 +1,5 @@
 ﻿using LVMini.Models;
+using LVMini.Service.Classes;
 using LVMini.Service.Constants;
 using LVMini.ViewModels;
 using Microsoft.AspNetCore.Authentication;
@@ -11,6 +12,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Resources = LVMini.Properties.Resources;
@@ -74,16 +76,13 @@ namespace LVMini.Controllers
 
         //MyProfile
         [Authorize]
-        public ActionResult MyProfile()
+        public async Task<ActionResult> MyProfile()
         {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult MyProfile(MyProfileViewModel model)
-        {
+            MyProfileModel model = HelperInitializer.ConstructMyProfileModel(User.Claims);
             return View(model);
         }
+
+       
 
         //AdminPage
         [HttpGet]

@@ -57,6 +57,7 @@ function logErrorInConsole(err) {
 }
 
 function displayUsernameSign(isAvailable) {
+    console.log(isAvailable);
     let av_sign = $(registerUsernameAvailableSignId);
     let unav_sign = $(registrationUsernameUnavailableSignId);
     if (!isAvailable) {
@@ -69,6 +70,12 @@ function displayUsernameSign(isAvailable) {
         $(unav_sign).css(cssDisplayKeyWord, cssInlineBlockKeyWord);
     }
 }
+
+
+function saveMyProfileChanges() {
+    
+}
+
 
 //MyProfile Edit Finctions
 $("#btnEdit").click(function () {

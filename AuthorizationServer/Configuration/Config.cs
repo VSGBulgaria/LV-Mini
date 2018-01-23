@@ -42,8 +42,10 @@ namespace AuthorizationServer.Configuration
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
-                new IdentityResource("roles", "Your role(s)", new []{"role"}),
                 new IdentityResources.Email(),
+                new IdentityResource("roles", "Your role(s)", new []{"role"}),
+                new IdentityResource("usernames", "Your role(s)", new []{"username"}),
+
             };
         }
 
@@ -64,9 +66,11 @@ namespace AuthorizationServer.Configuration
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Email,
                         IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
                         "lvminiAPI",
                         "lvmini_admin",
                         "roles",
+                        "usernames"
                     },
                     AllowOfflineAccess = true,
                     AllowAccessTokensViaBrowser = true,
