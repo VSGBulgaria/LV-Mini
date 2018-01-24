@@ -60,6 +60,7 @@ namespace AuthorizationServer.Configuration
 
                     ClientSecrets = { new Secret("interns".Sha256())},
                     AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
+                    UpdateAccessTokenClaimsOnRefresh = true,
 
                     AllowedScopes = new []
                     {
@@ -72,6 +73,7 @@ namespace AuthorizationServer.Configuration
                         "roles",
                         "usernames"
                     },
+
                     AllowOfflineAccess = true,
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new [] { "http://localhost:49649/signin-oidc" },
