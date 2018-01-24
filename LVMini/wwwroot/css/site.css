@@ -120,6 +120,8 @@ body {
     float: left;
     padding: 10px 30px;
     color: white;
+    position:absolute;
+
 }
 
 .fields {
