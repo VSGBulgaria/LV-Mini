@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using System;
 using System.Globalization;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace LVMini.Service.Classes
@@ -30,20 +29,15 @@ namespace LVMini.Service.Classes
             string refreshToken = await httpContext.GetTokenAsync("refresh_token");
 
             TokenResponse tokenResponse = await tokenClient.RequestRefreshTokenAsync(refreshToken);
-            if (tokenResponse.HttpStatusCode == HttpStatusCode.OK)
-            {
 
-                string identityToken = await httpContext.GetTokenAsync("id_token");
+            if (!tokenResponse.IsError)
+            {
+                AuthenticateResult authenticationInformation = await httpContext.AuthenticateAsync("Cookies");
 
                 var expiresAt = DateTime.UtcNow + TimeSpan.FromSeconds(tokenResponse.ExpiresIn);
 
                 AuthenticationToken[] tokens = new[]
                 {
-                        new AuthenticationToken()
-                        {
-                            Name = OpenIdConnectParameterNames.IdToken,
-                            Value = identityToken
-                        },
                         new AuthenticationToken()
                         {
                             Name = OpenIdConnectParameterNames.AccessToken,
@@ -61,7 +55,6 @@ namespace LVMini.Service.Classes
                         }
                     };
 
-                AuthenticateResult authenticationInformation = await httpContext.AuthenticateAsync("Cookies");
                 authenticationInformation.Properties.StoreTokens(tokens);
 
                 await httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, authenticationInformation.Principal, authenticationInformation.Properties);

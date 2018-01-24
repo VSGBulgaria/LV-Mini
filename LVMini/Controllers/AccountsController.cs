@@ -1,13 +1,17 @@
-﻿using LVMini.Models;
+﻿using IdentityModel.Client;
+using LVMini.Models;
 using LVMini.Service.Classes;
 using LVMini.Service.Constants;
+using LVMini.Service.Interfaces;
 using LVMini.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -17,8 +21,15 @@ using Resources = LVMini.Properties.Resources;
 
 namespace LVMini.Controllers
 {
-    public class AccountsController : BaseController
+    public class AccountsController : Controller
     {
+        private readonly HttpClient client;
+
+        public AccountsController(IHttpClientProvider httpClient)
+        {
+            client = httpClient.Client();
+        }
+
         [Authorize]
         public IActionResult Login()
         {
@@ -27,13 +38,28 @@ namespace LVMini.Controllers
 
         public async Task Logout()
         {
-            var content = new StringContent(JsonConvert.SerializeObject(User.Identity.Name), encoding: Encoding.UTF8, mediaType: "application/json");
-            var result = await Client.PostAsync("http://localhost:53920/api/accounts/logout", content);
+            DiscoveryResponse authServer = await DiscoveryClient.GetAsync("http://localhost:55817");
 
-            if (result.StatusCode != HttpStatusCode.OK)
+            TokenRevocationClient revocationClient = new TokenRevocationClient(authServer.RevocationEndpoint, "lvmini", "interns");
+
+            string accessToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
+            if (!string.IsNullOrWhiteSpace(accessToken))
             {
-                return;
+                var revokeAccessTokenResponse = await revocationClient.RevokeAccessTokenAsync(accessToken);
+                if (revokeAccessTokenResponse.IsError)
+                    throw new Exception("Problem encountered while revoking the access token.", revokeAccessTokenResponse.Exception);
             }
+
+            string refreshToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken);
+            if (!string.IsNullOrWhiteSpace(refreshToken))
+            {
+                var revokeRefreshTokenResponse = await revocationClient.RevokeRefreshTokenAsync(refreshToken);
+                if (revokeRefreshTokenResponse.IsError)
+                    throw new Exception("Problem encountered while revoking the access token.", revokeRefreshTokenResponse.Exception);
+            }
+
+            var content = new StringContent(JsonConvert.SerializeObject(User.Identity.Name), encoding: Encoding.UTF8, mediaType: "application/json");
+            await client.PostAsync("http://localhost:53920/api/accounts/logout", content);
 
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
@@ -52,7 +78,7 @@ namespace LVMini.Controllers
             {
                 var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
 
-                var httpResponseMessage = await Client.PostAsync(Resources.MainApiUsersUrl, content);
+                var httpResponseMessage = await client.PostAsync(Resources.MainApiUsersUrl, content);
 
                 if (httpResponseMessage.StatusCode == HttpStatusCode.Created)
                 {
@@ -76,7 +102,7 @@ namespace LVMini.Controllers
         [Authorize(Roles = Role.Admin)]
         public async Task<IActionResult> Admin()
         {
-            var httpResponse = await Client.GetAsync("http://localhost:53990/api/Admin/users");
+            var httpResponse = await client.GetAsync("http://localhost:53990/api/Admin/users");
             if (httpResponse.StatusCode.Equals(HttpStatusCode.OK))
             {
                 var content = await httpResponse.Content.ReadAsStringAsync();
@@ -84,7 +110,7 @@ namespace LVMini.Controllers
 
                 return View(users);
             }
-            return View();
+            return RedirectToAction("AccessDenied", "Authorization");
         }
 
         //Validate Username
@@ -94,7 +120,7 @@ namespace LVMini.Controllers
             {
                 return false;
             }
-            var httpResponse = await Client.GetAsync($"http://localhost:53920/api/users/" + name);
+            var httpResponse = await client.GetAsync($"http://localhost:53920/api/users/" + name);
             if (httpResponse.StatusCode == HttpStatusCode.OK)
             {
                 var content = await httpResponse.Content.ReadAsStringAsync();
@@ -109,7 +135,7 @@ namespace LVMini.Controllers
         {
             if (!string.IsNullOrEmpty(email))
             {
-                var httpResponse = await Client.GetAsync($"http://localhost:53920/api/users/");
+                var httpResponse = await client.GetAsync($"http://localhost:53920/api/users/");
                 if (httpResponse.StatusCode == HttpStatusCode.OK)
                 {
                     var content = await httpResponse.Content.ReadAsStringAsync();
@@ -136,7 +162,7 @@ namespace LVMini.Controllers
             {
                 var uri = "http://localhost:53920/api/users/" + username;
 
-                var httpResponse = await Client.GetAsync(uri);
+                var httpResponse = await client.GetAsync(uri);
                 if (httpResponse.StatusCode == HttpStatusCode.OK)
                 {
                     var content = await httpResponse.Content.ReadAsStringAsync();

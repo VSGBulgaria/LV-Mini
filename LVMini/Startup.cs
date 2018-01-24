@@ -1,5 +1,7 @@
 ﻿using IdentityModel;
+using LVMini.Service.Classes;
 using LVMini.Service.Constants;
+using LVMini.Service.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
@@ -76,6 +78,7 @@ namespace LVMini
                      };
                  });
 
+            services.AddSingleton<IHttpClientProvider, HttpClientProvider>();
             services.AddMvc();
 
         }

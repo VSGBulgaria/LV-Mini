@@ -11,7 +11,10 @@ namespace AuthorizationServer.Configuration
         {
             return new ApiResource[]
             {
-                new ApiResource("lvminiAPI", "LV Mini API"),
+                new ApiResource("lvminiAPI", "LV Mini API")
+                {
+                    ApiSecrets = {new Secret("mainAPIsecret".Sha256())}
+                },
                 new ApiResource("lvmini_admin", "LV Mini Admin")
                 {
                     UserClaims =
@@ -31,7 +34,8 @@ namespace AuthorizationServer.Configuration
                                 "role"
                             }
                         }
-                    }
+                    },
+                    ApiSecrets = {new Secret("adminAPIsecret".Sha256())}
                 }
             };
         }
@@ -61,6 +65,8 @@ namespace AuthorizationServer.Configuration
                     ClientSecrets = { new Secret("interns".Sha256())},
                     AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
                     UpdateAccessTokenClaimsOnRefresh = true,
+                    AccessTokenType = AccessTokenType.Reference,
+                    AccessTokenLifetime = 100,
 
                     AllowedScopes = new []
                     {

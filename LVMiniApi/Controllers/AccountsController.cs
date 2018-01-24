@@ -1,7 +1,6 @@
 ﻿using Data.Service.Core.Enums;
 using Data.Service.Core.Interfaces;
 using LVMiniApi.Api.Service;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -22,7 +21,6 @@ namespace LVMiniApi.Controllers
 
         [Route("logout")]
         [HttpPost]
-        [Authorize]
         public async Task Logout([FromBody] string username)
         {
             await _logger.InsertLog(username, UserAction.Logout);

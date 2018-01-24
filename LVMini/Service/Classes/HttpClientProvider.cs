@@ -1,33 +1,78 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using IdentityModel.Client;
+using LVMini.Service.Interfaces;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using System;
+using System.Globalization;
 using System.Net.Http;
-using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace LVMini.Service.Classes
 {
-    public static class HttpClientProvider
+    public sealed class HttpClientProvider : IHttpClientProvider
     {
-        private static readonly HttpContextAccessor HttpContextAccessor = new HttpContextAccessor();
-        private static readonly HttpClient _httpClient = new HttpClient();
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly HttpClient _httpClient;
 
-        public static HttpClient HttpClient => Client();
-
-        static HttpClientProvider()
-        { }
-
-        private static HttpClient Client()
+        public HttpClientProvider(IHttpContextAccessor httpContextAccessor)
         {
-            HttpContext context = HttpContextAccessor.HttpContext;
-            string accessToken = context.GetTokenAsync(OpenIdConnectParameterNames.AccessToken).Result;
+            _httpContextAccessor = httpContextAccessor;
+            _httpClient = new HttpClient();
+        }
+
+        public HttpClient Client()
+        {
+            HttpContext context = _httpContextAccessor.HttpContext;
+            string accessToken;
+
+            string expiresAt = context.GetTokenAsync("expires_at").Result;
+            if (!string.IsNullOrWhiteSpace(expiresAt) && DateTime.Parse(expiresAt).AddSeconds(-30).ToUniversalTime() < DateTime.UtcNow)
+            {
+                accessToken = RenewTokens().Result;
+            }
+            else
+            {
+                accessToken = context.GetTokenAsync(OpenIdConnectParameterNames.AccessToken).Result;
+            }
 
             if (!string.IsNullOrWhiteSpace(accessToken))
                 _httpClient.SetBearerToken(accessToken);
 
-            _httpClient.DefaultRequestHeaders.Accept.Clear();
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
             return _httpClient;
+        }
+
+        private async Task<string> RenewTokens()
+        {
+            HttpContext httpContext = _httpContextAccessor.HttpContext;
+
+            DiscoveryResponse authServerInfo = await DiscoveryClient.GetAsync($"http://localhost:55817");
+
+            TokenClient tokenClient = new TokenClient(authServerInfo.TokenEndpoint, "lvmini", "interns");
+
+            string refreshToken = await httpContext.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken);
+
+            TokenResponse tokenResponse = await tokenClient.RequestRefreshTokenAsync(refreshToken);
+
+            if (!tokenResponse.IsError)
+            {
+                AuthenticateResult authenticationInformation = await httpContext.AuthenticateAsync("Cookies");
+                var expiresAt = DateTime.UtcNow + TimeSpan.FromSeconds(tokenResponse.ExpiresIn);
+                authenticationInformation.Properties.UpdateTokenValue("expires_at",
+                    expiresAt.ToString("O", CultureInfo.InvariantCulture));
+
+                authenticationInformation.Properties.UpdateTokenValue(OpenIdConnectParameterNames.AccessToken,
+                    tokenResponse.AccessToken);
+                authenticationInformation.Properties.UpdateTokenValue(OpenIdConnectParameterNames.RefreshToken,
+                    tokenResponse.RefreshToken);
+
+                await httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                    authenticationInformation.Principal, authenticationInformation.Properties);
+                return tokenResponse.AccessToken;
+            }
+
+            return null;
         }
     }
 }

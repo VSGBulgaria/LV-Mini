@@ -16,6 +16,7 @@ namespace LVMiniApi.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
+    [Authorize]
     public class UsersController : BaseController
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -29,6 +30,7 @@ namespace LVMiniApi.Controllers
 
         // GET api/users
         [HttpGet]
+        [Authorize]
         public IActionResult Get()
         {
             var users = UserRepository.GetAll();
