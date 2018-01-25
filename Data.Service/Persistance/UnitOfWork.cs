@@ -19,9 +19,9 @@ namespace Data.Service.Persistance
         public IUserRepository Users { get; }
         public ILogRepository Logs { get; }
 
-        public async Task<int> Commit()
+        public async Task<bool> Commit()
         {
-            return await _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync() >= 0;
         }
 
         public void Dispose()

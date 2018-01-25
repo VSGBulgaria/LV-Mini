@@ -16,5 +16,6 @@ namespace Data.Service.Core.Interfaces
         Task<bool> IsUserActive(string subjectId);
         Task AddUserLogin(string subjectId, string loginProvider, string providerKey);
         Task AddUserClaim(string subjectId, string claimType, string claimValue);
+        Task<bool> Save();
     }
 }

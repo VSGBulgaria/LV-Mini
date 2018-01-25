@@ -1,5 +1,5 @@
-﻿
-@model LVMini.ViewModels.RegisterViewModel
+﻿@model UserRegistrationViewModel
+
 
 <head>
 
@@ -13,17 +13,18 @@
 <h2 style="color:white">Register</h2>
 
 <div class="Register">
-
-    @using (Html.BeginForm("Register", "Accounts", FormMethod.Post))
+    @Html.Partial("_ValidationSummary")
+    @using (Html.BeginForm("RegisterUser", "UserRegistration", FormMethod.Post))
     {
+        <input type="hidden" asp-for="ReturnUrl" />
         <div>
             <div>
                 @Html.LabelFor(model => model.Username)
                 <div>
-                    @Html.TextBoxFor(model => model.Username, new { @class = "RegFields", @placeholder = "Choose Username"})
+                    @Html.TextBoxFor(model => model.Username, new { @class = "RegFields", @placeholder = "Choose Username" })
                     @Html.ValidationMessageFor(model => model.Username)
-                    <i class="fa fa-check" aria-hidden="true" id = "username_available_sign" style="display:none;"></i>
-                    <i class="fa fa-times" aria-hidden="true" id ="username_unavailable_sign" style="display:none;"></i>
+                    <i class="fa fa-check" aria-hidden="true" id="username_available_sign" style="display:none;"></i>
+                    <i class="fa fa-times" aria-hidden="true" id="username_unavailable_sign" style="display:none;"></i>
                 </div>
             </div>
             <div>
@@ -55,16 +56,7 @@
                 </div>
             </div>
             <div>
-                @Html.LabelFor(model => model.ConfirmPassword)
-                <div>
-                    @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "RegFields", @placeholder = "Repeat Your Password" })
-                    @Html.ValidationMessageFor(model => model.ConfirmPassword)
-
-                </div>
-            </div>
-            <div>
-                <input type="submit" id="Click" value="Register"/>
-                <input type="button" value="Cancel" id ="Cancel" onclick="location.href='@Url.Action("Index","Home")';" />
+                <input type="submit" id="Click" value="Register" />
             </div>
         </div>
     }

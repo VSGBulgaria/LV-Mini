@@ -107,5 +107,10 @@ namespace Data.Service.Persistance.Repositories
 
             user.Claims.Add(new UserClaim(claimType, claimValue));
         }
+
+        public async Task<bool> Save()
+        {
+            return await Context.SaveChangesAsync() >= 0;
+        }
     }
 }
