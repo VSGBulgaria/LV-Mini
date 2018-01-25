@@ -92,12 +92,11 @@ namespace LVMiniApi.Controllers
                 return NotFound();
 
             var clientUserId = User.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
-            if (clientUserId != null && user.Id.ToString() != clientUserId)
+            if (clientUserId != null && user.SubjectId != clientUserId)
                 return Forbid();
 
             ValidateUserUpdate(user, model);
             UserRepository.Update(user);
-            //await InsertLog(user.Username, UserAction.ProfileUpdate);
 
             await _unitOfWork.Commit();
 

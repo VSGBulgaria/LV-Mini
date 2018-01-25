@@ -1,11 +1,12 @@
 ﻿using Data.Service.Core.Interfaces;
+using System;
 using System.Threading.Tasks;
 
 namespace Data.Service.Persistance
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly LvMiniDbContext _context;
+        private LvMiniDbContext _context;
 
         public UnitOfWork(LvMiniDbContext context, IUserRepository users, ILogRepository logs)
         {
@@ -25,7 +26,20 @@ namespace Data.Service.Persistance
 
         public void Dispose()
         {
-            _context.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_context != null)
+                {
+                    _context.Dispose();
+                    _context = null;
+                }
+            }
         }
     }
 }

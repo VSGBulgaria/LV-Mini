@@ -1,5 +1,4 @@
-﻿using Data.Service.Core.Entities;
-using Data.Service.Core.Interfaces;
+﻿using Data.Service.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Data.Service.Persistance.Repositories
 {
-    public abstract class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
+    public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
     {
         protected readonly DbContext Context;
         protected readonly DbSet<T> Entities;
@@ -35,9 +34,7 @@ namespace Data.Service.Persistance.Repositories
 
         public async Task<T> GetById(int id)
         {
-            return await Entities
-                .AsNoTracking()
-                .FirstOrDefaultAsync(u => u.Id == id);
+            return await Entities.FindAsync(id);
         }
 
         public async Task Insert(T entity)

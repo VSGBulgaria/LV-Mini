@@ -1,10 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace Data.Service.Core.Entities
 {
-    public class User : BaseEntity
+    [Table("Users")]
+    public class User
     {
+        [Key]
+        public string SubjectId { get; set; }
+
         [Required]
         [StringLength(20, MinimumLength = 3)]
         public string Username { get; set; }
@@ -26,8 +32,10 @@ namespace Data.Service.Core.Entities
         [StringLength(50)]
         public string LastName { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        public string Role { get; set; } = "user";
+        public bool IsActive { get; set; } = true;
+
+        public ICollection<UserClaim> Claims { get; set; } = new List<UserClaim>();
+
+        public ICollection<UserLogin> Logins { get; set; } = new List<UserLogin>();
     }
 }

@@ -11,9 +11,10 @@ using System;
 namespace Data.Service.Migrations
 {
     [DbContext(typeof(LvMiniDbContext))]
-    partial class LvMiniDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180125125721_MakeUsersCompatibleWithIdentityServer")]
+    partial class MakeUsersCompatibleWithIdentityServer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,7 +93,7 @@ namespace Data.Service.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("UserClaims");
+                    b.ToTable("UserClaim");
                 });
 
             modelBuilder.Entity("Data.Service.Core.Entities.UserLogin", b =>

@@ -66,7 +66,6 @@ namespace AuthorizationServer.Configuration
                     AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
                     UpdateAccessTokenClaimsOnRefresh = true,
                     AccessTokenType = AccessTokenType.Reference,
-                    AccessTokenLifetime = 100,
 
                     AllowedScopes = new []
                     {

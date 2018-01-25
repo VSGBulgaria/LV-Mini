@@ -28,7 +28,7 @@ namespace LVMini.Service.Classes
             string accessToken;
 
             string expiresAt = context.GetTokenAsync("expires_at").Result;
-            if (!string.IsNullOrWhiteSpace(expiresAt) && DateTime.Parse(expiresAt).AddSeconds(-30).ToUniversalTime() < DateTime.UtcNow)
+            if (!string.IsNullOrWhiteSpace(expiresAt) && DateTime.Parse(expiresAt).AddMinutes(10).ToUniversalTime() < DateTime.UtcNow)
             {
                 accessToken = RenewTokens().Result;
             }

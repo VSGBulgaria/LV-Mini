@@ -1,17 +1,30 @@
-﻿using AuthorizationServer.Quickstart;
+﻿using Data.Service.Core.Interfaces;
+using Data.Service.Persistance;
+using Data.Service.Persistance.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 using static AuthorizationServer.Configuration.Config;
 
 namespace AuthorizationServer
 {
     public class Startup
     {
+        public static IConfigurationRoot ConfigurationRoot;
         public Startup(IConfiguration configuration, IHostingEnvironment environment)
         {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(environment.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables();
+
+            ConfigurationRoot = builder.Build();
+
             Configuration = configuration;
             Environment = environment;
         }
@@ -23,6 +36,13 @@ namespace AuthorizationServer
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            string authServerConnectionString = Configuration["connectionStrings:AuthServer"];
+            string userDbConnectionString = Configuration["connectionStrings:LVMiniDatabase"];
+            string assembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+
+            services.AddDbContext<LvMiniDbContext>(o => o.UseSqlServer(userDbConnectionString));
+            services.AddScoped<IUserRepository, UserRepository>();
+
             services.AddMvc();
 
             services.Configure<IISOptions>(options =>
@@ -38,15 +58,27 @@ namespace AuthorizationServer
                     options.Events.RaiseFailureEvents = true;
                     options.Events.RaiseSuccessEvents = true;
                 })
+                //.AddConfigurationStore(options =>
+                //{
+                //    options.ConfigureDbContext = builder =>
+                //        builder.UseSqlServer(authServerConnectionString,
+                //            sql => sql.MigrationsAssembly(assembly));
+                //})
+                //.AddOperationalStore(opt =>
+                //{
+                //    opt.ConfigureDbContext = builder =>
+                //        builder.UseSqlServer(authServerConnectionString,
+                //            sql => sql.MigrationsAssembly(assembly));
+                //})
                 .AddDeveloperSigningCredential()
-                .AddTestUsers(TestUsers.Users)
+                .AddLvMiniUserStore()
                 .AddInMemoryClients(Clients())
                 .AddInMemoryIdentityResources(IdentityResources())
                 .AddInMemoryApiResources(ApiResources());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, LvMiniDbContext lvMiniDbContext)
         {
             if (env.IsDevelopment())
             {
@@ -57,6 +89,9 @@ namespace AuthorizationServer
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            lvMiniDbContext.Database.Migrate();
+            lvMiniDbContext.SeedDataForContext();
 
             FileExtensionContentTypeProvider typeProvider = new FileExtensionContentTypeProvider();
             if (!typeProvider.Mappings.ContainsKey(".woff2"))
