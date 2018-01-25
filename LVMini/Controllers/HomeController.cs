@@ -37,6 +37,8 @@ namespace LVMini.Controllers
 
             var users = JsonConvert.DeserializeObject<IEnumerable<UserModel>>(data);
 
+            //TODO: refactor the role logic 
+
             return View(users);
         }
 

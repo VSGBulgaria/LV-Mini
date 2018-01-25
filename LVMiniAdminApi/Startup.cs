@@ -1,6 +1,8 @@
 ﻿using Data.Service.Core.Interfaces;
 using Data.Service.Persistance;
 using Data.Service.Persistance.Repositories;
+using LVMiniAdminApi.Contracts;
+using LVMiniAdminApi.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +30,7 @@ namespace LVMiniAdminApi
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ILogRepository, LogRepository>();
+            services.AddScoped<IModifiedUserHandler, ModifiedUserHandler>();
 
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication(options =>

@@ -27,15 +27,19 @@ let cssInlineBlockKeyWord = 'inline-block';
 let cssRedKeyWord = 'red';
 let cssGreenKeyWord = 'green';
 let jqueryKeyUpKeyWord = 'keyup';
+let jqueryClickKwyWord = 'click';
 let registerUsernameAvailableSignId = '#username_available_sign';
 let registrationUsernameUnavailableSignId = '#username_unavailable_sign';
 let minimumUsernameLenght = 3;
+let jqueryButtonsModifyUserInfoClass = '.modify-users-buttons';
+let buttonsModifyUserPrefix = 'btnModify';
+
 
 //Validate Username
 $(registerUsernameTagId).on(jqueryKeyUpKeyWord, checkForAvailableUsername);
 
 function checkForAvailableUsername(ev) {
-    ev.preventDefault()
+    ev.preventDefault();
     let data = $(registerUsernameTagId).val();
     if (data.length >= minimumUsernameLenght) {
         $.ajax({
@@ -58,22 +62,59 @@ function logErrorInConsole(err) {
 
 function displayUsernameSign(isAvailable) {
     console.log(isAvailable);
-    let av_sign = $(registerUsernameAvailableSignId);
-    let unav_sign = $(registrationUsernameUnavailableSignId);
+    let available_sign = $(registerUsernameAvailableSignId);
+    let unavailable_sign = $(registrationUsernameUnavailableSignId);
     if (!isAvailable) {
-        $(av_sign).css(cssDisplayKeyWord, cssInlineBlockKeyWord);
-        $(av_sign).css(cssColorKeyWord, cssGreenKeyWord);
-        $(unav_sign).css(cssDisplayKeyWord, cssNoneKeyWord);
+        $(available_sign).css(cssDisplayKeyWord, cssInlineBlockKeyWord);
+        $(available_sign).css(cssColorKeyWord, cssGreenKeyWord);
+        $(unavailable_sign).css(cssDisplayKeyWord, cssNoneKeyWord);
     } else {
-        $(av_sign).css(cssDisplayKeyWord, cssNoneKeyWord);
-        $(unav_sign).css(cssColorKeyWord, cssRedKeyWord);
-        $(unav_sign).css(cssDisplayKeyWord, cssInlineBlockKeyWord);
+        $(available_sign).css(cssDisplayKeyWord, cssNoneKeyWord);
+        $(unavailable_sign).css(cssColorKeyWord, cssRedKeyWord);
+        $(unavailable_sign).css(cssDisplayKeyWord, cssInlineBlockKeyWord);
     }
 }
 
+$(jqueryButtonsModifyUserInfoClass).on(jqueryClickKwyWord, saveProfileChanges);
 
-function saveMyProfileChanges() {
-    
+function saveProfileChanges(ev) {
+    let firstNameInputModifyUserPrefix = 'FirstNameInput';
+    let lastNameInputModifyUserPrefix = 'LastNameInput';
+    let currentTargetId = ev.currentTarget.id;
+    let currentUser = currentTargetId.replace(new RegExp('^' + buttonsModifyUserPrefix), '');
+    let changedFirstName = $('#' + firstNameInputModifyUserPrefix + currentUser).val();
+    let changedLastName = $('#' + lastNameInputModifyUserPrefix + currentUser).val();
+    if (!isEmpty(changedFirstName.trim()) && !isEmpty(changedLastName.trim())) {
+        let user = {
+            UserName: currentUser,
+            FirstName: changedFirstName,
+            LastName: changedLastName
+        };
+        console.log(user);
+        $.ajax({
+            type: 'POST',
+            url: '/Accounts/ModifyUserInfo',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(user),
+            success: replaceTheExistingData,
+            error: logErrorInConsole
+        });
+    }
+
+    function replaceTheExistingData(isDataReplaced) {
+        if (isDataReplaced) {
+            let oldFirstNameLabelId = 'currentUserFirstName' + currentUser;
+            let oldLastNameLabelId = 'currentUserLastName' + currentUser;
+            $('#' + oldFirstNameLabelId).text(changedFirstName);
+            $('#' + oldLastNameLabelId).text(changedLastName);
+            $('#hidden' + currentUser).css('display', 'none');
+        }
+    }
+
+    function isEmpty(str) {
+        return (!str || 0 === str.length);
+    }
 }
 
 

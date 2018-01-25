@@ -1,61 +1,53 @@
 ﻿using Data.Service.Core.Interfaces;
+using LVMiniAdminApi.Contracts;
+using LVMiniAdminApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace LVMiniAdminApi.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Admin/users")]
+    [Route("api/admin/users")]
     [Authorize("AdminOnly")]
     public class AdminController : Controller
     {
-
         private readonly IUserRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IModifiedUserHandler _userHandler;
 
-
-        public AdminController(IUnitOfWork unitOfWork)
+        public AdminController(IUnitOfWork unitOfWork, IModifiedUserHandler handler)
         {
             _unitOfWork = unitOfWork;
             _repository = _unitOfWork.Users;
+            _userHandler = handler;
         }
 
-        // GET: api/Admin
+        // GET: api/admin/users
         [HttpGet]
         public IActionResult Get()
         {
             return Ok(_repository.GetAll());
         }
 
-        //// PUT: api/Admin
-        //[HttpPut]
-        //public async Task<IActionResult> Put([FromBody]User user)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest("The model is invalid");
-        //    }
-        //    var usersMatched = _repository
-        //        .GetAll(innerUser => user.Email == innerUser.Email || user.Username == innerUser.Username).ToList();
-        //    if (usersMatched.Count < Constants.SingleUserCollectionCount)
-        //    {
-        //        user.Id = Constants.DefaultUserPostId;
-        //        var postNewUser = await Post(user);
-        //        return Created("api/admin", postNewUser);
-        //    }
-        //    if (usersMatched.Count == Constants.SingleUserCollectionCount && usersMatched[Constants.FirstUserIndex].Id == user.Id)
-        //    {
-        //        var userFromDb = usersMatched[Constants.FirstUserIndex];
-        //        user.Id = userFromDb.Id;
-        //        _repository.Update(user);
-        //        await _unitOfWork.Commit();
-
-        //        return Ok("User was modified");
-        //    }
-        //    return BadRequest("More than one user matched to given credentials.");
-        //}
-
-
-
+        // PUT: api/admin/users
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody]ModifiedUserModel user)
+        {
+            if (ModelState.IsValid)
+            {
+                var storedUser = await _repository.GetByUsername(user.Username);
+                storedUser = _userHandler.SetChangesToStoredUser(storedUser, user);
+                _repository.Update(storedUser);
+                var resultCommits = await _unitOfWork.Commit();
+                var storedUserWithTheChanges = await _repository.GetByUsername(user.Username);
+                if (_userHandler.CheckTheChanges(storedUserWithTheChanges, user))
+                {
+                    return Ok(storedUser);
+                }
+                
+            }
+            return BadRequest("Invalid Model State.");
+        }
     }
 }

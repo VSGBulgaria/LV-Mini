@@ -107,7 +107,6 @@ namespace LVMini.Controllers
             {
                 var content = await httpResponse.Content.ReadAsStringAsync();
                 var users = JsonConvert.DeserializeObject<List<UserModel>>(content);
-
                 return View(users);
             }
             return RedirectToAction("AccessDenied", "Authorization");
@@ -153,9 +152,29 @@ namespace LVMini.Controllers
             return false;
         }
 
+
+        [HttpPost]
+        [Authorize(Roles = Role.Admin)]
+        public bool ModifyUserInfo([FromBody]ModifiedUserModel model)
+        {
+            using (var client = new HttpClient())
+            {
+                var accessToken = this.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken).Result;
+                client.SetBearerToken(accessToken);
+                var stringContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+                var response = client.PutAsync("http://localhost:53990/api/admin/users", stringContent).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
         //Edit User
         [HttpGet]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = Role.Admin)]
         public async Task<IActionResult> DisplayUserInfo(string username)
         {
             if (!string.IsNullOrEmpty(username))
