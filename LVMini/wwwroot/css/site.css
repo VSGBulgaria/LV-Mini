@@ -46,26 +46,7 @@ body {
         color: white;
         font-size: 20px;
     }
-#Username {
-    width: 60%;
-    border-radius: 4px;
-    height: 35px;
-    border: none;
-    border-bottom: 1px solid;
-    background: transparent;
-    outline: none;
-    color: #fff;
-}
-#Email {
-    width: 60%;
-    height: 35px;
-    border: none;
-    border-bottom: 1px solid;
-    background: transparent;
-    outline: none;
-    color: #fff;
-    font-size: 16px;
-}
+
 .RegFields {
     width: 60%;
     height: 35px;
@@ -78,14 +59,17 @@ body {
     .RegFields input [type = "text"] {
         background: transparent;
     }
+
 #available {
     display:none;
     color:green;
 }
+
 #unavailable {
     display: none;
     color: red;
 }
+
 .Register input[type="submit"] {
     border: none;
     outline: none;
@@ -100,6 +84,7 @@ body {
     text-align: center;
     border-radius: 4px;
 }
+
 #Cancel {
     border: none;
     outline: none;
@@ -113,6 +98,7 @@ body {
     font-weight: normal;
     text-align: center;
 }
+/*End Of Style For Register*/
 
 /*Style For My Profile Page*/
 .ProfPic {
@@ -121,9 +107,7 @@ body {
     padding: 10px 30px;
     color: white;
     position:absolute;
-
 }
-
 .fields {
     width: 100%;
     position: center;
@@ -131,11 +115,11 @@ body {
     padding: 70px 30px;
 }
 
-    .col-lg-6 label {
+.col-lg-6 label {
         color: white;
         font-size: 20px;
-       
-    }
+}
+
 input#FirstName.form-control {
     width: 60%;
     border: none;
@@ -144,6 +128,7 @@ input#FirstName.form-control {
     outline: none;
     color: #fff;
 }
+
 input#LastName.form-control {
     width: 60%;
     border: none;
@@ -152,6 +137,7 @@ input#LastName.form-control {
     outline: none;
     color: #fff;
 }
+
 .field-validation-error{
     color: red;
     position:absolute;
@@ -241,3 +227,38 @@ input#LastName.form-control {
     width:100%;
 
 }
+/*//Button Edit Class From The GeeUsers Page
+{
+    box-shadow: 0 0 0 1px #428bca inset, 0 0 0 2px rgba(255,255,255,0.15) inset, 0 8px 0 0 #357ebd, 0 8px 0 1px rgba(0,0,0,0.4), 0 8px 8px 1px rgba(0,0,0,0.5);
+    background-color: #428bca;
+}*/
+/*//Button Modify Class From The GeeUsers Page
+{
+    box-shadow: 0 0 0 1px #428bca inset, 0 0 0 2px rgba(255,255,255,0.15) inset, 0 8px 0 0 #357ebd, 0 8px 0 1px rgba(0,0,0,0.4), 0 8px 8px 1px rgba(0,0,0,0.5);
+    background-color: #428bca;
+}*/
+.btn-primary {
+    box-shadow: 0 0 0 1px #428bca inset, 0 0 0 2px rgba(255,255,255,0.15) inset, 0 8px 0 0 #357ebd, 0 8px 0 1px rgba(0,0,0,0.4), 0 8px 8px 1px rgba(0,0,0,0.5);
+    background-color: #428bca;
+}
+
+.btn-danger {
+    box-shadow: 0 0 0 1px #c63702 inset, 0 0 0 2px rgba(255,255,255,0.15) inset, 0 8px 0 0 #C24032, 0 8px 0 1px rgba(0,0,0,0.4), 0 8px 8px 1px rgba(0,0,0,0.5);
+    background-color: #c63702;
+}
+.btn3d {
+    transition: all .08s linear;
+    position: relative;
+    outline: medium none;
+    border: 0px;
+    margin-right: 10px;
+    margin-top: 15px;
+}
+
+    .btn3d:focus {
+        outline: medium none;
+    }
+
+    .btn3d:active {
+        top: 9px;
+    }

@@ -54,17 +54,17 @@
                     @Html.ValidationMessageFor(model => model.Password)
                 </div>
             </div>
-            <div>
+            @*<div>
                 @Html.LabelFor(model => model.ConfirmPassword)
                 <div>
                     @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "RegFields", @placeholder = "Repeat Your Password" })
                     @Html.ValidationMessageFor(model => model.ConfirmPassword)
 
                 </div>
-            </div>
+            </div>*@
             <div>
-                <input type="submit" id="Click" value="Register"/>
-                <input type="button" value="Cancel" id ="Cancel" onclick="location.href='@Url.Action("Index","Home")';" />
+                <input type="submit" class="btn btn-primary btn-lg btn3d" id="Click" value="Register"/>
+                <input type="button" class="btn btn-danger btn-lg btn3d" value="Cancel" id ="Cancel" onclick="location.href='@Url.Action("Index","Home")';" />
             </div>
         </div>
     }
