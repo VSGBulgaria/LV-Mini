@@ -47,8 +47,31 @@ body {
         font-size: 20px;
     }
 
+input#Username.RegFields {
+    width: 60%;
+    border-radius: 4px;
+    height: 35px;
+    border: none;
+    border-bottom: 1px solid;
+    background: transparent;
+    outline: none;
+    color: #fff;
+}
+
+#Email {
+    width: 60%;
+    height: 35px;
+    border: none;
+    border-bottom: 1px solid;
+    background: transparent;
+    outline: none;
+    color: #fff;
+    font-size: 14px;
+}
+
 .RegFields {
     width: 60%;
+    font-size: 14px;
     height: 35px;
     border: none;
     border-bottom: 1px solid;
@@ -58,6 +81,7 @@ body {
 }
     .RegFields input [type = "text"] {
         background: transparent;
+        font-size: 14px;
     }
 
 #available {
@@ -68,6 +92,13 @@ body {
 #unavailable {
     display: none;
     color: red;
+}
+
+input#Password.RegFields {
+    font-size: 14px;
+}
+input#ConfirmPassword.RegFields {
+    font-size: 14px;
 }
 
 .Register input[type="submit"] {
@@ -98,7 +129,15 @@ body {
     font-weight: normal;
     text-align: center;
 }
+
 /*End Of Style For Register*/
+
+
+/*   #Cancel:hover {
+        box-shadow: 0 0 30px 0 rgba(62, 171, 240, 0.5);
+        transition: all 0.2s ease-out;
+    }
+     */
 
 /*Style For My Profile Page*/
 .ProfPic {
@@ -109,6 +148,7 @@ body {
     position:absolute;
 }
 .fields {
+    
     width: 100%;
     position: center;
     background: RGBA(0,0,0,0.5);
