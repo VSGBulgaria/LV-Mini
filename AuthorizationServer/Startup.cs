@@ -1,6 +1,8 @@
-﻿using Data.Service.Core.Interfaces;
+﻿using AuthorizationServer.Services;
+using Data.Service.Core.Interfaces;
 using Data.Service.Persistance;
 using Data.Service.Persistance.Repositories;
+using IdentityServer4.EntityFramework.DbContexts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.StaticFiles;
@@ -8,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
-using static AuthorizationServer.Configuration.Config;
 
 namespace AuthorizationServer
 {
@@ -58,27 +59,25 @@ namespace AuthorizationServer
                     options.Events.RaiseFailureEvents = true;
                     options.Events.RaiseSuccessEvents = true;
                 })
-                //.AddConfigurationStore(options =>
-                //{
-                //    options.ConfigureDbContext = builder =>
-                //        builder.UseSqlServer(authServerConnectionString,
-                //            sql => sql.MigrationsAssembly(assembly));
-                //})
-                //.AddOperationalStore(opt =>
-                //{
-                //    opt.ConfigureDbContext = builder =>
-                //        builder.UseSqlServer(authServerConnectionString,
-                //            sql => sql.MigrationsAssembly(assembly));
-                //})
+                .AddConfigurationStore(options =>
+                {
+                    options.ConfigureDbContext = builder =>
+                        builder.UseSqlServer(authServerConnectionString,
+                            sql => sql.MigrationsAssembly(assembly));
+                })
+                .AddOperationalStore(opt =>
+                {
+                    opt.ConfigureDbContext = builder =>
+                        builder.UseSqlServer(authServerConnectionString,
+                            sql => sql.MigrationsAssembly(assembly));
+                })
                 .AddDeveloperSigningCredential()
-                .AddLvMiniUserStore()
-                .AddInMemoryClients(Clients())
-                .AddInMemoryIdentityResources(IdentityResources())
-                .AddInMemoryApiResources(ApiResources());
+                .AddLvMiniUserStore();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, LvMiniDbContext lvMiniDbContext)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, LvMiniDbContext lvMiniDbContext,
+            ConfigurationDbContext configurationDbContext, PersistedGrantDbContext persistedGrantDbContext)
         {
             if (env.IsDevelopment())
             {
@@ -89,6 +88,11 @@ namespace AuthorizationServer
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            persistedGrantDbContext.Database.Migrate();
+
+            configurationDbContext.Database.Migrate();
+            configurationDbContext.SeedDataForContext();
 
             lvMiniDbContext.Database.Migrate();
             lvMiniDbContext.SeedDataForContext();

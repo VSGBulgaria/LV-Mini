@@ -8,16 +8,16 @@ namespace Data.Service.Persistance
     {
         private LvMiniDbContext _context;
 
-        public UnitOfWork(LvMiniDbContext context, IUserRepository users, ILogRepository logs)
+        public UnitOfWork(LvMiniDbContext context, IUserRepository userRepository, ILogRepository logRepository)
         {
             _context = context;
-            Users = users;
-            Logs = logs;
+            UserRepository = userRepository;
+            LogRepository = logRepository;
         }
 
 
-        public IUserRepository Users { get; }
-        public ILogRepository Logs { get; }
+        public IUserRepository UserRepository { get; }
+        public ILogRepository LogRepository { get; }
 
         public async Task<bool> Commit()
         {

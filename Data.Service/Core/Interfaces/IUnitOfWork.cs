@@ -5,8 +5,8 @@ namespace Data.Service.Core.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        IUserRepository Users { get; }
-        ILogRepository Logs { get; }
+        IUserRepository UserRepository { get; }
+        ILogRepository LogRepository { get; }
         Task<bool> Commit();
     }
 }

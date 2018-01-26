@@ -16,7 +16,7 @@ namespace LVMiniApi.Controllers
         public AccountsController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _logger = new Logger(_unitOfWork.Logs);
+            _logger = new Logger(_unitOfWork.LogRepository);
         }
 
         [Route("logout")]

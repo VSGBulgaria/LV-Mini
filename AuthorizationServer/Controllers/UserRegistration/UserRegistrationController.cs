@@ -51,7 +51,7 @@ namespace AuthorizationServer.Controllers.UserRegistration
                 userToCreate.Claims.Add(new UserClaim(JwtClaimTypes.GivenName, model.Firstname));
                 userToCreate.Claims.Add(new UserClaim(JwtClaimTypes.FamilyName, model.Lastname));
                 userToCreate.Claims.Add(new UserClaim(JwtClaimTypes.Email, model.Email));
-                userToCreate.Claims.Add(new UserClaim(JwtClaimTypes.Name, $"{model.Firstname} {model.Lastname}"));
+                userToCreate.Claims.Add(new UserClaim(JwtClaimTypes.Name, model.Username));
 
                 // add user through the repository
                 await _userRepository.Insert(userToCreate);

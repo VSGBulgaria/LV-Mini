@@ -19,7 +19,7 @@ namespace LVMiniAdminApi.Controllers
         public AdminController(IUnitOfWork unitOfWork, IModifiedUserHandler handler)
         {
             _unitOfWork = unitOfWork;
-            _repository = _unitOfWork.Users;
+            _repository = _unitOfWork.UserRepository;
             _userHandler = handler;
         }
 
@@ -45,7 +45,7 @@ namespace LVMiniAdminApi.Controllers
                 {
                     return Ok(storedUser);
                 }
-                
+
             }
             return BadRequest("Invalid Model State.");
         }

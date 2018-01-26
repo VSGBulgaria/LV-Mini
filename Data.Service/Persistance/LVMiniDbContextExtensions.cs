@@ -31,7 +31,7 @@ namespace Data.Service.Persistance
                         new UserClaim(JwtClaimTypes.Role, Role.Admin),
                         new UserClaim(JwtClaimTypes.GivenName, "Simeon"),
                         new UserClaim(JwtClaimTypes.FamilyName, "Banev"),
-                        new UserClaim(JwtClaimTypes.Name, "Simeon Banev"),
+                        new UserClaim(JwtClaimTypes.Name, "simo"),
                         new UserClaim(JwtClaimTypes.Email, "simo@abv.bg")
                     }
                 },
@@ -49,7 +49,7 @@ namespace Data.Service.Persistance
                         new UserClaim(JwtClaimTypes.Role, Role.User),
                         new UserClaim(JwtClaimTypes.GivenName, "Gosho"),
                         new UserClaim(JwtClaimTypes.FamilyName, "Petrov"),
-                        new UserClaim(JwtClaimTypes.Name, "Gosho Petrov"),
+                        new UserClaim(JwtClaimTypes.Name, "gosho"),
                         new UserClaim(JwtClaimTypes.Email, "gosho@abv.bg")
                     }
                 }
