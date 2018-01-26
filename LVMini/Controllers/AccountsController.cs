@@ -157,17 +157,13 @@ namespace LVMini.Controllers
         [Authorize(Roles = Role.Admin)]
         public bool ModifyUserInfo([FromBody]ModifiedUserModel model)
         {
-            using (var client = new HttpClient())
+            var stringContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+            var response = client.PutAsync("http://localhost:53990/api/admin/users", stringContent).Result;
+            if (response.IsSuccessStatusCode)
             {
-                var accessToken = this.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken).Result;
-                client.SetBearerToken(accessToken);
-                var stringContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
-                var response = client.PutAsync("http://localhost:53990/api/admin/users", stringContent).Result;
-                if (response.IsSuccessStatusCode)
-                {
-                    return true;
-                }
+                return true;
             }
+
             return false;
         }
 
@@ -178,17 +174,16 @@ namespace LVMini.Controllers
             if (ModelState.IsValid)
             {
                 var currentUser = User.Identity.Name;
-                var accessToken = this.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken).Result;
-                client.SetBearerToken(accessToken);
+
                 var stringContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
-                var response = client.PutAsync("http://localhost:53920/" + "api/users/" + currentUser, stringContent).Result;
+                var response = client.PutAsync("http://localhost:53920/api/users/" + currentUser, stringContent).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
                     return true;
                 }
             }
-            return true;
+            return false;
         }
 
         //Edit User
