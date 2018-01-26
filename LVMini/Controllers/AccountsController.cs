@@ -171,6 +171,25 @@ namespace LVMini.Controllers
             return false;
         }
 
+        [HttpPost]
+        [Authorize]
+        public bool ModifyMyProfileInfo([FromBody]MyProfileValuesChangedUserModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = User.Identity.Name;
+                var accessToken = this.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken).Result;
+                client.SetBearerToken(accessToken);
+                var stringContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+                var response = client.PutAsync("http://localhost:53920/" + "api/users/" + currentUser, stringContent).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+            }
+            return true;
+        }
 
         //Edit User
         [HttpGet]

@@ -90,7 +90,6 @@ function saveProfileChanges(ev) {
             FirstName: changedFirstName,
             LastName: changedLastName
         };
-        console.log(user);
         $.ajax({
             type: 'POST',
             url: '/Accounts/ModifyUserInfo',
@@ -111,9 +110,84 @@ function saveProfileChanges(ev) {
             $('#hidden' + currentUser).css('display', 'none');
         }
     }
+}
 
-    function isEmpty(str) {
-        return (!str || 0 === str.length);
+function isEmpty(str) {
+    return (!str || 0 === str.length);
+}
+
+$('#saveMyProfileChangesButton').on('click', function () {
+    let currentUserChangedValues = $('.form-control');
+    let usersChangedValues = {
+        Email: undefined,
+        FirstName: undefined,
+        LastName: undefined
+    };
+    let emailId = 'email';
+    let firstNameId = 'FirstName';
+    let lastNameId = 'LastName';
+    for (let userInput of currentUserChangedValues) {
+        if (userInput.id.toUpperCase() === emailId.toUpperCase()) {
+            usersChangedValues.Email = $(userInput).val();
+        } if (userInput.id.toUpperCase() === firstNameId.toUpperCase()) {
+            usersChangedValues.FirstName = $(userInput).val();
+        } if (userInput.id.toUpperCase() === lastNameId.toUpperCase()) {
+            usersChangedValues.LastName = $(userInput).val();
+        }
+    }
+
+
+    checkIsDataCorrect(usersChangedValues);
+    if (checkIsDataCorrect(usersChangedValues)) {
+        sendChanges(usersChangedValues);
+    }
+    hideMyprofileChangesForm();
+
+
+    sendChanges(usersChangedValues);
+
+    function sendChanges(data) {
+        $.ajax({
+            type: 'POST',
+            url: '/Accounts/ModifyMyProfileInfo',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: replaceChangedValues,
+            error: logErrorInConsole
+        });
+    }
+
+
+    function checkIsDataCorrect(myProfileData) {
+        let emailResult = expr.test(myProfileData['Email']);
+        let firstNameResult = !isEmpty(myProfileData['FirstName']);
+        let lastNameResult = !isEmpty(myProfileData['LastName']);
+        return emailResult && firstNameResult && lastNameResult;
+    }
+
+
+    function replaceChangedValues(changesApplied) {
+        if (changesApplied) {
+            let oldDataFields = $('.control-label');
+            for (let dataField of oldDataFields) {
+                if ($(dataField).attr('class') === 'control-label') {
+                    for (let prop in usersChangedValues) {
+                        if ($(dataField).attr('for').toUpperCase() === prop.toUpperCase()) {
+                            $(dataField).html(usersChangedValues[prop]);
+                        }
+                    }
+                }
+            }
+        }
+    }
+});
+
+$('#Cancel').on('click', hideMyprofileChangesForm);
+
+function hideMyprofileChangesForm() {
+    if (!$('#editMyProfile').hasClass('hidden')) {
+        $('#editMyProfile').addClass('hidden');
     }
 }
 
@@ -131,25 +205,4 @@ $('.btnUEdit').click(function (ev) {
     let hiddenUserTemplate = $(userIdentityAsJqueryString);
     $(hiddenUserTemplate).attr('class', 'col-lg-6');
 });
-//For Get Users Page
-    //$(document).ready(function () {
 
-    //    $('.star').on('click', function () {
-    //        $(this).toggleClass('star-checked');
-    //    });
-
-    //$('.ckbox label').on('click', function () {
-    //    $(this).parents('tr').toggleClass('selected');
-    //});
-
-    //    $('.btn-filter').on('click', function () {
-    //        var $target = $(this).data('target');
-    //        if ($target != 'all') {
-    //    $('.table tr').css('display', 'none');
-    //$('.table tr[data-status="' + $target + '"]').fadeIn('slow');
-    //        } else {
-    //    $('.table tr').css('display', 'none').fadeIn('slow');
-    //}
-    //    });
-
-    //});
