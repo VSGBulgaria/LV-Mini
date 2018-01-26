@@ -1,5 +1,8 @@
 ﻿namespace LVMiniApi.Models
 {
+    /// <summary>
+    /// Model for the edit user action.
+    /// </summary>
     public class EditUserModel
     {
         public string Email { get; set; }

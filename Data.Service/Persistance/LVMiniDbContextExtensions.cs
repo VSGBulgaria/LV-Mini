@@ -1,6 +1,7 @@
 ﻿using Data.Service.Core.Entities;
+using Data.Service.Services;
+using Data.Service.Services.Constants;
 using IdentityModel;
-using LVMini.Service.Constants;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -54,6 +55,8 @@ namespace Data.Service.Persistance
                     }
                 }
             };
+            users[0].Password = Hasher.PasswordHash(users[0], users[0].Password);
+            users[1].Password = Hasher.PasswordHash(users[1], users[1].Password);
 
             context.Users.AddRange(users);
             context.SaveChanges();

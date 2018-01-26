@@ -23,12 +23,11 @@ namespace LVMiniApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
+            services.AddAutoMapper();
             services.AddMvcCore()
                 .AddJsonFormatters()
                 .AddApiExplorer();
 
-            services.AddAutoMapper();
             services
                 .AddEntityFrameworkSqlServer()
                 .AddDbContext<LvMiniDbContext>(options =>

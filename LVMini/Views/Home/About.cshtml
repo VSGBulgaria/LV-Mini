@@ -31,14 +31,11 @@
     </div>
 </div>
 @{
-    var claims = User.Claims;
-    var role = new Claim("role", "user");
-    bool contains = claims.Contains(role);
     var name = User.Identity.Name;
 
     <h2 style="color:white;">@User.Identity.Name</h2>
 
-    foreach (var claim in claims)
+    foreach (var claim in User.Claims)
     {
         <div class="About">
             <strong>@claim.Type</strong>

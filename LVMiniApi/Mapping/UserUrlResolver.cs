@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LVMiniApi.Mapping
 {
+    /// <summary>
+    /// Adds a username surrogate key for users instead of the user id.
+    /// </summary>
     internal class UserUrlResolver : IValueResolver<User, UserModel, string>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;

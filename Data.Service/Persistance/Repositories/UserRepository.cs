@@ -1,5 +1,7 @@
 ﻿using Data.Service.Core.Entities;
 using Data.Service.Core.Interfaces;
+using Data.Service.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -72,7 +74,11 @@ namespace Data.Service.Persistance.Repositories
             {
                 return false;
             }
-            return user.Password == password && !string.IsNullOrWhiteSpace(password);
+
+            // verify that the password and the hash match
+            var result = Hasher.VerifyHashPassword(user, user.Password, password);
+
+            return result == PasswordVerificationResult.Success && !string.IsNullOrWhiteSpace(password);
         }
 
         public async Task<bool> IsUserActive(string subjectId)

@@ -11,7 +11,7 @@ namespace LVMiniApi.Api.Service
     /// </summary>
     internal class Logger
     {
-        private ILogRepository _logRepository;
+        private readonly ILogRepository _logRepository;
 
         public Logger(ILogRepository logRepository)
         {

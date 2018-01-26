@@ -1,7 +1,7 @@
 using AutoMapper;
 using Data.Service.Core.Entities;
 using Data.Service.Core.Interfaces;
-using LVMiniApi.Api.Service;
+using Data.Service.Services;
 using LVMiniApi.Filters;
 using LVMiniApi.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -68,27 +68,24 @@ namespace LVMiniApi.Controllers
         /// <param name="model"></param>
         /// <returns>Http 201 and the created user's information. Http 400 if the parameters are not valid.</returns>
         [HttpPost]
-        [ValidateModel]
         [AllowAnonymous]
-        public async Task<IActionResult> RegisterUser([FromBody] RegisterUserModel model)
+        public async Task<IActionResult> RegisterUser([FromBody] User model)
         {
             using (_unitOfWork)
             {
-                // map the model to a user entity and check if there is such a user
-                var user = Mapper.Map<User>(model);
-                if (ValidateUserExists(user, UserRepository))
+                if (ValidateUserExists(model, UserRepository))
                 {
                     ModelState.AddModelError("Username", "A user with this information already exists!");
                     return BadRequest(ModelState);
                 }
 
-                user.Password = Hasher.PasswordHash(user.Password);
-                await UserRepository.Insert(user);
+                model.Password = Hasher.PasswordHash(model, model.Password);
+                await UserRepository.Insert(model);
                 await _unitOfWork.Commit();
 
                 // get the username surrogate key to return
-                var newUri = Url.Link("UserGet", new { username = user.Username });
-                return Created(newUri, Mapper.Map<UserModel>(user));
+                var newUri = Url.Link("UserGet", new { username = model.Username });
+                return Created(newUri, Mapper.Map<UserModel>(model));
             }
         }
 

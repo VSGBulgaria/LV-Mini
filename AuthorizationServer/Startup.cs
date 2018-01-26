@@ -89,10 +89,10 @@ namespace AuthorizationServer
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            persistedGrantDbContext.Database.Migrate();
-
             configurationDbContext.Database.Migrate();
             configurationDbContext.SeedDataForContext();
+
+            persistedGrantDbContext.Database.Migrate();
 
             lvMiniDbContext.Database.Migrate();
             lvMiniDbContext.SeedDataForContext();

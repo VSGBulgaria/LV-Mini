@@ -1,4 +1,4 @@
-﻿namespace LVMini.Service.Constants
+﻿namespace Data.Service.Services.Constants
 {
     public static class Role
     {

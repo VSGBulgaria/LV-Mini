@@ -48,7 +48,6 @@ namespace AuthorizationServer.Configuration
                 new IdentityResources.Profile(),
                 new IdentityResources.Email(),
                 new IdentityResource("roles", "Your role(s)", new []{"role"}),
-                new IdentityResource("usernames", "Your role(s)", new []{"username"}),
 
             };
         }
@@ -76,7 +75,6 @@ namespace AuthorizationServer.Configuration
                         "lvminiAPI",
                         "lvmini_admin",
                         "roles",
-                        "usernames"
                     },
 
                     AllowOfflineAccess = true,

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace LVMiniApi.Controllers
 {
+    /// <summary>
+    /// A helper controller for logging user actions on their execution.
+    /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]
     public class AccountsController : BaseController

@@ -8,7 +8,6 @@ namespace LVMiniApi.Filters
         /// <summary>
         /// Validates if the ModelState is valid for the given action.
         /// </summary>
-        /// <param name="context"></param>
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             if (!context.ModelState.IsValid)

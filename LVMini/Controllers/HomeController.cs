@@ -33,11 +33,9 @@ namespace LVMini.Controllers
             if (httpResponseMessage.StatusCode != HttpStatusCode.OK)
                 return RedirectToAction("AccessDenied", "Authorization");
 
-            var data = httpResponseMessage.Content.ReadAsStringAsync().Result;
+            var data = await httpResponseMessage.Content.ReadAsStringAsync();
 
             var users = JsonConvert.DeserializeObject<IEnumerable<UserModel>>(data);
-
-            //TODO: refactor the role logic 
 
             return View(users);
         }

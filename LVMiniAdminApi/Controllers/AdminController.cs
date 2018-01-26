@@ -9,7 +9,7 @@ namespace LVMiniAdminApi.Controllers
 {
     [Produces("application/json")]
     [Route("api/admin/users")]
-    [Authorize("AdminOnly")]
+    [Authorize(Policy = "AdminOnly")]
     public class AdminController : Controller
     {
         private readonly IUserRepository _repository;

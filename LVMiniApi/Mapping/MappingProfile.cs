@@ -4,11 +4,14 @@ using LVMiniApi.Models;
 
 namespace LVMiniApi.Mapping
 {
+    /// <summary>
+    /// Automapper configuration.
+    /// </summary>
     internal class MappingProfile : Profile
     {
         public MappingProfile()
         {
-            //From Entity to Model
+            //From Entity to Model and reverse.
             CreateMap<User, UserModel>()
                 .ForMember(u => u.Url,
                     opt => opt.ResolveUsing<UserUrlResolver>())
@@ -16,11 +19,6 @@ namespace LVMiniApi.Mapping
 
             CreateMap<User, EditUserModel>()
                 .ReverseMap();
-
-            CreateMap<User, RegisterUserModel>()
-                .ReverseMap();
-
-            //From Model to Entity
         }
     }
 }

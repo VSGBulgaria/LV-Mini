@@ -5,7 +5,11 @@ using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
+using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace AuthorizationServer.Controllers.UserRegistration
@@ -53,16 +57,20 @@ namespace AuthorizationServer.Controllers.UserRegistration
                 userToCreate.Claims.Add(new UserClaim(JwtClaimTypes.Email, model.Email));
                 userToCreate.Claims.Add(new UserClaim(JwtClaimTypes.Name, model.Username));
 
-                // add user through the repository
-                await _userRepository.Insert(userToCreate);
-
-                if (!await _userRepository.Save())
+                // add the user through the API.
+                using (var client = new HttpClient())
                 {
-                    throw new Exception($"Creating a user failed.");
+                    StringContent content = new StringContent(JsonConvert.SerializeObject(userToCreate), Encoding.UTF8, "application/json");
+                    var response = await client.PostAsync($"http://localhost:53920/api/users", content);
+                    if (response.StatusCode != HttpStatusCode.Created)
+                    {
+                        throw new Exception($"Creating a user failed.");
+                    }
                 }
+                var createdUser = await _userRepository.GetByUsername(model.Username);
 
                 // log the user in
-                await HttpContext.SignInAsync(userToCreate.SubjectId, userToCreate.Username);
+                await HttpContext.SignInAsync(createdUser.SubjectId, createdUser.Username);
 
                 // continue with the flow
                 if (_interaction.IsValidReturnUrl(model.ReturnUrl) || Url.IsLocalUrl(model.ReturnUrl))
