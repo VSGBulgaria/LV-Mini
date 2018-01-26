@@ -56,13 +56,13 @@
                                         <div class="form-group">
                                             @Html.LabelFor(model => user.FirstName, new { @class = "control-label col-sm-4" })
                                             <div class="col-sm-5">
-                                                @Html.TextBoxFor(model => user.FirstName, new { @class = "form-control", placeholder = "First Name", id="FirstNameInput"+user.Username })
+                                                @Html.TextBoxFor(model => user.FirstName, new { @class = "form-control", placeholder = user.FirstName, id="FirstNameInput"+user.Username })
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             @Html.LabelFor(model => user.LastName, new { @class = "control-label col-sm-4" })
                                             <div class="col-sm-5">
-                                                @Html.TextBoxFor(model => user.LastName, new { @class = "form-control", placeholder = "Last Name", id = "LastNameInput" + user.Username })
+                                                @Html.TextBoxFor(model => user.LastName, new { @class = "form-control", placeholder = user.LastName, id = "LastNameInput" + user.Username })
                                             </div>
                                         </div>
                                         <div class="form-group">

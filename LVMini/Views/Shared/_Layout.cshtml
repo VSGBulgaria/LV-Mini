@@ -42,9 +42,9 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index"><i class="fa fa-home"></i>&nbsp;Home</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="About"><i class="glyphicon glyphicon-question-sign"></i>&nbsp;About</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Contact"><i class="fa fa-address-book-o" aria-hidden="true"></i>&nbsp;Contact</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         @if (!User.Identity.IsAuthenticated)
@@ -56,19 +56,19 @@
                         <!--When User Is Logged In Show This-->
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li>@Html.ActionLink("My Profile", "MyProfile", "Accounts")</li>
+                            <li><a asp-area="" asp-controller="Accounts" asp-action="MyProfile"><i class="fa fa-id-card-o"></i>&nbsp;My Profile</a></li>
 
                             if (User.IsInRole(Role.Admin))
                             {
-                                <li>@Html.ActionLink("Admin", "Admin", "Accounts")</li>
+                                <li><a asp-area="" asp-controller="Accounts" asp-action="Admin"><i class="fa fa-user-o"></i>&nbsp;&nbsp;Admin</a></li>
                             }
 
                             if (AuthorizationService.AuthorizeAsync(User, "CanGetUsers").Result.Succeeded)
                             {
-                                <li>@Html.ActionLink("Get Users", "Users", "Home")</li>
+                                <li><a asp-area="" asp-controller="Home" asp-action="Users"><i class="glyphicon glyphicon-globe"></i>&nbsp;Get Users</a></li>
+                                
                             }
-
-                            <li>@Html.ActionLink("Log out", "Logout", "Accounts")</li>
+                                <li><a asp-area="" asp-controller="Accounts" asp-action="Logout"><i class="glyphicon glyphicon-off" style="color:red;"></i>&nbsp;&nbsp;Log out</a></li>
                         }
                     </ul>
                 </div>
