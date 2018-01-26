@@ -3,9 +3,15 @@
     ViewData["Title"] = "Admin";
 }
 
-<h2 style="color:white">Admin</h2>
+<h2 style="color:white"><i class="fa fa-list"></i>&nbsp;Users List</h2>
 
 @foreach (var user in Model)
 {
     <h2 style="color:white;">@user.Username</h2>
 }
+<div class="media-body">
+    <span class="pull-right">   
+        <span class="glyphicon glyphicon-globe" style="color:dodgerblue;"></span>
+        <input type="submit" value="Show Users" id="btnUShow" onclick="location.href='@Url.Action("Users", "Home")';" class="btn btn-link btn-lg btn3d" >
+    </span>
+</div><br>
