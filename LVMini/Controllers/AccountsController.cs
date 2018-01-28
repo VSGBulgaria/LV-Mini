@@ -91,10 +91,17 @@ namespace LVMini.Controllers
 
         //MyProfile
         [Authorize]
-        public IActionResult MyProfile()
+        public async Task<IActionResult> MyProfile()
         {
-            MyProfileModel model = HelperInitializer.ConstructMyProfileModel(User.Claims);
-            return View(model);
+            var name = User.Identity.Name;
+            var httpResponse = await client.GetAsync("http://localhost:53920/api/users/" + name);
+            if (httpResponse.StatusCode.Equals(HttpStatusCode.OK))
+            {
+                var content = await httpResponse.Content.ReadAsStringAsync();
+                var users = JsonConvert.DeserializeObject<MyProfileUserModel>(content);
+                return View(users);
+            }
+            return View();
         }
 
         //AdminPage
