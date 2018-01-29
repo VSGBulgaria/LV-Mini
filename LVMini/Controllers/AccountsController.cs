@@ -96,22 +96,6 @@ namespace LVMini.Controllers
             return RedirectToAction("AccessDenied", "Authorization");
         }
 
-
-
-        [HttpPost]
-        [Authorize(Roles = Role.Admin)]
-        public bool ModifyUserInfo([FromBody]ModifiedUserModel model)
-        {
-            var stringContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
-            var response = _client.PutAsync("http://localhost:53990/api/admin/users", stringContent).Result;
-            if (response.IsSuccessStatusCode)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
         [HttpPost]
         [Authorize]
         public bool ModifyMyProfileInfo([FromBody]MyProfileValuesChangedUserModel model)

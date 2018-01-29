@@ -37,7 +37,6 @@
                                                 <h4 style="color:white;"><label>E-mail:&nbsp;</label><label id="@("currentUserEmail"+user.Username)">@user.Email</label></h4>
                                                 <h4 style="color:white;"><label>First Name:&nbsp;</label><label id="@("currentUserFirstName"+user.Username)">@user.FirstName</label></h4>
                                                 <h4 style="color:white;"><label>Last Name:&nbsp;</label><label id="@("currentUserLastName"+user.Username)">@user.LastName</label></h4>
-                                                <h4 style="color:white;"><label>User's Role Is:&nbsp;</label><label id="@("currentUserRole"+user.Username)">@user.Role</label></h4>
                                             </div>
                                         </div>
                                     </td>
@@ -46,7 +45,7 @@
                         </table>
                     </div>
                     <div class="col-lg-6 hidden" id="@("hidden"+user.Username)">
-                        @using (Html.BeginForm("Users", "Home", FormMethod.Post))
+                        @using (Html.BeginForm("Users", "Admin", FormMethod.Post))
         {
                 @Html.AntiForgeryToken()
                 <div class="fields form-horizontal well">

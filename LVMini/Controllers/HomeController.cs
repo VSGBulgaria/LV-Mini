@@ -1,14 +1,9 @@
 using LVMini.Models;
-using LVMini.Properties;
 using LVMini.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace LVMini.Controllers
 {
@@ -26,21 +21,6 @@ namespace LVMini.Controllers
             return View();
         }
 
-        [Authorize(Policy = "CanGetUsers")]
-        public async Task<IActionResult> Users()
-        {
-            var httpResponseMessage = await _client.GetAsync(Resources.AdminApi);
-            if (httpResponseMessage.StatusCode != HttpStatusCode.OK)
-            {
-                return RedirectToAction("AccessDenied", "Authorization");
-            }
-
-            var data = await httpResponseMessage.Content.ReadAsStringAsync();
-            var users = JsonConvert.DeserializeObject<IEnumerable<UserModel>>(data);
-
-            return View(users);
-        }
-
         [Authorize]
         public IActionResult About()
         {
@@ -48,7 +28,6 @@ namespace LVMini.Controllers
 
             return View();
         }
-
 
         public IActionResult Contact()
         {
@@ -59,8 +38,6 @@ namespace LVMini.Controllers
         {
             return View();
         }
-
-
 
         public IActionResult Error()
         {

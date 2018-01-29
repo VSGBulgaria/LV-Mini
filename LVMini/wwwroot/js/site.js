@@ -72,7 +72,7 @@ function saveProfileChanges(ev) {
         };
         $.ajax({
             type: 'POST',
-            url: '/Accounts/ModifyUserInfo',
+            url: '/Admin/ModifyUserInfo',
             dataType: 'json',
             contentType: 'application/json',
             data: JSON.stringify(user),
