@@ -5,11 +5,12 @@ using Data.Service.Services;
 using LVMiniApi.Filters;
 using LVMiniApi.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static LVMiniApi.Api.Service.UserValidator;
 
 
 namespace LVMiniApi.Controllers
@@ -17,8 +18,7 @@ namespace LVMiniApi.Controllers
     /// <summary>
     /// Provides non-admin actions for manipulating users.
     /// </summary>
-    [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Route("api/users")]
     public class UsersController : BaseController
     {
         // inject the UnitOfWork
@@ -40,10 +40,8 @@ namespace LVMiniApi.Controllers
         public IActionResult GetAllUsers()
         {
             var users = UserRepository.GetAll();
-            if (users == null)
-                return NotFound();
 
-            return Ok(Mapper.Map<IEnumerable<UserModel>>(users));
+            return Ok(Mapper.Map<IEnumerable<UserDto>>(users));
         }
 
         /// <summary>
@@ -56,43 +54,63 @@ namespace LVMiniApi.Controllers
         {
             var user = await UserRepository.GetByUsername(username);
             if (user == null)
+            {
                 return NotFound();
+            }
 
-            return Ok(Mapper.Map<UserModel>(user));
+            return Ok(Mapper.Map<UserDto>(user));
         }
 
 
         /// <summary>
-        /// Registers a new user in the database.
+        /// Registers a new user in the database. 
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="user"></param>
         /// <returns>Http 201 and the created user's information. Http 400 if the parameters are not valid.</returns>
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> RegisterUser([FromBody] User model)
+        [ValidateModel]
+        public async Task<IActionResult> RegisterUser([FromBody] RegisterUserDto user)
         {
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
             using (_unitOfWork)
             {
-                if (ValidateUserExists(model, UserRepository))
+                if (await UserRepository.UserExists(user.Username))
                 {
-                    ModelState.AddModelError("Username", "A user with this information already exists!");
-                    return BadRequest(ModelState);
+                    return new StatusCodeResult(StatusCodes.Status409Conflict);
                 }
 
-                model.Password = Hasher.PasswordHash(model, model.Password);
-                await UserRepository.Insert(model);
-                await _unitOfWork.Commit();
+                var userEntity = Mapper.Map<User>(user);
+                userEntity.Password = Hasher.PasswordHash(userEntity, userEntity.Password);
 
-                // get the username surrogate key to return
-                var newUri = Url.Link("UserGet", new { username = model.Username });
-                return Created(newUri, Mapper.Map<UserModel>(model));
+                await UserRepository.Insert(userEntity);
+
+                if (!await _unitOfWork.Commit())
+                {
+                    throw new Exception("Creating a user failed on save.");
+                }
+
+                // return 201 with the username surrogate key
+                return CreatedAtRoute("UserGet", new { username = userEntity.Username }, Mapper.Map<UserDto>(userEntity));
             }
         }
 
-        [HttpPost("{object}")]
-        public IActionResult Post()
+        /// <summary>
+        /// Blocks posting with a parameter to this controller.
+        /// </summary>
+        [HttpPost("{username}")]
+        public async Task<IActionResult> BlockUserRegister(string username)
         {
-            return BadRequest("The post request doesn't take any parameters!");
+            if (await UserRepository.UserExists(username))
+            {
+                return new StatusCodeResult(StatusCodes.Status409Conflict);
+            }
+
+            return BadRequest("You can't post to a specific user!");
         }
 
 
@@ -103,40 +121,66 @@ namespace LVMiniApi.Controllers
         /// <param name="model"></param>
         /// <returns>Http 200 and the updated user information if there is such a user and he is the current logged in user.</returns>
         [HttpPatch("{username}")]
-        [HttpPut("{username}")]
         [ValidateModel]
-        public async Task<IActionResult> UpdateUser(string username, [FromBody] EditUserModel model)
+        public async Task<IActionResult> UpdateUser(string username, [FromBody] EditUserDto model)
         {
+            if (!await UserRepository.UserExists(username))
+            {
+                return NotFound();
+            }
+
             var user = await UserRepository.GetByUsername(username);
             if (user == null)
+            {
                 return NotFound();
+            }
 
             // checks if the client logged in user is the same as the user from the databse
             // so someone can't change another user's information
-            var clientUserId = User.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
-            if (clientUserId != null && user.SubjectId != clientUserId)
+            var clientSubjectId = User.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
+            if (clientSubjectId != null && user.SubjectId != clientSubjectId)
+            {
                 return Forbid();
+            }
 
-            ValidateUserUpdate(user, model);
+            Mapper.Map(model, user);
             UserRepository.Update(user);
+            if (!await _unitOfWork.Commit())
+            {
+                throw new Exception("Updating a user failed on save.");
+            }
 
-            await _unitOfWork.Commit();
-
-            return Ok(Mapper.Map<UserModel>(user));
+            return Ok(Mapper.Map<UserDto>(user));
         }
 
+        /// <summary>
+        /// Blocks a generic patch request without specific user parameters.
+        /// </summary>
         [HttpPatch]
-        [HttpPut]
-        public IActionResult PatchPut()
+        public IActionResult BlockPatchWithoutParameters()
         {
-            return BadRequest("You have to pass a user to the patch request!");
+            return BadRequest("You have to provide a specific existing user in order to PATCH!");
         }
 
+        /// <summary>
+        /// Blocks all PUT requests to this controller because a full user update is not allowed.
+        /// </summary>
+        [HttpPut]
+        [HttpPut("{object}")]
+        public IActionResult BlockFullUpdate()
+        {
+            return BadRequest("You are not allowed to update all of the user's information! Use PATCH.");
+        }
+
+        /// <summary>
+        /// Blocks all DELETE requests to this controller because deleting users is not allowed.
+        /// </summary>
+        /// <returns></returns>
         [HttpDelete]
         [HttpDelete("{object}")]
-        public IActionResult Delete()
+        public IActionResult BlockDeletingUsers()
         {
-            return BadRequest("You can't delete users!");
+            return BadRequest("Deleting a user is not possible!");
         }
     }
 }

@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -23,11 +24,11 @@ namespace LVMini.Controllers
 {
     public class AccountsController : Controller
     {
-        private readonly HttpClient client;
+        private readonly HttpClient _client;
 
         public AccountsController(IHttpClientProvider httpClient)
         {
-            client = httpClient.Client();
+            _client = httpClient.Client();
         }
 
         [Authorize]
@@ -47,7 +48,9 @@ namespace LVMini.Controllers
             {
                 var revokeAccessTokenResponse = await revocationClient.RevokeAccessTokenAsync(accessToken);
                 if (revokeAccessTokenResponse.IsError)
+                {
                     throw new Exception("Problem encountered while revoking the access token.", revokeAccessTokenResponse.Exception);
+                }
             }
 
             string refreshToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken);
@@ -55,11 +58,13 @@ namespace LVMini.Controllers
             {
                 var revokeRefreshTokenResponse = await revocationClient.RevokeRefreshTokenAsync(refreshToken);
                 if (revokeRefreshTokenResponse.IsError)
+                {
                     throw new Exception("Problem encountered while revoking the access token.", revokeRefreshTokenResponse.Exception);
+                }
             }
 
             var content = new StringContent(JsonConvert.SerializeObject(User.Identity.Name), encoding: Encoding.UTF8, mediaType: "application/json");
-            await client.PostAsync("http://localhost:53920/api/accounts/logout", content);
+            await _client.PostAsync("http://localhost:53920/api/accounts/logout", content);
 
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
@@ -78,7 +83,7 @@ namespace LVMini.Controllers
             {
                 var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
 
-                var httpResponseMessage = await client.PostAsync(Resources.MainApiUsersUrl, content);
+                var httpResponseMessage = await _client.PostAsync(Resources.MainApiUsersUrl, content);
 
                 if (httpResponseMessage.StatusCode == HttpStatusCode.Created)
                 {
@@ -102,7 +107,7 @@ namespace LVMini.Controllers
         [Authorize(Roles = Role.Admin)]
         public async Task<IActionResult> Admin()
         {
-            var httpResponse = await client.GetAsync("http://localhost:53990/api/Admin/users");
+            var httpResponse = await _client.GetAsync("http://localhost:53990/api/Admin/users");
             if (httpResponse.StatusCode.Equals(HttpStatusCode.OK))
             {
                 var content = await httpResponse.Content.ReadAsStringAsync();
@@ -119,11 +124,9 @@ namespace LVMini.Controllers
             {
                 return false;
             }
-            var httpResponse = await client.GetAsync($"http://localhost:53920/api/users/" + name);
+            var httpResponse = await _client.GetAsync($"http://localhost:53920/api/users/" + name);
             if (httpResponse.StatusCode == HttpStatusCode.OK)
             {
-                var content = await httpResponse.Content.ReadAsStringAsync();
-                var user = JsonConvert.DeserializeObject<UserModel>(content);
                 return true;
             }
             return false;
@@ -134,19 +137,13 @@ namespace LVMini.Controllers
         {
             if (!string.IsNullOrEmpty(email))
             {
-                var httpResponse = await client.GetAsync($"http://localhost:53920/api/users/");
+                var httpResponse = await _client.GetAsync($"http://localhost:53920/api/users/");
                 if (httpResponse.StatusCode == HttpStatusCode.OK)
                 {
                     var content = await httpResponse.Content.ReadAsStringAsync();
                     var users = JsonConvert.DeserializeObject<IEnumerable<UserModel>>(content);
 
-                    foreach (var user in users)
-                    {
-                        if (user.Email == email)
-                        {
-                            return true;
-                        }
-                    }
+                    return users.Any(user => user.Email == email);
                 }
             }
             return false;
@@ -158,7 +155,7 @@ namespace LVMini.Controllers
         public bool ModifyUserInfo([FromBody]ModifiedUserModel model)
         {
             var stringContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
-            var response = client.PutAsync("http://localhost:53990/api/admin/users", stringContent).Result;
+            var response = _client.PutAsync("http://localhost:53990/api/admin/users", stringContent).Result;
             if (response.IsSuccessStatusCode)
             {
                 return true;
@@ -176,7 +173,7 @@ namespace LVMini.Controllers
                 var currentUser = User.Identity.Name;
 
                 var stringContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
-                var response = client.PutAsync("http://localhost:53920/api/users/" + currentUser, stringContent).Result;
+                var response = _client.PutAsync("http://localhost:53920/api/users/" + currentUser, stringContent).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -195,7 +192,7 @@ namespace LVMini.Controllers
             {
                 var uri = "http://localhost:53920/api/users/" + username;
 
-                var httpResponse = await client.GetAsync(uri);
+                var httpResponse = await _client.GetAsync(uri);
                 if (httpResponse.StatusCode == HttpStatusCode.OK)
                 {
                     var content = await httpResponse.Content.ReadAsStringAsync();

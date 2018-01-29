@@ -12,13 +12,19 @@ namespace LVMiniApi.Mapping
         public MappingProfile()
         {
             //From Entity to Model and reverse.
-            CreateMap<User, UserModel>()
+            CreateMap<User, UserDto>()
                 .ForMember(u => u.Url,
                     opt => opt.ResolveUsing<UserUrlResolver>())
+                .ForMember(u => u.Name,
+                    opt => opt.MapFrom(u => $"{u.FirstName} {u.LastName}"))
                 .ReverseMap();
 
-            CreateMap<User, EditUserModel>()
-                .ReverseMap();
+            CreateMap<RegisterUserDto, User>();
+
+            CreateMap<User, EditUserDto>()
+                .ReverseMap()
+                .ForAllMembers(opt => opt.Condition(
+                    (dto, user, dtoMember, userMember) => dtoMember != null));
         }
     }
 }

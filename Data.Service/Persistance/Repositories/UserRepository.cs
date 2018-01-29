@@ -66,6 +66,13 @@ namespace Data.Service.Persistance.Repositories
             return user.Logins.ToList();
         }
 
+        public async Task<bool> UserExists(string username)
+        {
+            return await Entities
+                .AsNoTracking()
+                .AnyAsync(u => u.Username == username);
+        }
+
         public async Task<bool> AreUserCredentialsValid(string username, string password)
         {
             // get the user

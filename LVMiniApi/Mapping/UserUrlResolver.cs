@@ -10,7 +10,7 @@ namespace LVMiniApi.Mapping
     /// <summary>
     /// Adds a username surrogate key for users instead of the user id.
     /// </summary>
-    internal class UserUrlResolver : IValueResolver<User, UserModel, string>
+    internal class UserUrlResolver : IValueResolver<User, UserDto, string>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -19,7 +19,7 @@ namespace LVMiniApi.Mapping
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public string Resolve(User source, UserModel destination, string destMember, ResolutionContext context)
+        public string Resolve(User source, UserDto destination, string destMember, ResolutionContext context)
         {
             var url = (IUrlHelper)_httpContextAccessor.HttpContext.Items[BaseController.Urlhelper];
             return url.Link("UserGet", new { username = source.Username });

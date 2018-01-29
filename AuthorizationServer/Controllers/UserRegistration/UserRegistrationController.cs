@@ -48,8 +48,7 @@ namespace AuthorizationServer.Controllers.UserRegistration
                     Password = model.Password,
                     FirstName = model.Firstname,
                     LastName = model.Lastname,
-                    Email = model.Email,
-                    IsActive = true
+                    Email = model.Email
                 };
                 userToCreate.Claims.Add(new UserClaim(JwtClaimTypes.Role, "user"));
                 userToCreate.Claims.Add(new UserClaim(JwtClaimTypes.GivenName, model.Firstname));

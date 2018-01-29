@@ -20,7 +20,6 @@ namespace Data.Service.Persistance
             {
                 new User()
                 {
-                    SubjectId = "1",
                     Username = "simo",
                     Password = "123456789",
                     FirstName = "Simeon",
@@ -38,7 +37,6 @@ namespace Data.Service.Persistance
                 },
                 new User()
                 {
-                    SubjectId = "2",
                     Username = "gosho",
                     Password = "123456789",
                     FirstName = "Gosho",

@@ -3,7 +3,7 @@
     /// <summary>
     /// Model for the edit user action.
     /// </summary>
-    public class EditUserModel
+    public class EditUserDto
     {
         public string Email { get; set; }
 

@@ -12,10 +12,10 @@ namespace Data.Service.Core.Interfaces
         Task<User> GetByProvider(string loginProvider, string providerKey);
         Task<IEnumerable<UserLogin>> GetUserLogin(string subjectId);
         Task<IEnumerable<UserClaim>> GetUserClaims(string subjectId);
+        Task<bool> UserExists(string username);
         Task<bool> AreUserCredentialsValid(string username, string password);
         Task<bool> IsUserActive(string subjectId);
         Task AddUserLogin(string subjectId, string loginProvider, string providerKey);
         Task AddUserClaim(string subjectId, string claimType, string claimValue);
-        Task<bool> Save();
     }
 }

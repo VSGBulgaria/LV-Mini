@@ -31,10 +31,11 @@ namespace LVMini.Controllers
         {
             var httpResponseMessage = await client.GetAsync(Resources.MainApiUsersUrl);
             if (httpResponseMessage.StatusCode != HttpStatusCode.OK)
+            {
                 return RedirectToAction("AccessDenied", "Authorization");
+            }
 
             var data = await httpResponseMessage.Content.ReadAsStringAsync();
-
             var users = JsonConvert.DeserializeObject<IEnumerable<UserModel>>(data);
 
             return View(users);

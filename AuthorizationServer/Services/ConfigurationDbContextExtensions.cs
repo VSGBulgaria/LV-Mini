@@ -10,6 +10,11 @@ namespace AuthorizationServer.Services
     {
         public static void SeedDataForContext(this ConfigurationDbContext context)
         {
+            context.ApiResources.RemoveRange(context.ApiResources);
+            context.Clients.RemoveRange(context.Clients);
+            context.IdentityResources.RemoveRange(context.IdentityResources);
+            context.SaveChanges();
+
             if (!context.Clients.Any())
             {
                 foreach (Client client in Config.Clients())
