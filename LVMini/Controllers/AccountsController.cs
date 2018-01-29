@@ -99,7 +99,7 @@ namespace LVMini.Controllers
         public async Task<IActionResult> MyProfile()
         {
             var name = User.Identity.Name;
-            var httpResponse = await client.GetAsync("http://localhost:53920/api/users/" + name);
+            var httpResponse = await _client.GetAsync("http://localhost:53920/api/users/" + name);
             if (httpResponse.StatusCode.Equals(HttpStatusCode.OK))
             {
                 var content = await httpResponse.Content.ReadAsStringAsync();
