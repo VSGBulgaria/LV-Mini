@@ -15,8 +15,6 @@ namespace LVMiniApi.Mapping
             CreateMap<User, UserDto>()
                 .ForMember(u => u.Url,
                     opt => opt.ResolveUsing<UserUrlResolver>())
-                .ForMember(u => u.Name,
-                    opt => opt.MapFrom(u => $"{u.FirstName} {u.LastName}"))
                 .ReverseMap();
 
             CreateMap<RegisterUserDto, User>();

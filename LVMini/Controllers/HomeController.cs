@@ -14,11 +14,11 @@ namespace LVMini.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly HttpClient client;
+        private readonly HttpClient _client;
 
         public HomeController(IHttpClientProvider httpClient)
         {
-            client = httpClient.Client();
+            _client = httpClient.Client();
         }
 
         public IActionResult Index()
@@ -29,7 +29,7 @@ namespace LVMini.Controllers
         [Authorize(Policy = "CanGetUsers")]
         public async Task<IActionResult> Users()
         {
-            var httpResponseMessage = await client.GetAsync(Resources.MainApiUsersUrl);
+            var httpResponseMessage = await _client.GetAsync(Resources.AdminApi);
             if (httpResponseMessage.StatusCode != HttpStatusCode.OK)
             {
                 return RedirectToAction("AccessDenied", "Authorization");

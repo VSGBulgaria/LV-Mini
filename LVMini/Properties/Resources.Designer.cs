@@ -61,6 +61,15 @@ namespace LVMini.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to http://localhost:53990/api/admin/users.
+        /// </summary>
+        internal static string AdminApi {
+            get {
+                return ResourceManager.GetString("AdminApi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to http://localhost:53920/api/users.
         /// </summary>
         internal static string MainApiUsersUrl {

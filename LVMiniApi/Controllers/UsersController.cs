@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -30,18 +29,6 @@ namespace LVMiniApi.Controllers
             Mapper = mapper;
             // get the repository from the UnitOfWork
             UserRepository = _unitOfWork.UserRepository;
-        }
-
-        /// <summary>
-        /// Gets all the existing users in the database.
-        /// </summary>
-        /// <returns>Http 200 and a collection of users. If there are none returns Http 404.</returns>
-        [HttpGet]
-        public IActionResult GetAllUsers()
-        {
-            var users = UserRepository.GetAll();
-
-            return Ok(Mapper.Map<IEnumerable<UserDto>>(users));
         }
 
         /// <summary>
@@ -121,7 +108,7 @@ namespace LVMiniApi.Controllers
         /// <param name="model"></param>
         /// <returns>Http 200 and the updated user information if there is such a user and he is the current logged in user.</returns>
         [HttpPatch("{username}")]
-        [ValidateModel]
+        [HttpPut("{username}")]
         public async Task<IActionResult> UpdateUser(string username, [FromBody] EditUserDto model)
         {
             if (!await UserRepository.UserExists(username))
@@ -160,16 +147,6 @@ namespace LVMiniApi.Controllers
         public IActionResult BlockPatchWithoutParameters()
         {
             return BadRequest("You have to provide a specific existing user in order to PATCH!");
-        }
-
-        /// <summary>
-        /// Blocks all PUT requests to this controller because a full user update is not allowed.
-        /// </summary>
-        [HttpPut]
-        [HttpPut("{object}")]
-        public IActionResult BlockFullUpdate()
-        {
-            return BadRequest("You are not allowed to update all of the user's information! Use PATCH.");
         }
 
         /// <summary>

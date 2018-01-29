@@ -13,7 +13,11 @@ namespace AuthorizationServer.Configuration
             {
                 new ApiResource("lvminiAPI", "LV Mini API")
                 {
-                    ApiSecrets = {new Secret("mainAPIsecret".Sha256())}
+                    ApiSecrets = {new Secret("mainAPIsecret".Sha256())},
+                    UserClaims =
+                    {
+                        JwtClaimTypes.Subject
+                    }
                 },
                 new ApiResource("lvmini_admin", "LV Mini Admin")
                 {
