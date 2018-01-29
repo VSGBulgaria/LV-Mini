@@ -132,13 +132,6 @@ input#ConfirmPassword.RegFields {
 
 /*End Of Style For Register*/
 
-
-/*   #Cancel:hover {
-        box-shadow: 0 0 30px 0 rgba(62, 171, 240, 0.5);
-        transition: all 0.2s ease-out;
-    }
-     */
-
 /*Style For My Profile Page*/
 .ProfPic {
     width: 40%;
@@ -153,6 +146,7 @@ input#ConfirmPassword.RegFields {
     position: center;
     background: RGBA(0,0,0,0.5);
     padding: 70px 30px;
+    float:left;
 }
 
 .col-lg-6 label {
