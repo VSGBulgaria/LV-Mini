@@ -70,29 +70,29 @@ namespace LVMini.Controllers
             await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
         }
 
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
+        //[HttpGet]
+        //public IActionResult Register()
+        //{
+        //    return View();
+        //}
 
-        [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+        //[HttpPost]
+        //public async Task<IActionResult> Register(RegisterViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
 
-                var httpResponseMessage = await _client.PostAsync(Resources.MainApiUsersUrl, content);
+        //        var httpResponseMessage = await _client.PostAsync(Resources.MainApiUsersUrl, content);
 
-                if (httpResponseMessage.StatusCode == HttpStatusCode.Created)
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-            }
+        //        if (httpResponseMessage.StatusCode == HttpStatusCode.Created)
+        //        {
+        //            return RedirectToAction("Index", "Home");
+        //        }
+        //    }
 
-            return View(model);
-        }
+        //    return View(model);
+        //}
 
         //MyProfile
         [Authorize]

@@ -50,7 +50,6 @@
                         @if (!User.Identity.IsAuthenticated)
     {
                     <li>@Html.ActionLink("Login", "Login", "Accounts")</li>
-                    <li>@Html.ActionLink("Register", "Register", "Accounts")</li>
 }
 
                         <!--When User Is Logged In Show This-->
@@ -58,15 +57,15 @@
     {
                     <li><a asp-area="" asp-controller="Accounts" asp-action="MyProfile"><i class="fa fa-id-card-o"></i>&nbsp;My Profile</a></li>
 
-                        if (User.IsInRole(Role.Admin))
-                        {
+if (User.IsInRole(Role.Admin))
+{
                     <li><a asp-area="" asp-controller="Accounts" asp-action="Admin"><i class="fa fa-user-o"></i>&nbsp;&nbsp;Admin</a></li>
-                        }
+}
 
-                        if (AuthorizationService.AuthorizeAsync(User, "CanGetUsers").Result.Succeeded)
-                        {
+if (AuthorizationService.AuthorizeAsync(User, "CanGetUsers").Result.Succeeded)
+{
 
-                        }
+}
                     <li><a asp-area="" asp-controller="Accounts" asp-action="Logout"><i class="glyphicon glyphicon-off" style="color:red;"></i>&nbsp;&nbsp;Log out</a></li>
 }
                     </ul>

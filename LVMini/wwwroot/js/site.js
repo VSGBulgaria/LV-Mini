@@ -77,6 +77,7 @@ function displayUsernameSign(isAvailable) {
 
 $(jqueryButtonsModifyUserInfoClass).on(jqueryClickKwyWord, saveProfileChanges);
 
+//Admin Edit Profile
 function saveProfileChanges(ev) {
     let firstNameInputModifyUserPrefix = 'FirstNameInput';
     let lastNameInputModifyUserPrefix = 'LastNameInput';
@@ -116,6 +117,7 @@ function isEmpty(str) {
     return (!str || 0 === str.length);
 }
 
+//My Profile 
 $('#saveMyProfileChangesButton').on('click', function () {
     let currentUserChangedValues = $('.form-control');
     let usersChangedValues = {
