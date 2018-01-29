@@ -278,27 +278,29 @@ input#LastName.form-control {
     background-color: #428bca;
 }*/
 .btn-primary {
-    box-shadow: 0 0 0 1px #428bca inset, 0 0 0 2px rgba(255,255,255,0.15) inset, 0 8px 0 0 #357ebd, 0 8px 0 1px rgba(0,0,0,0.4), 0 8px 8px 1px rgba(0,0,0,0.5);
+    
     background-color: #428bca;
 }
 
 .btn-danger {
-    box-shadow: 0 0 0 1px #c63702 inset, 0 0 0 2px rgba(255,255,255,0.15) inset, 0 8px 0 0 #C24032, 0 8px 0 1px rgba(0,0,0,0.4), 0 8px 8px 1px rgba(0,0,0,0.5);
+    
     background-color: #c63702;
 }
 .btn3d {
-    transition: all .08s linear;
-    position: relative;
-    outline: medium none;
-    border: 0px;
-    margin-right: 10px;
-    margin-top: 15px;
+    border: none;
+    outline: none;
+    color: #fff;
+    background-color: #428bca;
+    border-radius: 4px;
+    margin-bottom: 0px;
+    padding: 6px 12px;
+    height: 34px;
+    font-size: 14px;
+    font-weight: normal;
+    text-align: center;
 }
 
     .btn3d:focus {
         outline: medium none;
     }
 
-    .btn3d:active {
-        top: 9px;
-    }
