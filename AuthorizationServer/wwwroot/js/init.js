@@ -37,7 +37,7 @@
 })();
 
 //Variables
-let url = '/Accounts/CheckUser';
+let url = '/Login/CheckUser';
 let emailurl = '/Accounts/CheckEmail';
 let defaultContentType = 'application/json';
 let expr = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -84,7 +84,6 @@ function logErrorInConsole(err) {
 }
 
 function displayUsernameSign(isAvailable) {
-    console.log(isAvailable);
     let available_sign = $(registerUsernameAvailableSignId);
     let unavailable_sign = $(registrationUsernameUnavailableSignId);
     if (!isAvailable) {
@@ -98,5 +97,5 @@ function displayUsernameSign(isAvailable) {
     }
 }
 
-$(jqueryButtonsModifyUserInfoClass).on(jqueryClickKwyWord, saveProfileChanges);
+//$(jqueryButtonsModifyUserInfoClass).on(jqueryClickKwyWord, saveProfileChanges);
 

@@ -124,39 +124,8 @@ namespace LVMini.Controllers
             return RedirectToAction("AccessDenied", "Authorization");
         }
 
-        //Validate Username
-        public async Task<bool> CheckUser(string name)
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                return false;
-            }
-            var httpResponse = await _client.GetAsync($"http://localhost:53920/api/users/" + name);
-            if (httpResponse.StatusCode == HttpStatusCode.OK)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        //Validate Email
-        public async Task<bool> CheckEmail(string email)
-        {
-            if (!string.IsNullOrEmpty(email))
-            {
-                var httpResponse = await _client.GetAsync($"http://localhost:53920/api/users/");
-                if (httpResponse.StatusCode == HttpStatusCode.OK)
-                {
-                    var content = await httpResponse.Content.ReadAsStringAsync();
-                    var users = JsonConvert.DeserializeObject<IEnumerable<UserModel>>(content);
-
-                    return users.Any(user => user.Email == email);
-                }
-            }
-            return false;
-        }
-
-
+        
+        
         [HttpPost]
         [Authorize(Roles = Role.Admin)]
         public bool ModifyUserInfo([FromBody]ModifiedUserModel model)
