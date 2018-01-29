@@ -32,5 +32,12 @@ namespace LVMiniApi.Controllers
             await LogRepository.InsertLog(username, UserAction.Login);
             await _unitOfWork.Commit();
         }
+
+        [HttpPost("profileupdate")]
+        public async Task ProfileUpdate([FromBody] string username)
+        {
+            await LogRepository.InsertLog(username, UserAction.ProfileUpdate);
+            await _unitOfWork.Commit();
+        }
     }
 }

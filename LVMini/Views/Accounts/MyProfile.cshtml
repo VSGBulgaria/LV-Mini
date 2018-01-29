@@ -17,8 +17,14 @@
             @Html.AntiForgeryToken()
 
             <div class="fields form-horizontal well">
-                <h4 class="text-center" style="color:white;">My profile</h4>
+                <h4 class="text-center" style="color: white;">My profile</h4>
                 <hr />
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2 col-md-offset-4", style = "font-weight:bold;" })
+                    <div class="col-md-1">
+                        @Html.LabelFor(model => model.Username, Model.Username, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                </div>
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                 <div class="form-group">

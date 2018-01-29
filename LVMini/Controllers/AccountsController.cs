@@ -1,9 +1,7 @@
 ﻿using IdentityModel.Client;
 using LVMini.Models;
-using LVMini.Service.Classes;
 using LVMini.Service.Constants;
 using LVMini.Service.Interfaces;
-using LVMini.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -13,12 +11,10 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Resources = LVMini.Properties.Resources;
 
 namespace LVMini.Controllers
 {
@@ -70,30 +66,6 @@ namespace LVMini.Controllers
             await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
         }
 
-        //[HttpGet]
-        //public IActionResult Register()
-        //{
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> Register(RegisterViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
-
-        //        var httpResponseMessage = await _client.PostAsync(Resources.MainApiUsersUrl, content);
-
-        //        if (httpResponseMessage.StatusCode == HttpStatusCode.Created)
-        //        {
-        //            return RedirectToAction("Index", "Home");
-        //        }
-        //    }
-
-        //    return View(model);
-        //}
-
         //MyProfile
         [Authorize]
         public async Task<IActionResult> MyProfile()
@@ -124,8 +96,8 @@ namespace LVMini.Controllers
             return RedirectToAction("AccessDenied", "Authorization");
         }
 
-        
-        
+
+
         [HttpPost]
         [Authorize(Roles = Role.Admin)]
         public bool ModifyUserInfo([FromBody]ModifiedUserModel model)
@@ -153,37 +125,15 @@ namespace LVMini.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return true;
+                    var content = new StringContent(JsonConvert.SerializeObject(User.Identity.Name), encoding: Encoding.UTF8, mediaType: "application/json");
+                    var result = _client.PostAsync("http://localhost:53920/api/accounts/profileupdate", content).Result;
+                    if (result.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
                 }
             }
             return false;
-        }
-
-        //Edit User
-        [HttpGet]
-        [Authorize(Roles = Role.Admin)]
-        public async Task<IActionResult> DisplayUserInfo(string username)
-        {
-            if (!string.IsNullOrEmpty(username))
-            {
-                var uri = "http://localhost:53920/api/users/" + username;
-
-                var httpResponse = await _client.GetAsync(uri);
-                if (httpResponse.StatusCode == HttpStatusCode.OK)
-                {
-                    var content = await httpResponse.Content.ReadAsStringAsync();
-                    var currentUser = JsonConvert.DeserializeObject<UserModel>(content);
-
-                    if (currentUser != null)
-                    {
-                        //return view with user data 
-                        return View(currentUser);
-                    }
-
-                }
-            }
-            //return bad request view
-            return View();
         }
     }
 }

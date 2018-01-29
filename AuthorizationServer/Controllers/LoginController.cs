@@ -15,7 +15,7 @@ namespace AuthorizationServer.Controllers
             }
             using (var client = new HttpClient())
             {
-                var response = client.GetAsync("http://localhost:53920/api/users/" + name).Result;
+                var response = await client.GetAsync("http://localhost:53920/api/users/" + name);
                 if (response.IsSuccessStatusCode)
                 {
                     return true;

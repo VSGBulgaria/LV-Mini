@@ -96,6 +96,3 @@ function displayUsernameSign(isAvailable) {
         $(unavailable_sign).css(cssDisplayKeyWord, cssInlineBlockKeyWord);
     }
 }
-
-//$(jqueryButtonsModifyUserInfoClass).on(jqueryClickKwyWord, saveProfileChanges);
-

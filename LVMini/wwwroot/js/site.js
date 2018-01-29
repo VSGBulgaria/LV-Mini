@@ -35,27 +35,6 @@ let jqueryButtonsModifyUserInfoClass = '.modify-users-buttons';
 let buttonsModifyUserPrefix = 'btnModify';
 
 
-//Validate Username
-$(registerUsernameTagId).on(jqueryKeyUpKeyWord, checkForAvailableUsername);
-
-function checkForAvailableUsername(ev) {
-    ev.preventDefault();
-    let data = $(registerUsernameTagId).val();
-    if (data.length >= minimumUsernameLenght) {
-        $.ajax({
-            url: url,
-            contentType: defaultContentType,
-            data: { name: data },
-            success: displayUsernameSign,
-            error: logErrorInConsole
-        });
-    } else {
-        $(registerUsernameAvailableSignId).css(cssDisplayKeyWord, cssNoneKeyWord);
-        $(registrationUsernameUnavailableSignId).css(cssDisplayKeyWord, cssInlineBlockKeyWord);
-        $(registrationUsernameUnavailableSignId).css(cssColorKeyWord, cssRedKeyWord);
-    }
-}
-
 function logErrorInConsole(err) {
     console.log('Error: ' + err);
 }
@@ -145,9 +124,6 @@ $('#saveMyProfileChangesButton').on('click', function () {
     }
     hideMyprofileChangesForm();
 
-
-    sendChanges(usersChangedValues);
-
     function sendChanges(data) {
         $.ajax({
             type: 'POST',
@@ -195,9 +171,9 @@ function hideMyprofileChangesForm() {
 
 
 //MyProfile Edit Finctions
-$("#btnEdit").click(function () {
-    if ($("#editMyProfile").hasClass("hidden"))
-        $("#editMyProfile").removeClass("hidden");
+$('#btnEdit').click(function () {
+    if ($('#editMyProfile').hasClass('hidden'))
+        $('#editMyProfile').removeClass('hidden');
 });
 
 //Get Users Edit
