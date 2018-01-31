@@ -182,5 +182,6 @@ $('.btnUEdit').click(function (ev) {
     let userIdentityAsJqueryString = '#hidden' + userIdetity;
     let hiddenUserTemplate = $(userIdentityAsJqueryString);
     $(hiddenUserTemplate).attr('class', 'col-lg-6');
+    $(hiddenUserTemplate).css('display', 'inline-block');
 });
 
