@@ -263,3 +263,11 @@ li {
         #footer ul li:nth-child(4) a:before {
             background: #C32AA3;
         }
+.navbar-brand {
+    float: left;
+    padding: 15px 15px;
+    font-size: 40px;
+    line-height: 20px;
+    font-family: 'Facebook Letter Faces';
+    color:red;
+}
