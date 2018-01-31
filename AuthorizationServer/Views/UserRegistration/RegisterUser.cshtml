@@ -56,7 +56,12 @@
             </div>
             <div>
                 <input type="submit" id="Click" value="Register" class="btn btn-primary btn-lg btn3d" />
-                <input type="button" class="btn btn-danger btn-lg btn3d" value="Cancel" id="Cancel" onclick="location.href='@Url.Action("Login","Account")';" />
+
+                <a asp-action="Login"
+                   asp-controller="Account"
+                   asp-route-returnUrl="@Model.ReturnUrl">
+                    <input type="button" class="btn btn-danger btn-lg btn3d" value="Cancel" />
+                </a>
             </div>
         </div>
     }

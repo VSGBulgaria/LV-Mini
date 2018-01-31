@@ -1,7 +1,7 @@
 ﻿namespace LVMiniApi.Models
 {
     /// <summary>
-    /// Model for the edit user action.
+    /// Model for editing user information.
     /// </summary>
     public class EditUserDto
     {

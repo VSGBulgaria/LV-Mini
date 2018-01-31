@@ -2,7 +2,6 @@ using AutoMapper;
 using Data.Service.Core.Entities;
 using Data.Service.Core.Interfaces;
 using Data.Service.Services;
-using LVMiniApi.Filters;
 using LVMiniApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -18,6 +17,7 @@ namespace LVMiniApi.Controllers
     /// Provides non-admin actions for manipulating users.
     /// </summary>
     [Route("api/users")]
+    [Authorize]
     public class UsersController : BaseController
     {
         // inject the UnitOfWork
@@ -48,15 +48,23 @@ namespace LVMiniApi.Controllers
             return Ok(Mapper.Map<UserDto>(user));
         }
 
+        /// <summary>
+        /// Blocks a GetAll request because that is an admin privelage.
+        /// </summary>
+        [HttpGet]
+        public IActionResult BlockGetAll()
+        {
+            return Forbid("You have to be an admin to obtain a list of users!");
+        }
+
 
         /// <summary>
         /// Registers a new user in the database. 
         /// </summary>
         /// <param name="user"></param>
         /// <returns>Http 201 and the created user's information. Http 400 if the parameters are not valid.</returns>
-        [HttpPost]
         [AllowAnonymous]
-        [ValidateModel]
+        [HttpPost]
         public async Task<IActionResult> RegisterUser([FromBody] RegisterUserDto user)
         {
             if (user == null)
@@ -122,10 +130,8 @@ namespace LVMiniApi.Controllers
                 return NotFound();
             }
 
-            // checks if the client logged in user is the same as the user from the databse
-            // so someone can't change another user's information
-            var clientSubjectId = User.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
-            if (clientSubjectId != null && user.SubjectId != clientSubjectId)
+            var subjectId = User.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
+            if (subjectId != null && user.SubjectId != subjectId)
             {
                 return Forbid();
             }
