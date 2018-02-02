@@ -1,5 +1,5 @@
 ﻿@using LVMini.ViewModels
-@model IEnumerable<UserModel>
+@model IEnumerable<ModifiedUserModel>
 @{
     ViewData["Title"] = "Users";
 }
@@ -10,7 +10,7 @@
         <section class="content">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel-body">
-                    @foreach (UserModel user in Model)
+                    @foreach (ModifiedUserModel user in Model)
     {
                 <div class="user-container">
                     <div class="table-container">
@@ -35,6 +35,8 @@
                                                 <h4 style="color:white;"><label>E-mail:&nbsp;</label><label id="@("currentUserEmail"+user.Username)">@user.Email</label></h4>
                                                 <h4 style="color:white;"><label>First Name:&nbsp;</label><label id="@("currentUserFirstName"+user.Username)">@user.FirstName</label></h4>
                                                 <h4 style="color:white;"><label>Last Name:&nbsp;</label><label id="@("currentUserLastName"+user.Username)">@user.LastName</label></h4>
+                                                <h4 style="color:white;"><label>Is Active:&nbsp;</label><label id="@("currentUserLastName"+user.IsActive)">@user.IsActive</label></h4>
+
                                             </div>
                                         </div>
                                     </td>
@@ -60,6 +62,12 @@
                         @Html.LabelFor(model => user.LastName, new { @class = "control-label col-sm-4" })
                         <div class="col-sm-5">
                             @Html.TextBoxFor(model => user.LastName, new { @class = "form-control", placeholder = user.LastName, id = "LastNameInput" + user.Username })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => user.IsActive, new { @class = "control-label col-sm-4" })
+                        <div class="col-sm-5">
+                            @Html.TextBoxFor(model => user.IsActive, new { @class = "form-control", placeholder = user.IsActive, id = "IsActiveInput" + user.Username })
                         </div>
                     </div>
                     <div class="form-group">

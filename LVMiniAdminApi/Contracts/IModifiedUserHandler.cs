@@ -5,7 +5,7 @@ namespace LVMiniAdminApi.Contracts
 {
     public interface IModifiedUserHandler
     {
-        User SetChangesToStoredUser(User storedUser, ModifiedUserModel modifiedModel);
-        bool CheckTheChanges(User storedUserWithTheChanges, ModifiedUserModel user);
+        User SetChangesToStoredUser(User storedUser, BaseModifiedUserModel modifiedModel);
+        bool CheckTheChanges(User storedUserWithTheChanges, BaseModifiedUserModel user);
     }
 }

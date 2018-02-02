@@ -13,76 +13,65 @@ function initMap() {
     });
 }
 
-//Variables
-let url = '/Accounts/CheckUser';
-let emailurl = '/Accounts/CheckEmail';
-let defaultContentType = 'application/json';
-let expr = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-let registerUsernameTagId = '#Username';
-let registerEmailTagId = '#Email';
-let cssDisplayKeyWord = 'display';
-let cssColorKeyWord = 'color';
-let cssNoneKeyWord = 'none';
-let cssInlineBlockKeyWord = 'inline-block';
-let cssRedKeyWord = 'red';
-let cssGreenKeyWord = 'green';
-let jqueryKeyUpKeyWord = 'keyup';
-let jqueryClickKwyWord = 'click';
-let registerUsernameAvailableSignId = '#username_available_sign';
-let registrationUsernameUnavailableSignId = '#username_unavailable_sign';
-let minimumUsernameLenght = 3;
-let jqueryButtonsModifyUserInfoClass = '.modify-users-buttons';
-let buttonsModifyUserPrefix = 'btnModify';
-
-
 function logErrorInConsole(err) {
     console.log('Error: ' + err);
 }
 
 function displayUsernameSign(isAvailable) {
     console.log(isAvailable);
-    let available_sign = $(registerUsernameAvailableSignId);
-    let unavailable_sign = $(registrationUsernameUnavailableSignId);
+    let available_sign = $('#username_available_sign');
+    let unavailable_sign = $('#username_unavailable_sign');
     if (!isAvailable) {
-        $(available_sign).css(cssDisplayKeyWord, cssInlineBlockKeyWord);
-        $(available_sign).css(cssColorKeyWord, cssGreenKeyWord);
-        $(unavailable_sign).css(cssDisplayKeyWord, cssNoneKeyWord);
+        $(available_sign).css('display', 'inline-block');
+        $(available_sign).css('color', 'green');
+        $(unavailable_sign).css('display', 'none');
     } else {
-        $(available_sign).css(cssDisplayKeyWord, cssNoneKeyWord);
-        $(unavailable_sign).css(cssColorKeyWord, cssRedKeyWord);
-        $(unavailable_sign).css(cssDisplayKeyWord, cssInlineBlockKeyWord);
+        $(available_sign).css('display', 'none');
+        $(unavailable_sign).css('color', 'red');
+        $(unavailable_sign).css('display', 'inline-block');
     }
 }
 
-$(jqueryButtonsModifyUserInfoClass).on(jqueryClickKwyWord, saveProfileChanges);
+$('.modify-users-buttons').on('click', saveProfileChanges);
 
 //Admin Edit Profile
 function saveProfileChanges(ev) {
-    let firstNameInputModifyUserPrefix = 'FirstNameInput';
-    let lastNameInputModifyUserPrefix = 'LastNameInput';
     let currentTargetId = ev.currentTarget.id;
-    let currentUser = currentTargetId.replace(new RegExp('^' + buttonsModifyUserPrefix), '');
-    let changedFirstName = $('#' + firstNameInputModifyUserPrefix + currentUser).val();
-    let changedLastName = $('#' + lastNameInputModifyUserPrefix + currentUser).val();
-    if (!isEmpty(changedFirstName.trim()) && !isEmpty(changedLastName.trim())) {
-        let user = {
-            UserName: currentUser,
-            FirstName: changedFirstName,
-            LastName: changedLastName
-        };
-        $.ajax({
-            type: 'POST',
-            url: '/Admin/ModifyUserInfo',
-            dataType: 'json',
-            contentType: 'application/json',
-            data: JSON.stringify(user),
-            success: replaceTheExistingData,
-            error: logErrorInConsole
-        });
+    let currentUser = currentTargetId.replace(new RegExp('^btnModify'), '');
+    let allLabels = $('.form-control');
+    let labelsNeedForExtractingVhanges = [];
+    for (let label of allLabels) {
+        if (typeof label.id !== 'undefined' && label.id.endsWith(currentUser)) {
+            labelsNeedForExtractingVhanges.push(label);
+        }
     }
-
+    let labelRegex = new RegExp('([\w]+)(TestUN12)');
+    let properiesOfTheUserModel = [];
+    let labelsSubfix = 'Input' + currentUser;
+    for (let label of labelsNeedForExtractingVhanges) {
+        properiesOfTheUserModel.push(label.id.replace(labelsSubfix, ''));
+    }
+    let user = {};
+    for (let property of properiesOfTheUserModel) {
+        if (property === 'IsActive') {
+            user[property] = $('#' + property + 'Input' + currentUser).val().toLowerCase() == 'true';
+        } else {
+            user[property] = $('#' + property + 'Input' + currentUser).val();
+        }
+    }
+    user['Username'] = currentUser;
+    $.ajax({
+        type: 'POST',
+        url: '/Admin/ModifyUserInfo',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(user),
+        success: replaceTheExistingData,
+        error: logErrorInConsole
+    });
     function replaceTheExistingData(isDataReplaced) {
         if (isDataReplaced) {
+            //TODO: refactor the replacing 
             let oldFirstNameLabelId = 'currentUserFirstName' + currentUser;
             let oldLastNameLabelId = 'currentUserLastName' + currentUser;
             $('#' + oldFirstNameLabelId).text(changedFirstName);
@@ -138,6 +127,7 @@ $('#saveMyProfileChangesButton').on('click', function () {
 
 
     function checkIsDataCorrect(myProfileData) {
+        let expr = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         let emailResult = expr.test(myProfileData['Email']);
         let firstNameResult = !isEmpty(myProfileData['FirstName']);
         let lastNameResult = !isEmpty(myProfileData['LastName']);

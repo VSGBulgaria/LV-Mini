@@ -17,6 +17,15 @@ namespace Data.Service.Persistance.Repositories
         {
         }
 
+        public IEnumerable<User> GetAll(int pageNumber, int pageSize)
+        {
+            return Entities
+                .AsNoTracking()
+                .Skip(pageSize * (pageNumber - 1))
+                .Take(pageSize)
+                .ToList();
+        }
+
         public async Task<User> GetByUsername(string username)
         {
             return await Entities

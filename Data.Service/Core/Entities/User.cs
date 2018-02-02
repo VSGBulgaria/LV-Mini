@@ -32,6 +32,7 @@ namespace Data.Service.Core.Entities
         [StringLength(50)]
         public string LastName { get; set; }
 
+        [Required]
         public bool IsActive { get; set; } = true;
 
         public ICollection<UserClaim> Claims { get; set; } = new List<UserClaim>();

@@ -1,4 +1,5 @@
 ﻿using Data.Service.Core.Entities;
+using Data.Service.Core.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
 namespace Data.Service.Services

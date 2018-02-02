@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using Data.Service.Core.Entities;
 using LVMiniAdminApi.Attributes;
 using LVMiniAdminApi.Contracts;
@@ -10,7 +9,7 @@ namespace LVMiniAdminApi.Services
 {
     public class ModifiedUserHandler : IModifiedUserHandler
     {
-        public bool CheckTheChanges(User storedUser, ModifiedUserModel modifiedUserModel)
+        public bool CheckTheChanges(User storedUser, BaseModifiedUserModel modifiedUserModel)
         {
             var modifiedUserChangeableProperties = modifiedUserModel.GetType().GetProperties().Where(
                 prop => Attribute.IsDefined(prop, typeof(Changeable)));
@@ -36,7 +35,7 @@ namespace LVMiniAdminApi.Services
             return changed;
         }
 
-        public User SetChangesToStoredUser(User storedUser, ModifiedUserModel modifiedModel)
+        public User SetChangesToStoredUser(User storedUser, BaseModifiedUserModel modifiedModel)
         {
             var modifiedUserChangeableProperties = modifiedModel.GetType().GetProperties().Where(
                 prop => Attribute.IsDefined(prop, typeof(Changeable)));

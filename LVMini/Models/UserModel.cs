@@ -1,5 +1,4 @@
-﻿
-namespace LVMini.Models
+﻿namespace LVMini.Models
 {
     public class UserModel
     {

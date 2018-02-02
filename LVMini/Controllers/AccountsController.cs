@@ -84,16 +84,9 @@ namespace LVMini.Controllers
         //AdminPage
         [HttpGet]
         [Authorize(Roles = Role.Admin)]
-        public async Task<IActionResult> Admin()
+        public IActionResult Admin()
         {
-            var httpResponse = await _client.GetAsync("http://localhost:53990/api/Admin/users");
-            if (httpResponse.StatusCode.Equals(HttpStatusCode.OK))
-            {
-                var content = await httpResponse.Content.ReadAsStringAsync();
-                var users = JsonConvert.DeserializeObject<List<UserModel>>(content);
-                return View(users);
-            }
-            return RedirectToAction("AccessDenied", "Authorization");
+            return View();
         }
 
         [HttpPost]

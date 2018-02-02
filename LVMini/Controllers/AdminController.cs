@@ -26,14 +26,15 @@ namespace LVMini.Controllers
         [Authorize(Policy = "CanGetUsers")]
         public async Task<IActionResult> Users()
         {
-            var httpResponseMessage = await _client.GetAsync(Resources.AdminApi);
+            var samplePaging = "?pageNumber=1&pageSize=3";
+            var httpResponseMessage = await _client.GetAsync(Resources.AdminApi + samplePaging);
             if (httpResponseMessage.StatusCode != HttpStatusCode.OK)
             {
                 return RedirectToAction("AccessDenied", "Authorization");
             }
 
             var data = await httpResponseMessage.Content.ReadAsStringAsync();
-            var users = JsonConvert.DeserializeObject<IEnumerable<UserModel>>(data);
+            var users = JsonConvert.DeserializeObject<IEnumerable<ModifiedUserModel>>(data);
 
             return View(users);
         }

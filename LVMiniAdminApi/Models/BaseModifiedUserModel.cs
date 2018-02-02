@@ -1,11 +1,15 @@
-﻿namespace LVMini.Models
+﻿using LVMiniAdminApi.Attributes;
+
+namespace LVMiniAdminApi.Models
 {
-    public class ModifiedUserModel
+    public abstract class BaseModifiedUserModel : BaseUser
     {
-        public string Username { get; set; }
         public string Email { get; set; }
+        [Changeable]
         public string FirstName { get; set; }
+        [Changeable]
         public string LastName { get; set; }
+        [Changeable]
         public bool IsActive { get; set; }
     }
 }
