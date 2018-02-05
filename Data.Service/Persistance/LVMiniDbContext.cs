@@ -11,12 +11,28 @@ namespace Data.Service.Persistance
         public DbSet<User> Users { get; set; }
         public DbSet<Log> Logs { get; set; }
         public DbSet<Product> Product { get; set; }
+        public DbSet<Team> Teams { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
                 .HasIndex(u => new { u.Username, u.Email })
                 .IsUnique();
+
+            modelBuilder.Entity<UserTeam>()
+                .HasKey(userTeam => new { userTeam.TeamId, userTeam.UserId });
+
+            modelBuilder.Entity<UserTeam>()
+                .HasOne(userTeam => userTeam.Team)
+                .WithMany(team => team.UsersTeams)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasForeignKey(userTeam => userTeam.TeamId);
+
+            modelBuilder.Entity<UserTeam>()
+                .HasOne(userTeam => userTeam.User)
+                .WithMany(user => user.UsersTeams)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasForeignKey(userTeam => userTeam.UserId);
         }
     }
 }

@@ -9,13 +9,20 @@ namespace Data.Service.Persistance
         private LvMiniDbContext _context;
 
         public UnitOfWork(LvMiniDbContext context, IUserRepository userRepository, ILogRepository logRepository)
+            : this(context, userRepository, logRepository, null)
+        {
+            
+        }
+
+        public UnitOfWork(LvMiniDbContext context, IUserRepository userRepository, ILogRepository logRepository, ITeamRepository teamRepository)
         {
             _context = context;
             UserRepository = userRepository;
             LogRepository = logRepository;
+            TeamRepository = teamRepository;
         }
 
-
+        public ITeamRepository TeamRepository { get; }
         public IUserRepository UserRepository { get; }
         public ILogRepository LogRepository { get; }
 

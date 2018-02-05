@@ -11,9 +11,10 @@ using System;
 namespace Data.Service.Migrations
 {
     [DbContext(typeof(LvMiniDbContext))]
-    partial class LvMiniDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180205153845_AddTeamsManyToManyRealtionShipWithUsers")]
+    partial class AddTeamsManyToManyRealtionShipWithUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,7 +76,7 @@ namespace Data.Service.Migrations
 
                     b.HasKey("TeamId");
 
-                    b.ToTable("Teams","admin");
+                    b.ToTable("Teams");
                 });
 
             modelBuilder.Entity("Data.Service.Core.Entities.User", b =>
@@ -168,7 +169,7 @@ namespace Data.Service.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UsersTeams","admin");
+                    b.ToTable("UsersTeams");
                 });
 
             modelBuilder.Entity("Data.Service.Core.Entities.UserClaim", b =>

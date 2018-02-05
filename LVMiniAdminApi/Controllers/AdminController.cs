@@ -13,7 +13,7 @@ namespace LVMiniAdminApi.Controllers
     [Authorize(Policy = "AdminOnly")]
     public class AdminController : BaseController
     {
-        public AdminController(IUnitOfWork unitOfWork, IModifiedUserHandler userHandler)
+        public AdminController(IUnitOfWork unitOfWork, IModifiedUserHandler userHandler, ITeamRepository teamRepository)
         {
             _repository = unitOfWork.UserRepository;
             _unitOfWork = unitOfWork;
@@ -24,7 +24,8 @@ namespace LVMiniAdminApi.Controllers
         [HttpGet]
         public IActionResult Get([FromQuery]UsersResourceParameters usersResourceParameters)
         {
-            return Ok(_repository.GetAll(usersResourceParameters.PageNumber, usersResourceParameters.PageSize));
+            var users = _repository.GetAll(usersResourceParameters.PageNumber, usersResourceParameters.PageSize);
+            return Ok(users);
         }
 
         // PUT: api/admin/users

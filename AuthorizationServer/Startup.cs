@@ -97,6 +97,7 @@ namespace AuthorizationServer
             lvMiniDbContext.Database.Migrate();
             lvMiniDbContext.SeedDataForContext();
 
+
             FileExtensionContentTypeProvider typeProvider = new FileExtensionContentTypeProvider();
             if (!typeProvider.Mappings.ContainsKey(".woff2"))
             {
