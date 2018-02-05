@@ -12,31 +12,29 @@ namespace LVMiniApi.Controllers
     public class AccountsController : BaseController
     {
         private readonly IUnitOfWork _unitOfWork;
-
         public AccountsController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            LogRepository = unitOfWork.LogRepository;
         }
 
         [HttpPost("logout")]
         public async Task Logout([FromBody] string username)
         {
-            await LogRepository.InsertLog(username, UserAction.Logout);
+            await _unitOfWork.LogRepository.InsertLog(username, UserAction.Logout);
             await _unitOfWork.Commit();
         }
 
         [HttpPost("login")]
         public async Task Login([FromBody] string username)
         {
-            await LogRepository.InsertLog(username, UserAction.Login);
+            await _unitOfWork.LogRepository.InsertLog(username, UserAction.Login);
             await _unitOfWork.Commit();
         }
 
         [HttpPost("profileupdate")]
         public async Task ProfileUpdate([FromBody] string username)
         {
-            await LogRepository.InsertLog(username, UserAction.ProfileUpdate);
+            await _unitOfWork.LogRepository.InsertLog(username, UserAction.ProfileUpdate);
             await _unitOfWork.Commit();
         }
     }

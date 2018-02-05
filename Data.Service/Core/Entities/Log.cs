@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.Service.Core.Entities
 {
-    [Table("Logs")]
+    [Table("Logs", Schema = "admin")]
     public class Log
     {
         [Key]

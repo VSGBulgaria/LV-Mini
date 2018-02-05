@@ -17,18 +17,15 @@ namespace LVMiniApi.Controllers
     /// Provides non-admin actions for manipulating users.
     /// </summary>
     [Route("api/users")]
-    [Authorize]
     public class UsersController : BaseController
     {
         // inject the UnitOfWork
         private readonly IUnitOfWork _unitOfWork;
 
-        public UsersController(IMapper mapper, IUnitOfWork unitOfWork)
+        public UsersController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             Mapper = mapper;
-            // get the repository from the UnitOfWork
-            UserRepository = _unitOfWork.UserRepository;
         }
 
         /// <summary>
@@ -39,7 +36,7 @@ namespace LVMiniApi.Controllers
         [HttpGet("{username}", Name = "UserGet")]
         public async Task<IActionResult> GetUserByUsername(string username)
         {
-            var user = await UserRepository.GetByUsername(username);
+            var user = await _unitOfWork.UserRepository.GetByUsername(username);
             if (user == null)
             {
                 return NotFound();
@@ -74,7 +71,7 @@ namespace LVMiniApi.Controllers
 
             using (_unitOfWork)
             {
-                if (await UserRepository.UserExists(user.Username))
+                if (await _unitOfWork.UserRepository.UserExists(user.Username))
                 {
                     return new StatusCodeResult(StatusCodes.Status409Conflict);
                 }
@@ -82,7 +79,7 @@ namespace LVMiniApi.Controllers
                 var userEntity = Mapper.Map<User>(user);
                 userEntity.Password = Hasher.PasswordHash(userEntity, userEntity.Password);
 
-                await UserRepository.Insert(userEntity);
+                await _unitOfWork.UserRepository.Insert(userEntity);
 
                 if (!await _unitOfWork.Commit())
                 {
@@ -100,7 +97,7 @@ namespace LVMiniApi.Controllers
         [HttpPost("{username}")]
         public async Task<IActionResult> BlockUserRegister(string username)
         {
-            if (await UserRepository.UserExists(username))
+            if (await _unitOfWork.UserRepository.UserExists(username))
             {
                 return new StatusCodeResult(StatusCodes.Status409Conflict);
             }
@@ -119,12 +116,12 @@ namespace LVMiniApi.Controllers
         [HttpPut("{username}")]
         public async Task<IActionResult> UpdateUser(string username, [FromBody] EditUserDto model)
         {
-            if (!await UserRepository.UserExists(username))
+            if (!await _unitOfWork.UserRepository.UserExists(username))
             {
                 return NotFound();
             }
 
-            var user = await UserRepository.GetByUsername(username);
+            var user = await _unitOfWork.UserRepository.GetByUsername(username);
             if (user == null)
             {
                 return NotFound();
@@ -137,7 +134,6 @@ namespace LVMiniApi.Controllers
             }
 
             Mapper.Map(model, user);
-            UserRepository.Update(user);
             if (!await _unitOfWork.Commit())
             {
                 throw new Exception("Updating a user failed on save.");

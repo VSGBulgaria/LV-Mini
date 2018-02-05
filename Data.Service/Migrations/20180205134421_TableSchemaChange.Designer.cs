@@ -11,9 +11,10 @@ using System;
 namespace Data.Service.Migrations
 {
     [DbContext(typeof(LvMiniDbContext))]
-    partial class LvMiniDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180205134421_TableSchemaChange")]
+    partial class TableSchemaChange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,30 +37,6 @@ namespace Data.Service.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Logs","admin");
-                });
-
-            modelBuilder.Entity("Data.Service.Core.Entities.Product", b =>
-                {
-                    b.Property<int>("IdProduct")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("IsActive");
-
-                    b.Property<bool>("IsHidden");
-
-                    b.Property<string>("ProductCode")
-                        .IsRequired()
-                        .HasMaxLength(15);
-
-                    b.Property<string>("ProductDescription")
-                        .IsRequired()
-                        .HasMaxLength(150);
-
-                    b.Property<byte>("ProductType");
-
-                    b.HasKey("IdProduct");
-
-                    b.ToTable("Product","IbClue");
                 });
 
             modelBuilder.Entity("Data.Service.Core.Entities.User", b =>

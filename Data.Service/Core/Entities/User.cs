@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.Service.Core.Entities
 {
-    [Table("Users")]
+    [Table("Users", Schema = "admin")]
     public class User
     {
         [Key]

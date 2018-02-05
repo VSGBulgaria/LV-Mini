@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.Service.Core.Entities
 {
-    [Table("UserClaims")]
+    [Table("UserClaims", Schema = "admin")]
     public class UserClaim
     {
         [Key]
