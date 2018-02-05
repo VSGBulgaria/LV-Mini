@@ -38,9 +38,11 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    @Html.ActionLink("LV Mini", "Index", "Home", new { area = "" }, new { @class = "navbar-brand"})<img src="~/images/iconr.png" width="30" height="30" style="margin-top:10px;" />
+                    @Html.ActionLink("LV Mini", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })<img src="~/images/iconr.png" width="30" height="30" style="margin-top:10px;" />&nbsp;&nbsp;
                 </div>
                 <div class="navbar-collapse collapse">
+                @if (!User.Identity.IsAuthenticated)
+                {
                     <ul class="nav navbar-nav">
                         <li>
                             <a href="@Url.Action("Index", "Home")"><span class="glyphicon glyphicon-home"></span>&nbsp;Home</a>
@@ -48,41 +50,49 @@
                         <li><a asp-area="" asp-controller="Home" asp-action="About"><i class="glyphicon glyphicon-question-sign"></i>&nbsp;About</a></li>
                         <li><a asp-area="" asp-controller="Home" asp-action="Contact"><i class="fa fa-address-book-o"></i>&nbsp;Contact</a></li>
                     </ul>
-                    <ul class="nav navbar-nav navbar-right navbar-inverse">
-                        @if (!User.Identity.IsAuthenticated)
-    {
-                    <li><a href="@Url.Action("Login", "Accounts")"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Login</a></li>
-}
-
+                    <ul class="nav navbar-nav navbar-right navbar-inverse">  
+                          <li><a href="@Url.Action("Login", "Accounts")"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Login</a></li>
+                    </ul> 
+                }
+                   
                         <!--When User Is Logged In Show This-->
                         @if (User.Identity.IsAuthenticated)
-    {
-                        if (User.IsInRole(Role.User))
                         {
+                            if (User.IsInRole(Role.User))
+                            {
+                                <ul class="nav navbar-nav">
                                     <li><a asp-area="" asp-controller="Accounts" asp-action="MyProfile"><i class="fa fa-user-o"></i>&nbsp;@User.Identity.Name</a></li>
+                                    <li><a href="#"><span class="glyphicon glyphicon-search"></span>&nbsp;Search</a></li>
+                                </ul>
+                                <ul class="nav navbar-nav navbar-right navbar-inverse">
+                                    <li><a asp-area="" asp-controller="Accounts" asp-action="Logout"><i class="glyphicon glyphicon-off" style="color: red;"></i>&nbsp;&nbsp;Log out&nbsp;(@User.Identity.Name)</a></li>
+                                </ul>
+                            }
+                            if (User.IsInRole(Role.Admin))
+                            {
+                                <ul class="nav navbar-nav">
+                                    <li class="btn-group nav">
+                                        <button type="button" class="btn navbar-btn"><i class="fa fa-id-card-o"></i>&nbsp;@User.Identity.Name</button>
+                                        <button type="button" class="btn navbar-btn dropdown-toggle" data-toggle="dropdown">
+                                            <span class="caret"></span>
+                                            <span class="sr-only">Toggle Dropdown</span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="@Url.Action("MyProfile", "Accounts")"><i class="fa fa-user-o"></i>&nbsp;My Account</a></li>
+                                            <li><a href="@Url.Action("Users", "Admin")"><i class="glyphicon glyphicon-globe" style="color: dodgerblue;"></i>&nbsp;Edit Users</a></li>
+                                            <li><a href="#"><i class="fa fa-users"></i>&nbsp;View Teams</a></li>
+                                            <li><a href="#"><i class="glyphicon glyphicon-search"></i>&nbsp;Search</a></li>
+                                            <li><a asp-area="" asp-controller="Accounts" asp-action="Logout"><i class="glyphicon glyphicon-off" style="color: red;"></i>&nbsp;&nbsp;Log out&nbsp;(@User.Identity.Name)</a></li>
+                                        </ul>
+                                    </li> 
+                                </ul>
+                                <ul class="nav navbar-nav navbar-right navbar-inverse">
+                                    <li><a asp-area="" asp-controller="Accounts" asp-action="Logout"><i class="glyphicon glyphicon-off" style="color: red;"></i>&nbsp;&nbsp;Log out&nbsp;(@User.Identity.Name)</a></li>
+                                </ul> 
+                            }
+                            
                         }
-                        if (User.IsInRole(Role.Admin))
-                        {
-                                            <li class="btn-group nav">
-                                                <button type="button" class="btn navbar-btn"><i class="fa fa-id-card-o"></i>&nbsp;@User.Identity.Name</button>
-                                                <button type="button" class="btn navbar-btn dropdown-toggle" data-toggle="dropdown">
-                                                    <span class="caret"></span>
-                                                    <span class="sr-only">Toggle Dropdown</span>
-                                                </button>
-                                                <ul class="dropdown-menu" role="menu">
-                                                    <li><a href="@Url.Action("MyProfile","Accounts")"><i class="fa fa-user-o"></i>&nbsp;My Account</a></li>
-                                                    @*<li><a href="#">View Profile</a></li>*@
-                                                    <li><a href="@Url.Action("Users","Admin")"><span class="glyphicon glyphicon-globe" style="color:dodgerblue;"></span>&nbsp;Edit Users</a></li>
-                                                    @*<li><a href="#">Change Password</a></li>
-                                                        <li><a href="#">Setting</a></li>
-                                                        <li><a href="#">Logout</a></li>*@
-                                                </ul>
-                                            </li>
-                        }
-                    @*<li><a href="@Url.Action("Search", "Home")"><span class="glyphicon glyphicon-search"></span>Search</a></li>*@
-                    <li><a asp-area="" asp-controller="Accounts" asp-action="Logout"><i class="glyphicon glyphicon-off" style="color:red;"></i>&nbsp;&nbsp;Log out&nbsp;(@User.Identity.Name)</a></li>
-}
-                    </ul>
+                    
                 </div>
             </div>
         </nav>
