@@ -51,5 +51,10 @@ namespace LVMini.Controllers
 
             return false;
         }
+        [Authorize]
+        public async Task<IActionResult> Team()
+        {
+            return View();
+        }
     }
 }

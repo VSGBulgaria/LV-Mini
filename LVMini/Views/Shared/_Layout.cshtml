@@ -51,8 +51,19 @@
                         <li><a asp-area="" asp-controller="Home" asp-action="Contact"><i class="fa fa-address-book-o"></i>&nbsp;Contact</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right navbar-inverse">  
-                          <li><a href="@Url.Action("Login", "Accounts")"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Login</a></li>
-                    </ul> 
+                        <li><a href="@Url.Action("Login", "Accounts")"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Login</a></li>
+                        <li>
+                            <a class="btn btn-default btn-outline btn-circle collapsed"  data-toggle="collapse" href="#nav-collapse3" aria-expanded="false" aria-controls="nav-collapse3">Search</a>
+                        </li>
+                    </ul>
+                    <div class="collapse nav navbar-nav nav-collapse slide-down" id="nav-collapse3">
+                        <form class="navbar-form navbar-right" role="search">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Search" />
+                            </div>
+                            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                        </form>
+                    </div>
                 }
                    
                         <!--When User Is Logged In Show This-->
@@ -62,9 +73,19 @@
                             {
                                 <ul class="nav navbar-nav">
                                     <li><a asp-area="" asp-controller="Accounts" asp-action="MyProfile"><i class="fa fa-user-o"></i>&nbsp;@User.Identity.Name</a></li>
-                                    <li><a href="#"><span class="glyphicon glyphicon-search"></span>&nbsp;Search</a></li>
                                 </ul>
                                 <ul class="nav navbar-nav navbar-right navbar-inverse">
+                                    <li>
+                                        <a class="btn btn-default btn-outline btn-circle collapsed" data-toggle="collapse" href="#nav-collapse3" aria-expanded="false" aria-controls="nav-collapse3"><i class="glyphicon glyphicon-search"></i>&nbsp;Search</a>
+                                    </li> 
+                                        <div class="collapse nav navbar-nav nav-collapse slide-down" id="nav-collapse3">
+                                            <form class="navbar-form navbar-right" role="search">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" placeholder="Search" />
+                                                </div>
+                                                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                                            </form>
+                                        </div>
                                     <li><a asp-area="" asp-controller="Accounts" asp-action="Logout"><i class="glyphicon glyphicon-off" style="color: red;"></i>&nbsp;&nbsp;Log out&nbsp;(@User.Identity.Name)</a></li>
                                 </ul>
                             }
@@ -81,7 +102,17 @@
                                             <li><a href="@Url.Action("MyProfile", "Accounts")"><i class="fa fa-user-o"></i>&nbsp;My Account</a></li>
                                             <li><a href="@Url.Action("Users", "Admin")"><i class="glyphicon glyphicon-globe" style="color: dodgerblue;"></i>&nbsp;Edit Users</a></li>
                                             <li><a href="#"><i class="fa fa-users"></i>&nbsp;View Teams</a></li>
-                                            <li><a href="#"><i class="glyphicon glyphicon-search"></i>&nbsp;Search</a></li>
+                                            <li>
+                                                <a class="btn btn-default btn-outline btn-circle collapsed" data-toggle="collapse" href="#nav-collapse3" aria-expanded="false" aria-controls="nav-collapse3"><i class="glyphicon glyphicon-search"></i>&nbsp;Search</a>
+                                            </li> 
+                                            <div class="collapse nav navbar-nav nav-collapse slide-down" id="nav-collapse3">
+                                                <form class="navbar-form navbar-right" role="search">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" placeholder="Search" />
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                                                </form>
+                                            </div>
                                             <li><a asp-area="" asp-controller="Accounts" asp-action="Logout"><i class="glyphicon glyphicon-off" style="color: red;"></i>&nbsp;&nbsp;Log out&nbsp;(@User.Identity.Name)</a></li>
                                         </ul>
                                     </li> 
