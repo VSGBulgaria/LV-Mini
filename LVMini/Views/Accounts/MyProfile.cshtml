@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
 </head>
 
-<h2 style="color:white">Edit Your Profile</h2>
+<h2 style="color:black">Edit Your Profile</h2>
 <hr />
 <div class="row">
     <div class="fields col-lg-6">
@@ -17,7 +17,7 @@
             @Html.AntiForgeryToken()
 
             <div class="fields form-horizontal well">
-                <h4 class="text-center" style="color: white;">My profile</h4>
+                <h4 class="text-center" style="color: black;">My profile</h4>
                 <hr />
                 <div class="form-group">
                     @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2 col-md-offset-4", style = "font-weight:bold;" })

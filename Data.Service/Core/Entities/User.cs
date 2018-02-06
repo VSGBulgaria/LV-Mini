@@ -40,5 +40,5 @@ namespace Data.Service.Core.Entities
         public ICollection<UserLogin> Logins { get; set; } = new List<UserLogin>();
 
         public ICollection<UserTeam> UsersTeams { get; set; } = new List<UserTeam>();
-    }
+}
 }

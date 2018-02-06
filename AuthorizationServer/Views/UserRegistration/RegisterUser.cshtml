@@ -1,7 +1,7 @@
 ﻿@model UserRegistrationViewModel
 
 
-<h2 style="color:white">Register</h2>
+<h2 style="color:black">Register</h2>
 
 <div class="Register">
     @Html.Partial("_ValidationSummary")
@@ -44,6 +44,13 @@
                 <div>
                     @Html.PasswordFor(model => model.Password, new { @class = "RegFields", @placeholder = "Enter Your Password" })
                     @Html.ValidationMessageFor(model => model.Password)
+                </div>
+            </div>
+            <div>
+                @Html.LabelFor(model => model.ConfirmPassword)
+                <div>
+                    @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "RegFields", @placeholder = "Confirm your Password" })
+                    @Html.ValidationMessageFor(model => model.ConfirmPassword)
                 </div>
             </div>
             <div>

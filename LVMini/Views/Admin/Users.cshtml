@@ -18,10 +18,10 @@
     <div class="row">
         <section class="content">
             <div class="col-md-8 col-md-offset-2">
-                <div class="panel-body">   
+                <div class="panel-body">
                     <div class="user-container">
                         <table class="table table-filter">
-                            <tbody> 
+                            <tbody>
                                 <tr data-status="active">
                                     <th style="color:white;">Username:</th>
                                     <th style="color:white;">E-mail:</th>
@@ -32,62 +32,59 @@
                             </tbody>
                         </table>
                         @foreach (ModifiedUserModel user in Model)
-    {
-                    <div class="table-container">
-                        <table class="table table-filter", border="1", width="100%">
-                            <tbody>
-                                <i class="pull-right"><input type="submit" , value="Edit" id="@user.Username" class="btnUEdit btn btn-primary btn-lg btn3d" /></i>
-                                <tr data-status="active">
-                                    @*<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo" style="height:30px; width:30px;">*@
-                                    <td style="color:white;"><label id="@("currentUserUserName"+user.Username)">@user.Username</label></td>
-                                    <td style="color:white;"><label id="@("currentUserEmail"+user.Username)">@user.Email</label></td>
-                                    <td style="color:white;"><label id="@("currentUserFirstName"+user.Username)">@user.FirstName</label></td>
-                                    <td style="color:white;"><label id="@("currentUserLastName"+user.Username)">@user.LastName</label></td>
-                                    <td style="color:white;"><label id="@("currentUserLastName"+user.IsActive)">@user.IsActive</label></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="col-lg-6 hidden" id="@("hidden"+user.Username)">
-                        @using (Html.BeginForm("Users", "Admin", FormMethod.Post))
-    {
-                    @Html.AntiForgeryToken()
-                    <div class="fields form-horizontal well">
-                        <h4 class="text-center" style="color:white;">Edit This User</h4>
-                        <hr />
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <div class="form-group">
-                            @Html.LabelFor(model => user.FirstName, new { @class = "control-label col-sm-4" })
-                            <div class="col-sm-5">
-                                @Html.TextBoxFor(model => user.FirstName, new { @class = "form-control", placeholder = user.FirstName, id = "FirstNameInput" + user.Username })
+                        {
+                            <div class="table-container">
+                                <table class="table table-filter" ,style="border="1" , width="100%" >
+                                    <tbody>
+                                        <i class="pull-right"><input type="submit" , value="Edit" id="@user.Username" class="btnUEdit btn btn-primary btn-lg btn3d" /></i>
+                                        <tr data-status="active">
+                                            <td style="color:black;"><label id="@("currentUserUserName"+user.Username)">@user.Username</label></td>
+                                            <td style="color:black;"><label id="@("currentUserEmail"+user.Username)">@user.Email</label></td>
+                                            <td style="color:black;"><label id="@("currentUserFirstName"+user.Username)">@user.FirstName</label></td>
+                                            <td style="color:black;"><label id="@("currentUserLastName"+user.Username)">@user.LastName</label></td>
+                                            <td style="color:black;"><label id="@("currentUserLastName"+user.IsActive)">@user.IsActive</label></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            @Html.LabelFor(model => user.LastName, new { @class = "control-label col-sm-4" })
-                            <div class="col-sm-5">
-                                @Html.TextBoxFor(model => user.LastName, new { @class = "form-control", placeholder = user.LastName, id = "LastNameInput" + user.Username })
+                            <div class="col-lg-6 hidden" id="@("hidden"+user.Username)">
+                                @using (Html.BeginForm("Users", "Admin", FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <div class="fields form-horizontal well">
+                                        <h4 class="text-center" style="color:black;">Edit This User</h4>
+                                        <hr />
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => user.FirstName, new { @class = "control-label col-sm-4" })
+                                            <div class="col-sm-5">
+                                                @Html.TextBoxFor(model => user.FirstName, new { @class = "form-control", placeholder = user.FirstName, id = "FirstNameInput" + user.Username })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => user.LastName, new { @class = "control-label col-sm-4" })
+                                            <div class="col-sm-5">
+                                                @Html.TextBoxFor(model => user.LastName, new { @class = "form-control", placeholder = user.LastName, id = "LastNameInput" + user.Username })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => user.IsActive, new { @class = "control-label col-sm-4" })
+                                            <div class="col-sm-5">
+                                                @Html.TextBoxFor(model => user.IsActive, new { @class = "form-control", placeholder = user.IsActive, id = "IsActiveInput" + user.Username })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-offset-4 col-md-12">
+                                                <input id="@("btnModify"+user.Username)" type="button" value="Modify" class="modify-users-buttons btn btn-primary btn-lg btn3d" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
                             </div>
-                        </div>
-                        <div class="form-group">
-                            @Html.LabelFor(model => user.IsActive, new { @class = "control-label col-sm-4" })
-                            <div class="col-sm-5">
-                                @Html.TextBoxFor(model => user.IsActive, new { @class = "form-control", placeholder = user.IsActive, id = "IsActiveInput" + user.Username })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-offset-4 col-md-12">
-                                <input id="@("btnModify"+user.Username)" type="button" value="Modify" class="modify-users-buttons btn btn-primary btn-lg btn3d" />
-                            </div>
-                        </div>
-                    </div>
-}
-                    </div>
-}
+                        }
                     </div>
                 </div>
             </div>
         </section>
     </div>
 </div>
-
-

@@ -11,8 +11,8 @@
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
 </head>
 
-<h2 style="color:white">@ViewData["Title"]</h2>
-<h3 style="color:white">@ViewData["Message"]</h3>
+<h2 style="color:black">@ViewData["Title"]</h2>
+<h3 style="color:black">@ViewData["Message"]</h3>
 
 <div class="About">
     <div>
@@ -37,7 +37,7 @@
 @{
     var name = User.Identity.Name;
 
-    <h2 style="color:white;">@User.Identity.Name</h2>
+    <h2 style="color:black;">@User.Identity.Name</h2>
 
     foreach (var claim in User.Claims)
     {
