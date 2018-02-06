@@ -12,6 +12,8 @@ namespace Data.Service.Persistance
         public DbSet<Log> Logs { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<Team> Teams { get; set; }
+        public DbSet<Account> Accounts { get; set; }
+        public DbSet<Loan> Loan { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

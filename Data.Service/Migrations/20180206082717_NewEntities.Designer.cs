@@ -11,64 +11,15 @@ using System;
 namespace Data.Service.Migrations
 {
     [DbContext(typeof(LvMiniDbContext))]
-    partial class LvMiniDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180206082717_NewEntities")]
+    partial class NewEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Data.Service.Core.Entities.Account", b =>
-                {
-                    b.Property<int>("IDAccount")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AccountCategoryCode")
-                        .IsRequired()
-                        .HasMaxLength(10);
-
-                    b.Property<string>("AccountStatusCode")
-                        .IsRequired()
-                        .HasMaxLength(10);
-
-                    b.Property<int>("IDProduct");
-
-                    b.Property<string>("ProductCode")
-                        .IsRequired()
-                        .HasMaxLength(15);
-
-                    b.HasKey("IDAccount");
-
-                    b.ToTable("Account","IbClue");
-                });
-
-            modelBuilder.Entity("Data.Service.Core.Entities.Loan", b =>
-                {
-                    b.Property<int>("IDLoan")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("DateLoanRequestReceived");
-
-                    b.Property<DateTime>("DecisionDate");
-
-                    b.Property<decimal>("ExpectedFundingAtClosing");
-
-                    b.Property<int>("IDAccount");
-
-                    b.Property<bool>("IsLoanRequest");
-
-                    b.Property<DateTime>("LoanDate");
-
-                    b.Property<decimal>("NewMoney");
-
-                    b.Property<DateTime>("ProposedCloseDate");
-
-                    b.HasKey("IDLoan");
-
-                    b.ToTable("Loan","IbClue");
-                });
 
             modelBuilder.Entity("Data.Service.Core.Entities.Log", b =>
                 {
