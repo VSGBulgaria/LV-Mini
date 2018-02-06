@@ -7,7 +7,7 @@ namespace Data.Service.Core.Entities
     public class Product
     {
         [Key]
-        public int IdProduct { get; set; }
+        public int IDProduct { get; set; }
 
         [Required]
         [MaxLength(15)]
