@@ -8,23 +8,19 @@ namespace Data.Service.Persistance
     {
         private LvMiniDbContext _context;
 
-        public UnitOfWork(LvMiniDbContext context, IUserRepository userRepository, ILogRepository logRepository)
-            : this(context, userRepository, logRepository, null)
-        {
-            
-        }
-
-        public UnitOfWork(LvMiniDbContext context, IUserRepository userRepository, ILogRepository logRepository, ITeamRepository teamRepository)
+        public UnitOfWork(LvMiniDbContext context, IUserRepository userRepository, ILogRepository logRepository, IProductGroupRepository productGroupRepository, ITeamRepository teamRepository)
         {
             _context = context;
             UserRepository = userRepository;
             LogRepository = logRepository;
             TeamRepository = teamRepository;
+            ProductGroupRepository = productGroupRepository;
         }
 
         public ITeamRepository TeamRepository { get; }
         public IUserRepository UserRepository { get; }
         public ILogRepository LogRepository { get; }
+        public IProductGroupRepository ProductGroupRepository { get; }
 
         public async Task<bool> Commit()
         {

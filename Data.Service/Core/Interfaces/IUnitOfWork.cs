@@ -7,6 +7,7 @@ namespace Data.Service.Core.Interfaces
     {
         IUserRepository UserRepository { get; }
         ILogRepository LogRepository { get; }
+        IProductGroupRepository ProductGroupRepository { get; }
 
         Task<bool> Commit();
     }

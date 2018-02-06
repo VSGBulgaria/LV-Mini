@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Data.Service.Core.Entities;
 using LVMiniApi.Models;
+using System.Linq;
 
 namespace LVMiniApi.Mapping
 {
@@ -23,6 +24,14 @@ namespace LVMiniApi.Mapping
                 .ReverseMap()
                 .ForAllMembers(opt => opt.Condition(
                     (dto, user, dtoMember, userMember) => dtoMember != null));
+
+            CreateMap<ProductGroupDto, ProductGroup>()
+                .ForMember(pg => pg.Products,
+                    opt => opt.MapFrom(pgd => pgd.Products.Select(id => new ProductGroupProduct() { IDProduct = id })))
+                .ReverseMap();
+
+            CreateMap<ProductGroup, DispalyProductGroupDto>()
+                .ForMember(pgd => pgd.Products, opt => opt.MapFrom(pg => pg.Products.Select(p => p.Product)));
         }
     }
 }

@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace LVMiniApi
 {
@@ -33,6 +35,11 @@ namespace LVMiniApi
 
             services.AddAutoMapper();
 
+            services.AddMvc().AddJsonOptions(options =>
+            {
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
             services
                 .AddEntityFrameworkSqlServer()
                 .AddDbContext<LvMiniDbContext>(options =>
@@ -42,6 +49,7 @@ namespace LVMiniApi
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ILogRepository, LogRepository>();
+            services.AddScoped<IProductGroupRepository, ProductGroupRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddAuthentication("Bearer")
@@ -74,11 +82,11 @@ namespace LVMiniApi
                 });
             }
 
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-            {
-                var context = serviceScope.ServiceProvider.GetRequiredService<LvMiniDbContext>();
-                context.Database.Migrate();
-            }
+            //using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            //{
+            //    var context = serviceScope.ServiceProvider.GetRequiredService<LvMiniDbContext>();
+            //    context.Database.Migrate();
+            //}
 
             app.UseAuthentication();
             app.UseMvc();

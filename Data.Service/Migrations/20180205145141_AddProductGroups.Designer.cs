@@ -3,69 +3,23 @@ using Data.Service.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
 namespace Data.Service.Migrations
 {
     [DbContext(typeof(LvMiniDbContext))]
-    partial class LvMiniDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180205145141_AddProductGroups")]
+    partial class AddProductGroups
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Data.Service.Core.Entities.Account", b =>
-                {
-                    b.Property<int>("IDAccount")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AccountCategoryCode")
-                        .IsRequired()
-                        .HasMaxLength(10);
-
-                    b.Property<string>("AccountStatusCode")
-                        .IsRequired()
-                        .HasMaxLength(10);
-
-                    b.Property<int>("IDProduct");
-
-                    b.Property<string>("ProductCode")
-                        .IsRequired()
-                        .HasMaxLength(15);
-
-                    b.HasKey("IDAccount");
-
-                    b.ToTable("Account", "IbClue");
-                });
-
-            modelBuilder.Entity("Data.Service.Core.Entities.Loan", b =>
-                {
-                    b.Property<int>("IDLoan")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("DateLoanRequestReceived");
-
-                    b.Property<DateTime>("DecisionDate");
-
-                    b.Property<decimal>("ExpectedFundingAtClosing");
-
-                    b.Property<int>("IDAccount");
-
-                    b.Property<bool>("IsLoanRequest");
-
-                    b.Property<DateTime>("LoanDate");
-
-                    b.Property<decimal>("NewMoney");
-
-                    b.Property<DateTime>("ProposedCloseDate");
-
-                    b.HasKey("IDLoan");
-
-                    b.ToTable("Loan", "IbClue");
-                });
 
             modelBuilder.Entity("Data.Service.Core.Entities.Log", b =>
                 {
@@ -82,7 +36,7 @@ namespace Data.Service.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Logs", "admin");
+                    b.ToTable("Logs","admin");
                 });
 
             modelBuilder.Entity("Data.Service.Core.Entities.Product", b =>
@@ -106,49 +60,36 @@ namespace Data.Service.Migrations
 
                     b.HasKey("IDProduct");
 
-                    b.ToTable("Product", "IbClue");
+                    b.ToTable("Product","IbClue");
                 });
 
-            modelBuilder.Entity("Data.Service.Core.Entities.Team", b =>
-            {
-                b.Property<int>("TeamId");
-
-                b.Property<string>("TeamName")
-                    .IsRequired()
-                    .HasMaxLength(25);
-
-                b.HasKey("TeamId");
-
-                b.ToTable("Teams", "admin");
-                b.Property<string>("Name")
-                    .IsRequired()
-                    .HasMaxLength(100);
-            });
-
             modelBuilder.Entity("Data.Service.Core.Entities.ProductGroup", b =>
-            {
-                b.Property<int>("IDProductGroup")
-                    .ValueGeneratedOnAdd();
+                {
+                    b.Property<int>("IDProductGroup")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<bool>("IsActive");
+                    b.Property<string>("IsActive");
 
-                b.HasKey("IDProductGroup");
+                    b.Property<string>("Name")
+                        .HasMaxLength(100);
 
-                b.ToTable("ProductGroup", "admin");
-            });
+                    b.HasKey("IDProductGroup");
+
+                    b.ToTable("ProductGroup","admin");
+                });
 
             modelBuilder.Entity("Data.Service.Core.Entities.ProductGroupProduct", b =>
-            {
-                b.Property<int>("IDProduct");
+                {
+                    b.Property<int>("IDProduct");
 
-                b.Property<int>("IDProductGroup");
+                    b.Property<int>("IDProductGroup");
 
-                b.HasKey("IDProduct", "IDProductGroup");
+                    b.HasKey("IDProduct", "IDProductGroup");
 
-                b.HasIndex("IDProductGroup");
+                    b.HasIndex("IDProductGroup");
 
-                b.ToTable("ProductGroupProduct");
-            });
+                    b.ToTable("ProductGroupProducts");
+                });
 
             modelBuilder.Entity("Data.Service.Core.Entities.User", b =>
                 {
@@ -181,7 +122,7 @@ namespace Data.Service.Migrations
                     b.HasIndex("Username", "Email")
                         .IsUnique();
 
-                    b.ToTable("Users", "admin");
+                    b.ToTable("Users","admin");
                 });
 
             modelBuilder.Entity("Data.Service.Core.Entities.UserClaim", b =>
@@ -204,7 +145,7 @@ namespace Data.Service.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("UserClaims", "admin");
+                    b.ToTable("UserClaims","admin");
                 });
 
             modelBuilder.Entity("Data.Service.Core.Entities.UserLogin", b =>
@@ -227,50 +168,37 @@ namespace Data.Service.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("UserLogins", "admin");
+                    b.ToTable("UserLogins","admin");
                 });
 
-            modelBuilder.Entity("Data.Service.Core.Entities.UserTeam", b =>
-            {
-                b.Property<int>("TeamId");
+            modelBuilder.Entity("Data.Service.Core.Entities.ProductGroupProduct", b =>
+                {
+                    b.HasOne("Data.Service.Core.Entities.Product", "Product")
+                        .WithMany("ProductGroupProducts")
+                        .HasForeignKey("IDProduct")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                b.Property<string>("UserId");
-
-                b.HasKey("TeamId", "UserId");
-
-                b.HasIndex("UserId");
-
-                b.ToTable("UsersTeams", "admin");
-            });
+                    b.HasOne("Data.Service.Core.Entities.ProductGroup", "ProductGroup")
+                        .WithMany("ProductGroupProducts")
+                        .HasForeignKey("IDProductGroup")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
 
             modelBuilder.Entity("Data.Service.Core.Entities.UserClaim", b =>
-            {
-                b.HasOne("Data.Service.Core.Entities.User")
-                    .WithMany("Claims")
-                    .HasForeignKey("SubjectId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
+                {
+                    b.HasOne("Data.Service.Core.Entities.User")
+                        .WithMany("Claims")
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
 
             modelBuilder.Entity("Data.Service.Core.Entities.UserLogin", b =>
-            {
-                b.HasOne("Data.Service.Core.Entities.User")
-                    .WithMany("Logins")
-                    .HasForeignKey("SubjectId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity("Data.Service.Core.Entities.UserTeam", b =>
-            {
-                b.HasOne("Data.Service.Core.Entities.Team", "Team")
-                    .WithMany("UsersTeams")
-                    .HasForeignKey("TeamId")
-                    .OnDelete(DeleteBehavior.Restrict);
-
-                b.HasOne("Data.Service.Core.Entities.User", "User")
-                    .WithMany("UsersTeams")
-                    .HasForeignKey("UserId")
-                    .OnDelete(DeleteBehavior.Restrict);
-            });
+                {
+                    b.HasOne("Data.Service.Core.Entities.User")
+                        .WithMany("Logins")
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
 #pragma warning restore 612, 618
         }
     }

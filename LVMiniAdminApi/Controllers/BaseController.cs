@@ -10,7 +10,5 @@ namespace LVMiniAdminApi.Controllers
         protected IUnitOfWork _unitOfWork;
         protected IModifiedUserHandler _userHandler;
         protected ITeamRepository _teamRepository;
-
-
     }
 }

@@ -5,15 +5,17 @@ namespace Data.Service.Persistance
 {
     public class LvMiniDbContext : DbContext
     {
-        public LvMiniDbContext(DbContextOptions<LvMiniDbContext> options) : base(options)
-        { }
-
         public DbSet<User> Users { get; set; }
         public DbSet<Log> Logs { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Loan> Loan { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductGroup> ProductGroups { get; set; }
+
+        public LvMiniDbContext(DbContextOptions<LvMiniDbContext> options) : base(options)
+        { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,6 +37,9 @@ namespace Data.Service.Persistance
                 .WithMany(user => user.UsersTeams)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasForeignKey(userTeam => userTeam.UserId);
+
+            modelBuilder.Entity<ProductGroupProduct>()
+                .HasKey(pgp => new { pgp.IDProduct, pgp.IDProductGroup });
         }
     }
 }
