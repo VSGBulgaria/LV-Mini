@@ -11,8 +11,8 @@ using System;
 namespace Data.Service.Migrations
 {
     [DbContext(typeof(LvMiniDbContext))]
-    [Migration("20180207065928_RefactoringEntities")]
-    partial class RefactoringEntities
+    [Migration("20180207075002_ResolvingSmallProblems")]
+    partial class ResolvingSmallProblems
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

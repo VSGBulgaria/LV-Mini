@@ -7,7 +7,6 @@ namespace Data.Service.Persistance
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Log> Logs { get; set; }
-        public DbSet<Product> Product { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Loan> Loan { get; set; }
