@@ -6,7 +6,7 @@ namespace Data.Service.Core.Interfaces
 {
     public interface IUserRepository : IBaseRepository<User>
     {
-        IEnumerable<User> GetAll(int pageNumber, int pageSize);
+        IEnumerable<User> GetAll();
         Task<User> GetByUsername(string username);
         Task<User> GetBySubjectId(string subjectId);
         Task<User> GetByEmail(string email);

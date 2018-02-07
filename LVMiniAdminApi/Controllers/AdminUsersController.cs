@@ -1,6 +1,5 @@
 ﻿using Data.Service.Core.Interfaces;
 using LVMiniAdminApi.Contracts;
-using LVMiniAdminApi.Helper;
 using LVMiniAdminApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,20 +10,20 @@ namespace LVMiniAdminApi.Controllers
     [Produces("application/json")]
     [Route("api/admin/users")]
     [Authorize(Policy = "AdminOnly")]
-    public class AdminController : BaseController
+    public class AdminUsersController : BaseController
     {
-        public AdminController(IUnitOfWork unitOfWork, IModifiedUserHandler userHandler, ITeamRepository teamRepository)
+        public AdminUsersController(IModifiedUserHandler userHandler, ITeamRepository teamRepository, IUserRepository userRepository)
         {
-            _repository = unitOfWork.UserRepository;
-            _unitOfWork = unitOfWork;
+            _teamRepository = teamRepository;
+            _repository = userRepository;
             _userHandler = userHandler;
         }
 
         // GET: api/admin/users
         [HttpGet]
-        public IActionResult Get([FromQuery]UsersResourceParameters usersResourceParameters)
+        public IActionResult Get()
         {
-            var users = _repository.GetAll(usersResourceParameters.PageNumber, usersResourceParameters.PageSize);
+            var users = _repository.GetAll();
             return Ok(users);
         }
 
@@ -37,13 +36,11 @@ namespace LVMiniAdminApi.Controllers
                 var storedUser = await _repository.GetByUsername(user.Username);
                 storedUser = _userHandler.SetChangesToStoredUser(storedUser, user);
                 _repository.Update(storedUser);
-                var resultCommits = await _unitOfWork.Commit();
                 var storedUserWithTheChanges = await _repository.GetByUsername(user.Username);
                 if (_userHandler.CheckTheChanges(storedUserWithTheChanges, user))
                 {
                     return Ok(storedUser);
                 }
-
             }
             return BadRequest("Invalid Model State.");
         }

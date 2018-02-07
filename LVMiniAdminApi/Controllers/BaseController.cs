@@ -7,7 +7,6 @@ namespace LVMiniAdminApi.Controllers
     public abstract class BaseController : Controller
     {
         protected IUserRepository _repository;
-        protected IUnitOfWork _unitOfWork;
         protected IModifiedUserHandler _userHandler;
         protected ITeamRepository _teamRepository;
     }

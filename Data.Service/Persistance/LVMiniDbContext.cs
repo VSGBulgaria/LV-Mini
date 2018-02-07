@@ -40,6 +40,11 @@ namespace Data.Service.Persistance
 
             modelBuilder.Entity<ProductGroupProduct>()
                 .HasKey(pgp => new { pgp.IDProduct, pgp.IDProductGroup });
+
+            modelBuilder.Entity<Team>()
+                .HasIndex(team => team.TeamName)
+                .IsUnique();
+
         }
     }
 }

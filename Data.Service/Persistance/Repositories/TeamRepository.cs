@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Data.Service.Core.Entities;
 using Data.Service.Core.Interfaces;
@@ -13,11 +14,36 @@ namespace Data.Service.Persistance.Repositories
         {
         }
 
-        public async Task<Team> GetByTeamName(string username)
+        public async Task<Team> GetByTeamName(string teamName)
         {
             return await Entities
                 .AsNoTracking()
-                .FirstOrDefaultAsync(t => t.TeamName.Equals(username));
+                .Include(team => team.UsersTeams)
+                .ThenInclude(ut => ut.User)
+                .FirstOrDefaultAsync(t => t.TeamName.Equals(teamName));
+        }
+
+        public async Task<ICollection<Team>> GetAll()
+        {
+            return await Entities
+                .AsNoTracking()
+                .Include(team => team.UsersTeams)
+                .ThenInclude(ut => ut.User)
+                .ToListAsync();
+        }
+
+        public async Task<Team> Get(string teamName)
+        {
+            return await Entities
+                .AsNoTracking()
+                .Include(team => team.UsersTeams)
+                .ThenInclude(ut => ut.User)
+                .FirstOrDefaultAsync(t => t.TeamName == teamName);
+        }
+
+        public Task<int> SaveChangesAsync()
+        {
+            return this.Context.SaveChangesAsync();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Data.Service.Core.Interfaces;
 using System;
 using System.Threading.Tasks;
+using NUnit.Framework.Constraints;
 
 namespace Data.Service.Persistance
 {
@@ -8,16 +9,16 @@ namespace Data.Service.Persistance
     {
         private LvMiniDbContext _context;
 
+
         public UnitOfWork(LvMiniDbContext context, IUserRepository userRepository, ILogRepository logRepository, IProductGroupRepository productGroupRepository, ITeamRepository teamRepository)
         {
             _context = context;
             UserRepository = userRepository;
             LogRepository = logRepository;
-            TeamRepository = teamRepository;
             ProductGroupRepository = productGroupRepository;
+
         }
 
-        public ITeamRepository TeamRepository { get; }
         public IUserRepository UserRepository { get; }
         public ILogRepository LogRepository { get; }
         public IProductGroupRepository ProductGroupRepository { get; }

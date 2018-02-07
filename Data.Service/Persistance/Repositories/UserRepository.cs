@@ -17,13 +17,14 @@ namespace Data.Service.Persistance.Repositories
         {
         }
 
-        public IEnumerable<User> GetAll(int pageNumber, int pageSize)
+        public IEnumerable<User> GetAll()
         {
-            return Entities
+            var ent = Entities
                 .AsNoTracking()
-                .Skip(pageSize * (pageNumber - 1))
-                .Take(pageSize)
+                .Include(u => u.UsersTeams)
+                .ThenInclude(us => us.Team)
                 .ToList();
+            return ent;
         }
 
         public async Task<User> GetByUsername(string username)
