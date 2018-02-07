@@ -20,7 +20,7 @@ namespace Data.Service.Persistance.Repositories
             Entities = Context.Set<T>();
         }
 
-        public IEnumerable<T> GetAll(Expression<Func<T, bool>> filterExpression = null)
+        public virtual IEnumerable<T> GetAll(Expression<Func<T, bool>> filterExpression = null)
         {
             IQueryable<T> query = Entities;
 
@@ -29,10 +29,10 @@ namespace Data.Service.Persistance.Repositories
                 query = query.Where(filterExpression);
             }
 
-            return query.AsNoTracking();
+            return query;
         }
 
-        public async Task<T> GetById(int id)
+        public virtual async Task<T> GetById(int id)
         {
             return await Entities.FindAsync(id);
         }

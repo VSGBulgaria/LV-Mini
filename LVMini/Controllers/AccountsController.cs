@@ -1,5 +1,6 @@
 ﻿using IdentityModel.Client;
 using LVMini.Models;
+using LVMini.Service.Classes;
 using LVMini.Service.Constants;
 using LVMini.Service.Interfaces;
 using Microsoft.AspNetCore.Authentication;
@@ -97,7 +98,7 @@ namespace LVMini.Controllers
                 var currentUser = User.Identity.Name;
 
                 var stringContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
-                var response = _client.PutAsync("http://localhost:53920/api/users/" + currentUser, stringContent).Result;
+                var response = _client.PatchAsync("http://localhost:53920/api/users/" + currentUser, stringContent).Result;
 
                 if (response.IsSuccessStatusCode)
                 {

@@ -25,13 +25,15 @@ namespace LVMiniApi.Mapping
                 .ForAllMembers(opt => opt.Condition(
                     (dto, user, dtoMember, userMember) => dtoMember != null));
 
-            CreateMap<ProductGroupDto, ProductGroup>()
+            CreateMap<CreateProductGroupDto, ProductGroup>()
                 .ForMember(pg => pg.Products,
                     opt => opt.MapFrom(pgd => pgd.Products.Select(id => new ProductGroupProduct() { IDProduct = id })))
                 .ReverseMap();
 
-            CreateMap<ProductGroup, DispalyProductGroupDto>()
+            CreateMap<ProductGroup, ProductGroupDto>()
                 .ForMember(pgd => pgd.Products, opt => opt.MapFrom(pg => pg.Products.Select(p => p.Product)));
+
+            CreateMap<Product, ProductDto>();
         }
     }
 }

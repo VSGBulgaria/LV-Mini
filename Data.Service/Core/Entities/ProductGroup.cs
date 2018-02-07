@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,6 +18,6 @@ namespace Data.Service.Core.Entities
         [Required]
         public bool IsActive { get; set; } = true;
 
-        public ICollection<ProductGroupProduct> Products { get; set; } = new HashSet<ProductGroupProduct>();
+        public ICollection<ProductGroupProduct> Products { get; set; } = new Collection<ProductGroupProduct>();
     }
 }

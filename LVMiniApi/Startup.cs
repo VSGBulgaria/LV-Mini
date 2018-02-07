@@ -82,11 +82,11 @@ namespace LVMiniApi
                 });
             }
 
-            //using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-            //{
-            //    var context = serviceScope.ServiceProvider.GetRequiredService<LvMiniDbContext>();
-            //    context.Database.Migrate();
-            //}
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<LvMiniDbContext>();
+                context.Database.Migrate();
+            }
 
             app.UseAuthentication();
             app.UseMvc();

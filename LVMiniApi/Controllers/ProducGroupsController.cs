@@ -21,16 +21,29 @@ namespace LVMiniApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult GetAllProductGroups()
         {
             var entities = _productGroupRepository.GetAll();
 
-            var productGroups = Mapper.Map<IEnumerable<DispalyProductGroupDto>>(entities);
+            var productGroups = Mapper.Map<IEnumerable<ProductGroupDto>>(entities);
             return Ok(productGroups);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetSingleProductGroup(int id)
+        {
+            var productGroup = await _productGroupRepository.GetById(id);
+            if (productGroup == null)
+            {
+                return NotFound();
+            }
+
+            var prodcutGroupToReturn = Mapper.Map<ProductGroupDto>(productGroup);
+            return Ok(prodcutGroupToReturn);
+        }
+
         [HttpPost]
-        public async Task<IActionResult> AddProductGroup([FromBody] ProductGroupDto productGroup)
+        public async Task<IActionResult> AddProductGroup([FromBody] CreateProductGroupDto productGroup)
         {
             if (await _productGroupRepository.ProductGroupExists(productGroup.Name))
             {
@@ -45,23 +58,36 @@ namespace LVMiniApi.Controllers
                 return new StatusCodeResult(500);
             }
 
-            var productGroupToReturn = Mapper.Map<ProductGroupDto>(entity);
-            return Ok(productGroupToReturn);
+            var createdProductGroup = await _productGroupRepository.GetById(entity.IDProductGroup);
+            var groupToReturn = Mapper.Map<ProductGroupDto>(createdProductGroup);
+
+            return Ok(groupToReturn);
         }
 
         [HttpPost("{id}/products/{productId}")]
         public async Task<IActionResult> AddProductToProductGroup(int id, int productId)
         {
-            var product = await _productGroupRepository.GetById(id);
-            ProductGroupProduct productGroup = new ProductGroupProduct
+            var productGroup = await _productGroupRepository.GetById(id);
+            if (productGroup == null)
             {
-                IDProductGroup = product.IDProductGroup,
-                IDProduct = productId
-            };
+                return NotFound();
+            }
 
-            product.Products.Add(productGroup);
+            productGroup.Products.Add(new ProductGroupProduct() { IDProduct = productId });
             await _unitOfWork.Commit();
+
             return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> MakeGroupInactive(int id)
+        {
+            var productGroup = await _productGroupRepository.GetById(id);
+
+            productGroup.IsActive = false;
+            await _unitOfWork.Commit();
+
+            return NoContent();
         }
     }
 }

@@ -30,28 +30,24 @@ namespace Data.Service.Persistance.Repositories
         public async Task<User> GetByUsername(string username)
         {
             return await Entities
-                .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Username == username);
         }
 
         public async Task<User> GetBySubjectId(string subjectId)
         {
             return await Entities
-                .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.SubjectId == subjectId);
         }
 
         public async Task<User> GetByEmail(string email)
         {
             return await Entities
-                .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Claims.Any(c => c.ClaimType == "email" && c.ClaimValue == email));
         }
 
         public async Task<User> GetByProvider(string loginProvider, string providerKey)
         {
             return await Entities
-                .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Logins.Any(l => l.LoginProvider == loginProvider && l.ProviderKey == providerKey));
         }
 
