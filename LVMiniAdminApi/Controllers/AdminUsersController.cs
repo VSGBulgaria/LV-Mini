@@ -15,7 +15,7 @@ namespace LVMiniAdminApi.Controllers
         public AdminUsersController(IModifiedUserHandler userHandler, ITeamRepository teamRepository, IUserRepository userRepository)
         {
             _teamRepository = teamRepository;
-            _repository = userRepository;
+            _userRepository = userRepository;
             _userHandler = userHandler;
         }
 
@@ -23,7 +23,7 @@ namespace LVMiniAdminApi.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var users = _repository.GetAll();
+            var users = _userRepository.GetAll();
             return Ok(users);
         }
 
@@ -33,10 +33,10 @@ namespace LVMiniAdminApi.Controllers
         {
             if (ModelState.IsValid)
             {
-                var storedUser = await _repository.GetByUsername(user.Username);
+                var storedUser = await _userRepository.GetByUsername(user.Username);
                 storedUser = _userHandler.SetChangesToStoredUser(storedUser, user);
-                _repository.Update(storedUser);
-                var storedUserWithTheChanges = await _repository.GetByUsername(user.Username);
+                _userRepository.Update(storedUser);
+                var storedUserWithTheChanges = await _userRepository.GetByUsername(user.Username);
                 if (_userHandler.CheckTheChanges(storedUserWithTheChanges, user))
                 {
                     return Ok(storedUser);

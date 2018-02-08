@@ -10,6 +10,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Rewrite.Internal.ApacheModRewrite;
 
 namespace LVMini.Controllers
 {
@@ -34,9 +35,10 @@ namespace LVMini.Controllers
 
             var data = await httpResponseMessage.Content.ReadAsStringAsync();
             var users = JsonConvert.DeserializeObject<IEnumerable<ModifiedUserModel>>(data);
+
             return View(users);
         }
-
+        
         [HttpPost]
         public bool ModifyUserInfo([FromBody]ModifiedUserModel model)
         {

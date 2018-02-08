@@ -9,7 +9,7 @@ namespace Data.Service.Persistance.Repositories
 {
     public class TeamRepository : BaseRepository<Team>, ITeamRepository
     {
-        public TeamRepository(LvMiniDbContext context) 
+        public TeamRepository(LvMiniDbContext context)
             : base(context)
         {
         }
@@ -17,7 +17,6 @@ namespace Data.Service.Persistance.Repositories
         public async Task<Team> GetByTeamName(string teamName)
         {
             return await Entities
-                .AsNoTracking()
                 .Include(team => team.UsersTeams)
                 .ThenInclude(ut => ut.User)
                 .FirstOrDefaultAsync(t => t.TeamName.Equals(teamName));
@@ -35,15 +34,14 @@ namespace Data.Service.Persistance.Repositories
         public async Task<Team> Get(string teamName)
         {
             return await Entities
-                .AsNoTracking()
                 .Include(team => team.UsersTeams)
                 .ThenInclude(ut => ut.User)
                 .FirstOrDefaultAsync(t => t.TeamName == teamName);
         }
 
-        public Task<int> SaveChangesAsync()
+        public async Task<int> SaveChangesAsync()
         {
-            return this.Context.SaveChangesAsync();
+            return await Context.SaveChangesAsync();
         }
     }
 }

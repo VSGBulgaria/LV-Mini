@@ -33,10 +33,9 @@ namespace LVMiniAdminApi
             }); ;
 
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<ILogRepository, LogRepository>();
             services.AddScoped<ITeamRepository, TeamRepository>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IModifiedUserHandler, ModifiedUserHandler>();
+            
 
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication(options =>
