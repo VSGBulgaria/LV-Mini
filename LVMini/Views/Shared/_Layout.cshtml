@@ -16,6 +16,10 @@
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="../css/site.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!--Kendo Style Refernces-->
+        <!--Styles. First Common Then Theme-->
+        <link rel="stylesheet" href="../wwwroot/css/kendo.common.min.css">
+        <link rel="stylesheet" href="../wwwroot/css/kendo.silver.min.css">
 
     </environment>
     <environment exclude="Development">
@@ -24,6 +28,10 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <!--Kendo Style Refernces-->
+        <!--Styles. First Common Then Theme-->
+        <link rel="stylesheet" href="../wwwroot/css/kendo.common.min.css">
+        <link rel="stylesheet" href="../wwwroot/css/kendo.silver.min.css">
     </environment>
 </head>
 <body>
@@ -138,6 +146,9 @@
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
+        <!--Scripts  JQuery First Then Kendo Script-->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/kendo.web.min.js"></script>
     </environment>
 
     <environment exclude="Development">
