@@ -19,16 +19,16 @@ namespace Data.Service.Persistance.Repositories
         {
             return Entities
                 .AsNoTracking()
-                .Include(p => p.Products)
-                .ThenInclude(pg => pg.Product)
+                .Include(pg => pg.Products)
+                .ThenInclude(pgp => pgp.Product)
                 .ToList();
         }
 
         public override Task<ProductGroup> GetById(int id)
         {
             return Entities
-                .Include(p => p.Products)
-                .ThenInclude(pg => pg.Product)
+                .Include(pg => pg.Products)
+                .ThenInclude(pgp => pgp.Product)
                 .FirstOrDefaultAsync(x => x.IDProductGroup == id);
         }
 
@@ -37,6 +37,19 @@ namespace Data.Service.Persistance.Repositories
             return await Entities
                 .AsNoTracking()
                 .AnyAsync(pg => pg.Name == name);
+        }
+
+        public async Task<ProductGroup> GetProductGroupByName(string name)
+        {
+            return await Entities
+                .Include(pg => pg.Products)
+                .ThenInclude(pgp => pgp.Product)
+                .FirstOrDefaultAsync(pg => pg.Name == name);
+        }
+
+        public async Task<Product> GetProductByCode(string code)
+        {
+            return await Context.Set<Product>().FirstOrDefaultAsync(p => p.ProductCode == code);
         }
     }
 }

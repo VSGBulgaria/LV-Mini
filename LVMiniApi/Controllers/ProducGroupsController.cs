@@ -4,20 +4,22 @@ using Data.Service.Core.Interfaces;
 using LVMiniApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace LVMiniApi.Controllers
 {
     [Route("api/productgroups")]
-    public class ProducGroupsController : Controller
+    public class ProducGroupsController : BaseController
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IProductGroupRepository _productGroupRepository;
 
-        public ProducGroupsController(IUnitOfWork unitOfWork)
+        public ProducGroupsController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _productGroupRepository = _unitOfWork.ProductGroupRepository;
+            Mapper = mapper;
         }
 
         [HttpGet]
@@ -29,10 +31,10 @@ namespace LVMiniApi.Controllers
             return Ok(productGroups);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetSingleProductGroup(int id)
+        [HttpGet("{name}", Name = "ProductGroupGet")]
+        public async Task<IActionResult> GetSingleProductGroup(string name)
         {
-            var productGroup = await _productGroupRepository.GetById(id);
+            var productGroup = await _productGroupRepository.GetProductGroupByName(name);
             if (productGroup == null)
             {
                 return NotFound();
@@ -64,30 +66,79 @@ namespace LVMiniApi.Controllers
             return Ok(groupToReturn);
         }
 
-        [HttpPost("{id}/products/{productId}")]
-        public async Task<IActionResult> AddProductToProductGroup(int id, int productId)
+        [HttpPost("{name}/products/{productCode}")]
+        public async Task<IActionResult> AddProductToProductGroup(string name, string productCode)
         {
-            var productGroup = await _productGroupRepository.GetById(id);
+            var productGroup = await _productGroupRepository.GetProductGroupByName(name);
             if (productGroup == null)
             {
                 return NotFound();
             }
 
-            productGroup.Products.Add(new ProductGroupProduct() { IDProduct = productId });
+            var product = await _productGroupRepository.GetProductByCode(productCode);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            productGroup.Products.Add(new ProductGroupProduct { IDProduct = product.IDProduct });
             await _unitOfWork.Commit();
 
-            return Ok();
+            var updatedProductGroup = await _productGroupRepository.GetById(productGroup.IDProductGroup);
+            var groupToReturn = Mapper.Map<ProductGroupDto>(updatedProductGroup);
+
+            return Ok(groupToReturn);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> MakeGroupInactive(int id)
+        [HttpPatch("{name}")]
+        public async Task<IActionResult> UpdateGroup(string name, [FromBody] UpdateProductGroupDto productGroup)
         {
-            var productGroup = await _productGroupRepository.GetById(id);
+            var productGroupEntity = await _productGroupRepository.GetProductGroupByName(name);
+            if (productGroupEntity == null)
+            {
+                return NotFound();
+            }
 
-            productGroup.IsActive = false;
+            Mapper.Map(productGroup, productGroupEntity);
+            await _unitOfWork.Commit();
+
+            var modelToReturn = Mapper.Map<ProductGroupDto>(productGroupEntity);
+            return Ok(modelToReturn);
+        }
+
+        [HttpDelete("{name}")]
+        public async Task<IActionResult> DeleteProductGroup(string name)
+        {
+            var productGroup = await _productGroupRepository.GetProductGroupByName(name);
+
+            _productGroupRepository.Delete(productGroup);
             await _unitOfWork.Commit();
 
             return NoContent();
+        }
+
+        [HttpDelete("{name}/products/{productCode}")]
+        public async Task<IActionResult> RemoveProductFromGroup(string name, string productCode)
+        {
+            var productGroup = await _productGroupRepository.GetProductGroupByName(name);
+            if (productGroup == null)
+            {
+                return NotFound();
+            }
+
+            var product = await _productGroupRepository.GetProductByCode(productCode);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            productGroup.Products.Remove(productGroup.Products.FirstOrDefault(pg => pg.IDProduct == product.IDProduct));
+            await _unitOfWork.Commit();
+
+            var updatedProductGroup = await _productGroupRepository.GetById(productGroup.IDProductGroup);
+            var groupToReturn = Mapper.Map<ProductGroupDto>(updatedProductGroup);
+
+            return Ok(groupToReturn);
         }
     }
 }

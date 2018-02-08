@@ -45,11 +45,12 @@ namespace AuthorizationServer.Controllers.Account
             IClientStore clientStore,
             IHttpContextAccessor httpContextAccessor,
             IAuthenticationSchemeProvider schemeProvider,
-            IEventService events, IUserRepository userRepository)
+            IEventService events, IUserRepository userRepository, TestUserStore users)
         {
             _interaction = interaction;
             _events = events;
             _userRepository = userRepository;
+            _users = users;
             _account = new AccountService(interaction, httpContextAccessor, schemeProvider, clientStore);
         }
 

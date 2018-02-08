@@ -9,7 +9,7 @@ namespace LVMiniApi.Controllers
     /// A helper controller for logging user actions on their execution.
     /// </summary>
     [Route("api/accounts")]
-    public class AccountsController : BaseController
+    public class AccountsController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
         public AccountsController(IUnitOfWork unitOfWork)

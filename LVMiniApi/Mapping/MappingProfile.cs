@@ -31,9 +31,14 @@ namespace LVMiniApi.Mapping
                 .ReverseMap();
 
             CreateMap<ProductGroup, ProductGroupDto>()
-                .ForMember(pgd => pgd.Products, opt => opt.MapFrom(pg => pg.Products.Select(p => p.Product)));
+                .ForMember(pgd => pgd.Products, opt => opt.MapFrom(pg => pg.Products.Select(p => p.Product)))
+                .ForMember(pg => pg.Url,
+                    opt => opt.ResolveUsing<ProductGroupUrlResolver>());
 
             CreateMap<Product, ProductDto>();
+            CreateMap<UpdateProductGroupDto, ProductGroup>()
+                .ForAllMembers(opt => opt.Condition(
+                    (dto, user, dtoMember, userMember) => dtoMember != null));
         }
     }
 }
