@@ -81,14 +81,6 @@ namespace LVMini.Controllers
             return View();
         }
 
-        //AdminPage
-        [HttpGet]
-        [Authorize(Roles = Role.Admin)]
-        public IActionResult Admin()
-        {
-            return View();
-        }
-
         [HttpPost]
         [Authorize]
         public bool ModifyMyProfileInfo([FromBody]MyProfileValuesChangedUserModel model)

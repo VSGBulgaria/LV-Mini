@@ -1,78 +1,4 @@
-﻿
-/*Style For The LogIn Form*/
-.h1 {
-    font-family: sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 0 0 20px;
-    font-size: 22px;
-    color: black;
-}
-.login-page {
-    width: 720px;
-    background: rgba(0,0,0,0.5);
-    color: #fff;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    box-sizing: border-box;
-    transform: translate(-50%, -50%);
-    padding: 70px 30px;
-    color: black;
-}
-
-.login-page p {
-        margin: 0px;
-        padding: 0px;
-        font-weight: bold;
-}
-
-.login-page input {
-        width: 100%;
-        margin-bottom: 20px;
-}
-
-.login-page input[type="text"], input[type="password"] {
-            border: none;
-            border-bottom: 1px solid;
-            background: transparent;
-            outline: none;
-            height: 40px;
-            color: #fff;
-            font-size: 16px;
-            margin-bottom: 20px;
-}
-
-.login-page input[type="Submit"] {
-            border: none;
-            outline: none;
-            height: 40px;
-            font-size: 18px;
-            color: #fff;
-            background-color: #57FF7E;
-            border-radius: 10px;
-            margin-bottom: 10px;
-}
-
-.login-page input[type="Submit"]:hover {
-            cursor: pointer;
-            color: #fff;
-            background-color: #48E16C;
-}
-
-.login-page a {
-        text-decoration: none;
-        color: black;
-        font-family: sans-serif;
-        font-style: italic;
-        font-size: 12px;
-}
-
-.login-page a:hover {
-            cursor: pointer;
-            color: #57FF7E;
-}
-/*Style For Navigation Bar*/
+﻿/*Style For Navigation Bar*/
 .navbar-header {
     position: relative;
     top: -4px;
@@ -108,13 +34,13 @@
 }
 
 .consent-form {
-    /*.consent-scopecheck;*/
+    
     display: inline-block;
     margin-right: 5px;
 }
 
 .consent-scopecheck[disabled] {
-    /*visibility:hidden;*/
+    
 }
 
 .consent-description {
@@ -171,7 +97,186 @@ li {
 .displayname {
 }
 
+/*Style For The LogIn Form*/
+.h1 {
+    font-family: sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0 0 20px;
+    font-size: 22px;
+    color: black;
+}
+.login-page {
+    width: 720px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    box-sizing: border-box;
+    transform: translate(-50%, -50%);
+    padding: 70px 30px;
+    color: black;
+    /*background: #1ec503;*/
+}
 
+.login-page p {
+    margin: 0px;
+    padding: 0px;
+    font-weight: bold;
+}
+
+.login-page input {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.login-page input[type="text"], input[type="password"] {
+    border: none;
+    border-bottom: 1px solid;
+    background: transparent;
+    outline: none;
+    height: 40px;
+    color: #000;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.login-page input[type="Submit"] {
+    border: none;
+    outline: none;
+    height: 40px;
+    font-size: 18px;
+    color: #fff;
+    background-color: #57FF7E;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.login-page input[type="Submit"]:hover {
+    cursor: pointer;
+    color: #fff;
+    background-color: #48E16C;
+}
+
+.login-page a {
+    text-decoration: none;
+    color: black;
+    font-family: sans-serif;
+    font-style: italic;
+    font-size: 12px;
+}
+
+.login-page a:hover {
+    cursor: pointer;
+    color: #57FF7E;
+}
+
+/*Style For Register*/
+.Register {
+    position: center;
+    text-align: center;
+    color: black;
+    width: 50%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    box-sizing: border-box;
+    transform: translate(-50%, -50%);
+    padding: 70px 30px;
+}
+
+.Register label {
+    color: black;
+    font-size: 20px;
+}
+
+input#Username.RegFields {
+    width: 60%;
+    border-radius: 4px;
+    height: 35px;
+    border: none;
+    border-bottom: 1px solid;
+    background: transparent;
+    outline: none;
+    color: #000;
+}
+
+#Email {
+    width: 60%;
+    height: 35px;
+    border: none;
+    border-bottom: 1px solid;
+    background: transparent;
+    outline: none;
+    color: #000;
+    font-size: 14px;
+}
+
+.RegFields {
+    width: 60%;
+    font-size: 14px;
+    height: 35px;
+    border: none;
+    border-bottom: 1px solid;
+    background: transparent;
+    outline: none;
+    color: #000;
+}
+
+.RegFields input [type = "text"] {
+    background: transparent;
+    font-size: 14px;
+}
+
+#available {
+    display: none;
+    color: green;
+}
+
+#unavailable {
+    display: none;
+    color: red;
+}
+
+input#Password.RegFields {
+    font-size: 14px;
+    color: #000;
+}
+
+input#ConfirmPassword.RegFields {
+    font-size: 14px;
+    color: #000;
+}
+
+input#Click[type=button] {
+    border: none;
+    outline: none;
+    color: #fff;
+    background-color: #337ab7;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    padding: 6px 12px;
+    height: 39px;
+    font-size: 14px;
+    font-weight: normal;
+    text-align: center;
+    border-radius: 4px;
+}
+
+#Cancel {
+    border: none;
+    outline: none;
+    color: #fff;
+    background-color: red;
+    border-radius: 4px;
+    margin-bottom: 0px;
+    padding: 6px 12px;
+    height: 39px;
+    font-size: 14px;
+    font-weight: normal;
+    text-align: center;
+}
+
+/*Style For Footer*/
 .footer {
     position: fixed;
     left: 0px;
@@ -248,108 +353,3 @@ li {
         #footer ul li:nth-child(4) a:before {
             background: #C32AA3;
         }
-/*Style For Register*/
-
-.Register {
-    position: center;
-    text-align: center;
-    color: black;
-    width: 50%;
-    background: RGBA(0,0,0,0.5);
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    box-sizing: border-box;
-    transform: translate(-50%, -50%);
-    padding: 70px 30px;
-}
-
-    .Register label {
-        color: black;
-        font-size: 20px;
-    }
-
-input#Username.RegFields {
-    width: 60%;
-    border-radius: 4px;
-    height: 35px;
-    border: none;
-    border-bottom: 1px solid;
-    background: transparent;
-    outline: none;
-    color: #fff;
-}
-
-#Email {
-    width: 60%;
-    height: 35px;
-    border: none;
-    border-bottom: 1px solid;
-    background: transparent;
-    outline: none;
-    color: #fff;
-    font-size: 14px;
-}
-
-.RegFields {
-    width: 60%;
-    font-size: 14px;
-    height: 35px;
-    border: none;
-    border-bottom: 1px solid;
-    background: transparent;
-    outline: none;
-    color: #fff;
-}
-
-    .RegFields input [type = "text"] {
-        background: transparent;
-        font-size: 14px;
-    }
-
-#available {
-    display: none;
-    color: green;
-}
-
-#unavailable {
-    display: none;
-    color: red;
-}
-
-input#Password.RegFields {
-    font-size: 14px;
-}
-
-input#ConfirmPassword.RegFields {
-    font-size: 14px;
-}
-
-input#Click[type=button] {
-    border: none;
-    outline: none;
-    color: #fff;
-    background-color: #337ab7;
-    margin-bottom: 10px;
-    margin-top: 20px;
-    padding: 6px 12px;
-    height: 39px;
-    font-size: 14px;
-    font-weight: normal;
-    text-align: center;
-    border-radius: 4px;
-}
-
-#Cancel {
-    border: none;
-    outline: none;
-    color: #fff;
-    background-color: red;
-    border-radius: 4px;
-    margin-bottom: 0px;
-    padding: 6px 12px;
-    height: 39px;
-    font-size: 14px;
-    font-weight: normal;
-    text-align: center;
-}

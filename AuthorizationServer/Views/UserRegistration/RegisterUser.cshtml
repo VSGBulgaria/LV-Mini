@@ -3,13 +3,13 @@
 
 <h2 style="color:black">Register</h2>
 
-<div class="Register">
+<div class="Register form-horizontal well">
     @Html.Partial("_ValidationSummary")
     @using (Html.BeginForm("RegisterUser", "UserRegistration", FormMethod.Post))
     {
         <input type="hidden" asp-for="ReturnUrl" />
         <div>
-            <div>
+            <div clas>
                 @Html.LabelFor(model => model.Username)
                 <div>
                     @Html.TextBoxFor(model => model.Username, new { @class = "RegFields", @placeholder = "Choose Username" })
