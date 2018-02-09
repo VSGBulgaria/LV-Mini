@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LVMini", "LVMini\LVMini.csproj", "{ADB0FBEB-394D-4191-80C5-DB7366512565}"
 EndProject
@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LVMiniAdminApi", "LVMiniAdm
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthorizationServer", "AuthorizationServer\AuthorizationServer.csproj", "{9588447C-921D-4A52-A389-64BBAE44B88E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data.Service.Tests", "Data.Service.Tests\Data.Service.Tests.csproj", "{36F666E9-2440-4D0F-9ED8-782551E70568}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Service.Tests", "Data.Service.Tests\Data.Service.Tests.csproj", "{36F666E9-2440-4D0F-9ED8-782551E70568}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminApiTests", "AdminApiTests\AdminApiTests.csproj", "{0C53B204-868A-47B7-B2ED-4A47550CDB64}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{36F666E9-2440-4D0F-9ED8-782551E70568}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36F666E9-2440-4D0F-9ED8-782551E70568}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36F666E9-2440-4D0F-9ED8-782551E70568}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C53B204-868A-47B7-B2ED-4A47550CDB64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C53B204-868A-47B7-B2ED-4A47550CDB64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C53B204-868A-47B7-B2ED-4A47550CDB64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C53B204-868A-47B7-B2ED-4A47550CDB64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
