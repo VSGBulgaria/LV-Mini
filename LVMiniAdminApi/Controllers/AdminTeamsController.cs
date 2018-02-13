@@ -1,18 +1,19 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Data.Service.Core.Entities;
 using Data.Service.Core.Interfaces;
 using IdentityServer4.Events;
 using LVMiniAdminApi.Models;
+using LVMiniAdminApi.Models.TeamModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Team = LVMiniAdminApi.Models.TeamModels.Team;
 
 namespace LVMiniAdminApi.Controllers
 {
     [Produces("application/json")]
     [Route("api/admin/teams")]
-    //[Authorize(Policy = "AdminOnly")]
+    [Authorize(Policy = "AdminOnly")]
     public class AdminTeamsController : BaseController
     {
         public AdminTeamsController(ITeamRepository teamRepository, IUserRepository userRepository)
@@ -34,7 +35,7 @@ namespace LVMiniAdminApi.Controllers
         public async Task<IActionResult> GetCurrent(string currentTeamName)
         {
             var currentTeam = await _teamRepository.GetByTeamName(currentTeamName);
-            if (currentTeam ==  null)
+            if (currentTeam == null)
             {
                 return BadRequest("Invalid team name.");
             }
@@ -43,18 +44,23 @@ namespace LVMiniAdminApi.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> PostTeam([FromBody]Team team)
+        public async Task<IActionResult> PostTeam([FromBody]TeamDto teamDto)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && teamDto.TeamName != null)
             {
-                Data.Service.Core.Entities.Team current = new Data.Service.Core.Entities.Team() { IsActive = team.IsActive, TeamName = team.TeamName };
-                await _teamRepository.Insert(current);
-                var commitsCount = await _teamRepository.SaveChangesAsync();
-                if (commitsCount > 0)
+                Data.Service.Core.Entities.Team current = new Data.Service.Core.Entities.Team() { IsActive = teamDto.IsActive, TeamName = teamDto.TeamName };
+                var suchTeamAlreadyExist = await _teamRepository.GetByTeamName(current.TeamName);
+                if (suchTeamAlreadyExist == null)
                 {
-                    return Ok("Team created");
+                    await _teamRepository.Insert(current);
+                    var commitsCount = await _teamRepository.SaveChangesAsync();
+                    if (commitsCount > 0)
+                    {
+                        return Ok("Team created.");
+                    }
+                    return BadRequest("Something went wrong. Team was not created.");
                 }
-                return BadRequest("Something went wrong. Team was not created.");
+                return BadRequest($"Team with name {current.TeamName} is already exists.");
             }
             return BadRequest("Invalid model state");
         }
@@ -103,54 +109,55 @@ namespace LVMiniAdminApi.Controllers
 
         [HttpPost]
         [Route("user")]
-        public async Task<IActionResult> PostUserToTeam([FromBody]TeamUser teamUser)
+        public async Task<IActionResult> PostUserToTeam([FromBody]TeamUserDto teamUserDto)
         {
-            var user = await _userRepository.GetByUsername(teamUser.UserName);
+            var user = await _userRepository.GetByUsername(teamUserDto.UserName);
             if (user == null)
             {
-                return BadRequest("Unknown user.");
+                return BadRequest($"Unknown user: {teamUserDto.UserName}.");
             }
-            var team = await _teamRepository.GetByTeamName(teamUser.TeamName);
+            var team = await _teamRepository.GetByTeamName(teamUserDto.TeamName);
             if (team == null)
             {
-                return BadRequest("Unknown team.");
+                return BadRequest($"Unknown team: {teamUserDto.TeamName}.");
             }
             foreach (var userUsersTeam in user.UsersTeams)
             {
                 if (userUsersTeam.TeamId == team.TeamId)
                 {
-                    return BadRequest($"User already exist in \"{team.TeamName}\" team.");
+                    return BadRequest($"User: {teamUserDto.UserName} already exist in team: {teamUserDto.TeamName}.");
                 }
             }
-            team.UsersTeams.Add(new UserTeam(){UserId = user.SubjectId});
-            var coutOfCommits = await _teamRepository.SaveChangesAsync();
-            if (coutOfCommits > 0)
+            team.UsersTeams.Add(new UserTeam() { UserId = user.SubjectId });
+            var countOfCommits = await _teamRepository.SaveChangesAsync();
+            if (countOfCommits > 0)
             {
-                return Ok($"User:{teamUser.UserName} was added to the team:{teamUser.TeamName} seccessfully!");
+                return Ok($"User:{teamUserDto.UserName} was added to the team:{teamUserDto.TeamName} successfully!");
             }
-            return BadRequest("Something went wrong. User wasn't added to the team seccessfully.");
+            return BadRequest(
+                $"Something went wrong. User: {teamUserDto.UserName} wasn't added to the team successfully.");
         }
 
         [HttpDelete]
         [Route("user")]
-        public async Task<IActionResult> RemoveUserFromTeam([FromBody]TeamUser teamUser)
+        public async Task<IActionResult> RemoveUserFromTeam([FromBody]TeamUserDto teamUserDto)
         {
-            var team = await _teamRepository.GetByTeamName(teamUser.TeamName);
+            var team = await _teamRepository.GetByTeamName(teamUserDto.TeamName);
             if (team == null)
             {
-                return BadRequest("Unknown team.");
+                return BadRequest($"Unknown team: {teamUserDto.TeamName}.");
             }
-            var user = await _userRepository.GetByUsername(teamUser.UserName);
+            var user = await _userRepository.GetByUsername(teamUserDto.UserName);
             if (user == null)
             {
-                return BadRequest("Unknown user.");
+                return BadRequest($"Unknown user: {teamUserDto.UserName}.");
             }
             var removed = false;
-            foreach (var middleReccord in team.UsersTeams)
+            foreach (var middleRecord in team.UsersTeams)
             {
-                if (middleReccord.User.Username == user.Username)
+                if (middleRecord.User.Username == user.Username)
                 {
-                    team.UsersTeams.Remove(middleReccord);
+                    team.UsersTeams.Remove(middleRecord);
                     removed = true;
                     break;
                 }

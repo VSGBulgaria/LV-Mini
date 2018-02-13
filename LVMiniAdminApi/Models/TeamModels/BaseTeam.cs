@@ -1,8 +1,16 @@
-﻿namespace LVMiniAdminApi.Models.TeamModels
+﻿using System;
+
+namespace LVMiniAdminApi.Models.TeamModels
 {
     public abstract class BaseTeam
     {
-        public string TeamName { get; set; }
+        private string _teamName;
+
+        public string TeamName
+        {
+            get => this._teamName;
+            set => _teamName = value ?? throw new ArgumentException("TeamDto name cannot be null.");
+        }
         public bool IsActive { get; set; }
     }
 }
