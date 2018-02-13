@@ -1,5 +1,6 @@
 ﻿@using LVMini.ViewModels
-@*@using Kendo.Mvc.Examples.Models;*@
+@using Kendo.Mvc.UI;
+@using Kendo.Mvc.Extensions;
 @model IEnumerable<TeamViewModel>
 @{
     ViewData["Title"] = "Team";
@@ -23,25 +24,45 @@
 </head>
 
 <h2>Teams</h2>
-
-@*@(Html.Kendo().Diagram()
-              .Name("diagram")
-              .DataSource(dataSource => dataSource
-                  .Read(read => read
-                      .Action("_OrgChart", "Diagram")
-                  )
-                  .Model(m => m.Children("Items"))
-              )
-              .Editable(false)
-              .Layout(l => l.Type(DiagramLayoutType.Layered))
-              .ShapeDefaults(sd => sd
-                  .Visual("visualTemplate")
-              )
-              .ConnectionDefaults(cd => cd
-                  .Stroke(s => s
-                      .Color("#979797")
-                      .Width(2)
-                  )
-              )
-              .Events(events => events.DataBound("onDataBound"))
-)*@
+<div class ="row">
+    <div class="form-horizontal well">
+        @*@(Html.Kendo().TreeList<Kendo.Mvc.Examples.Models.TreeList.EmployeeDirectoryModel>()
+            .Name("treelist")
+            .Toolbar(toolbar => toolbar.Create())
+            .Columns(columns =>
+            {
+                columns.Add().Field(e => e.FirstName).Width(220).Title("First Name");
+                columns.Add().Field(e => e.LastName).Width(100).Title("Last Name");
+                columns.Add().Field(e => e.Position);
+                columns.Add().Field(e => e.HireDate).Format("{0:MMMM d, yyyy}");
+                columns.Add().Field(e => e.Phone).Width(200);
+                columns.Add().Field(e => e.Extension).Width(140).Title("Ext").Format("{0:#}");
+                columns.Add().Width(200).Command(c =>
+                {
+                    c.Edit();
+                    c.Destroy();
+                });
+            })
+            .Editable(e => e.Mode("popup"))
+            .DataSource(dataSource => dataSource
+                .Create(create => create.Action("Create", "EmployeeDirectory"))
+                .Read(read => read.Action("All", "EmployeeDirectory"))
+                .Update(update => update.Action("Update", "EmployeeDirectory"))
+                .Destroy(delete => delete.Action("Destroy", "EmployeeDirectory"))
+                .Model(m => {
+                    m.Id(f => f.EmployeeId);
+                    m.ParentId(f => f.ReportsTo);
+                    m.Expanded(true);
+                    m.Field(f => f.FirstName);
+                    m.Field(f => f.LastName);
+                    m.Field(f => f.ReportsTo);
+                    m.Field(f => f.HireDate);
+                    m.Field(f => f.BirthDate);
+                    m.Field(f => f.Extension).DefaultValue(0);
+                    m.Field(f => f.Position);
+                })
+            )
+            .Height(540)
+        )*@
+    </div>
+</div>

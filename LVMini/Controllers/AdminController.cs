@@ -10,7 +10,10 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.AspNetCore.Rewrite.Internal.ApacheModRewrite;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 
 namespace LVMini.Controllers
 {
@@ -52,9 +55,13 @@ namespace LVMini.Controllers
             return false;
         }
         [Authorize]
-        public async Task<IActionResult> Team()
+        public ActionResult Team()
         {
             return View();
         }
+        //public ActionResult _OrgChart()
+        //{
+        //    return Json(DiagramDataRepository.OrgChart(), JsonRequestBehavior.AllowGet);
+        //}
     }
 }
