@@ -2,6 +2,7 @@
 @using LVMini.Service
 @using LVMini.Service.Constants
 @using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Http
 @using Microsoft.AspNetCore.Identity
 @inject IAuthorizationService AuthorizationService
 
@@ -12,38 +13,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="~/images/iconr.png" />
     <title>@ViewData["Title"] - LVMini</title>
+
     
-    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/kendo/2013.2.918/kendo.common.min.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/kendo/2013.2.918/kendo.dataviz.min.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/kendo/2013.2.918/kendo.default.min.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/kendo/2013.2.918/kendo.dataviz.default.min.css")" rel="stylesheet" type="text/css" />
-    <script src="@Url.Content("~/Scripts/kendo/2013.2.918/jquery.min.js")"></script>
-    <script src="@Url.Content("~/Scripts/kendo/2013.2.918/kendo.all.min.js")"></script>
-    <script src="@Url.Content("~/Scripts/kendo/2013.2.918/kendo.aspnetmvc.min.js")"></script>
-    <script src="@Url.Content("~/Scripts/kendo.modernizr.custom.js")"></script>
+
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.1.117/styles/kendo.common.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.1.117/styles/kendo.rtl.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.1.117/styles/kendo.silver.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.1.117/styles/kendo.mobile.all.min.css" />
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2018.1.117/js/kendo.all.min.js"></script>
+
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="../css/site.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <!--Kendo Style Refernces-->
-        <!--Styles. First Common Then Theme-->
-        <link rel="stylesheet" href="../wwwroot/css/kendo.common.min.css">
-        <link rel="stylesheet" href="../wwwroot/css/kendo.silver.min.css">
-        
+        <link rel="stylesheet" href="~/css/site.css" />
+
 
     </environment>
     <environment exclude="Development">
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-        <!--Kendo Style Refernces-->
-        <!--Styles. First Common Then Theme-->
-        <link rel="stylesheet" href="../wwwroot/css/kendo.common.min.css">
-        <link rel="stylesheet" href="../wwwroot/css/kendo.silver.min.css">
+
     </environment>
 </head>
 <body>
@@ -119,9 +108,9 @@
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
                                         <ul class="dropdown-menu" role="menu">
-                                            <li><a href="@Url.Action("MyProfile", "Accounts")"><i class="fa fa-user-o"></i>&nbsp;My Account</a></li>
+                                            <li><a href="@Url.Action("MyProfile", "Accounts")"><i class="glyphicon glyphicon-user"style=" color: black"></i>&nbsp;My Account</a></li>
                                             <li><a href="@Url.Action("Users", "Admin")"><i class="glyphicon glyphicon-globe" style="color: dodgerblue;"></i>&nbsp;Edit Users</a></li>
-                                            <li><a href="@Url.Action("Team", "Admin")"><i class="fa fa-users"></i>&nbsp;View Teams</a></li>
+                                            <li><a href="@Url.Action("Team", "Admin")"><i class="glyphicon glyphicon-th"></i>&nbsp;View Teams</a></li>
                                             <li>
                                                 <a class="btn btn-default btn-outline btn-circle collapsed" data-toggle="collapse" href="#nav-collapse3" aria-expanded="false" aria-controls="nav-collapse3"><i class="glyphicon glyphicon-search"></i>&nbsp;Search</a>
                                             </li> 
@@ -133,7 +122,6 @@
                                                     <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                                                 </form>
                                             </div>
-                                            <li><a asp-area="" asp-controller="Accounts" asp-action="Logout"><i class="glyphicon glyphicon-off" style="color: red;"></i>&nbsp;&nbsp;Log out&nbsp;(@User.Identity.Name)</a></li>
                                         </ul>
                                     </li> 
                                 </ul>
@@ -161,6 +149,9 @@
         <!--Scripts  JQuery First Then Kendo Script-->
         <script src="js/jquery.min.js"></script>
         <script src="js/kendo.web.min.js"></script>
+        @*<scirpt>
+            window.BASE_URL = "";
+        </scirpt>*@
     </environment>
 
     <environment exclude="Development">

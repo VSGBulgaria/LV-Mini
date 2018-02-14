@@ -7,87 +7,62 @@
 <head>
     <title></title>
 
-    <!--Kendo Style Refernces-->
-    <!--Styles. First Common Then Theme-->
-    <link rel="stylesheet" href="../wwwroot/css/kendo.common.min.css">
-    <link rel="stylesheet" href="../wwwroot/css/kendo.silver.min.css">
-    <!--Scripts  JQuery First Then Kendo Script-->
-    <script src="js/jquery.min.js"></script>
-    <script src="js/kendo.web.min.js"></script>
 </head>
 
-<h2 style="color:black"><i class="glyphicon glyphicon-globe" style="color:dodgerblue;"></i>&nbsp;Users List</h2>
+<h2 style="color:black">&nbsp;Users List</h2>
+<hr/>
 <div class="form-horizontal well">
     <div class="row">
         <section class="content">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel-body">
                     <div class="user-container">
-                        <table class="table table-filter">
-                            <tbody>
-                                <tr data-status="active">
-                                    <th style="color:black;">Username:</th>
-                                    <th style="color:black;">E-mail:</th>
-                                    <th style="color:black;">First Name:</th>
-                                    <th style="color:black;">Last Name:</th>
-                                    <th style="color:black;">Is Active:</th>
-                                </tr>
-                            </tbody>
-                        </table>
-                        @foreach (ModifiedUserModel user in Model)
-                        {
-                            <div class="table-container">
-                                <table class="table table-filter" ,style="border="1" , width="100%" >
-                                    <tbody>
-                                        <i class="pull-right"><input type="submit" , value="Edit" id="@user.Username" class="btnUEdit btn btn-primary btn-lg btn3d" /></i>
-                                        <tr data-status="active">
-                                            <td style="color:black;"><label id="@("currentUserUserName"+user.Username)">@user.Username</label></td>
-                                            <td style="color:black;"><label id="@("currentUserEmail"+user.Username)">@user.Email</label></td>
-                                            <td style="color:black;"><label id="@("currentUserFirstName"+user.Username)">@user.FirstName</label></td>
-                                            <td style="color:black;"><label id="@("currentUserLastName"+user.Username)">@user.LastName</label></td>
-                                            <td style="color:black;"><label id="@("currentUserLastName"+user.IsActive)">@user.IsActive</label></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="col-lg-6 hidden" id="@("hidden"+user.Username)">
-                                @using (Html.BeginForm("Users", "Admin", FormMethod.Post))
-                                {
-                                    @Html.AntiForgeryToken()
-                                    <div class="fields form-horizontal well">
-                                        <h4 class="text-center" style="color:black;">Edit This User</h4>
-                                        <hr />
-                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => user.FirstName, new { @class = "control-label col-sm-4" })
-                                            <div class="col-sm-5">
-                                                @Html.TextBoxFor(model => user.FirstName, new { @class = "form-control", placeholder = user.FirstName, id = "FirstNameInput" + user.Username })
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => user.LastName, new { @class = "control-label col-sm-4" })
-                                            <div class="col-sm-5">
-                                                @Html.TextBoxFor(model => user.LastName, new { @class = "form-control", placeholder = user.LastName, id = "LastNameInput" + user.Username })
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => user.IsActive, new { @class = "control-label col-sm-4" })
-                                            <div class="col-sm-5">
-                                                @Html.TextBoxFor(model => user.IsActive, new { @class = "form-control", placeholder = user.IsActive, id = "IsActiveInput" + user.Username })
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-md-offset-4 col-md-12">
-                                                <input id="@("btnModify"+user.Username)" type="button" value="Modify" class="modify-users-buttons btn btn-primary btn-lg btn3d" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-                        }
+                        <div id="grid">
+
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
     </div>
 </div>
+
+<script>
+
+    var dataSource = new kendo.data.DataSource({
+        transport: {
+            read: {
+                url: "http://localhost:49649/admin/UsersAsync"
+            }
+        },
+        schema: {
+            model: {
+                id: "Id"
+            },
+            data: function(response) {
+                return response;
+            }
+        }
+    });
+    var grid = $("#grid").kendoGrid({
+        dataSource: dataSource,
+        columns: [
+            {
+                field: "username"
+            },
+            {
+
+                field: "firstName"
+            },
+            {
+
+                field: "lastName"
+            },
+            {
+
+                field: "email"
+            }
+        ]
+    }).data("kendoGrid"); 
+
+</script>
