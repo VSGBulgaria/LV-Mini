@@ -19,12 +19,11 @@ namespace Data.Service.Persistance.Repositories
 
         public IEnumerable<User> GetAll()
         {
-            var ent = Entities
+            return Entities
                 .AsNoTracking()
                 .Include(u => u.UsersTeams)
                 .ThenInclude(us => us.Team)
                 .ToList();
-            return ent;
         }
 
         public async Task<User> GetByUsername(string username)

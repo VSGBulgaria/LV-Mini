@@ -6,13 +6,12 @@ using System.Linq;
 namespace LVMiniApi.Mapping
 {
     /// <summary>
-    /// Automapper configuration.
+    /// AutoMapper configuration.
     /// </summary>
     internal class MappingProfile : Profile
     {
         public MappingProfile()
         {
-            //From Entity to Model and reverse.
             CreateMap<User, UserDto>()
                 .ForMember(u => u.Url,
                     opt => opt.ResolveUsing<UserUrlResolver>())

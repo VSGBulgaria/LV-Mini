@@ -7,7 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LVMiniApi.Mapping
 {
-    public class ProductGroupUrlResolver : IValueResolver<ProductGroup, ProductGroupDto, string>
+    /// <summary>
+    /// Adds a name surrogate key for the ProductGroup instead of the Id.
+    /// </summary>
+    internal class ProductGroupUrlResolver : IValueResolver<ProductGroup, ProductGroupDto, string>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -15,6 +18,7 @@ namespace LVMiniApi.Mapping
         {
             _httpContextAccessor = httpContextAccessor;
         }
+
 
         public string Resolve(ProductGroup source, ProductGroupDto destination, string destMember, ResolutionContext context)
         {

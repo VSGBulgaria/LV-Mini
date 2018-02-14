@@ -2,6 +2,7 @@
 using Data.Service.Core.Interfaces;
 using Data.Service.Persistance;
 using Data.Service.Persistance.Repositories;
+using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -9,12 +10,16 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.PlatformAbstractions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Swashbuckle.AspNetCore.Swagger;
+using System.Collections.Generic;
+using System.IO;
 
 namespace LVMiniApi
 {
-    public class Startup
+    internal class Startup
     {
         public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
@@ -31,6 +36,34 @@ namespace LVMiniApi
                 options.ReturnHttpNotAcceptable = true;
                 options.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
                 options.InputFormatters.Add(new XmlDataContractSerializerInputFormatter());
+            });
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info
+                {
+                    Title = "LvMiniAPI",
+                    Version = "1.0",
+                    Description = "The main API for the LvMini project. To use most of the API you have to be an authenticated user.",
+                    TermsOfService = "None",
+                    Contact = new Contact { Email = "simeon.banev3@gmail.com", Name = "Simeon Banev", Url = "https://github.com/simonbane" },
+                });
+
+                var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+                var xmlPath = Path.Combine(basePath, "LVMiniApi.xml");
+                c.IncludeXmlComments(xmlPath);
+
+                c.AddSecurityDefinition("Swagger", new OAuth2Scheme
+                {
+                    Flow = "implicit",
+                    AuthorizationUrl = "http://localhost:55817/connect/authorize",
+                    TokenUrl = "http://localhost:55817/connect/token",
+                    Scopes = new Dictionary<string, string>
+                    {
+                        { "lvminiAPI", "lvminiAPI" },
+                        {"mainAPIsecret", "mainAPIsecret" }
+                    }
+                });
             });
 
             services.AddAutoMapper();
@@ -60,6 +93,7 @@ namespace LVMiniApi
 
                     options.ApiName = "lvminiAPI";
                     options.ApiSecret = "mainAPIsecret";
+                    options.SupportedTokens = SupportedTokens.Both;
                 });
         }
 
@@ -88,6 +122,12 @@ namespace LVMiniApi
                 context.Database.Migrate();
             }
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "LvMiniAPI 1.0");
+                c.ConfigureOAuth2("api.name.swagger", "swagger", "swagger-ui-realm", "API Swagger UI");
+            });
             app.UseAuthentication();
             app.UseMvc();
         }

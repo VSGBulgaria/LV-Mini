@@ -14,26 +14,35 @@ using System.Threading.Tasks;
 namespace LVMiniApi.Controllers
 {
     /// <summary>
-    /// Provides non-admin actions for manipulating users.
+    /// Provides non-admin actions for manipulating users. You have to be an authenticated user for most of it.
     /// </summary>
     [Route("api/users")]
+    [Produces("application/json")]
+    [Authorize]
     public class UsersController : BaseController
     {
-        // inject the UnitOfWork
         private readonly IUnitOfWork _unitOfWork;
 
+        /// <summary>
+        /// Injects the services needed through constructor injection.
+        /// </summary>
+        /// <param name="unitOfWork">Unit Of Work</param>
+        /// <param name="mapper">AutoMapper's Mapper class.</param>
         public UsersController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+
+            // inject and set the mapper from the BaseController
             Mapper = mapper;
         }
 
         /// <summary>
         /// Gets a specific user from the database by a provided unique username.
         /// </summary>
-        /// <param name="username"></param>
+        /// <param name="username">The user's username.</param>
         /// <returns>Http 200 and the user's information. Returns Http 404 if no such user exists.</returns>
         [HttpGet("{username}", Name = "UserGet")]
+        [ProducesResponseType(typeof(UserDto), 200, StatusCode = StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUserByUsername(string username)
         {
             var user = await _unitOfWork.UserRepository.GetByUsername(username);
@@ -46,22 +55,28 @@ namespace LVMiniApi.Controllers
         }
 
         /// <summary>
-        /// Blocks a GetAll request because that is an admin privelage.
+        /// Blocks a GetAll request because that is an admin privilege.
         /// </summary>
+        /// <returns> HTTP 403: Forbidden </returns>
         [HttpGet]
+        [ProducesResponseType(400, StatusCode = StatusCodes.Status400BadRequest)]
         public IActionResult BlockGetAll()
         {
-            return Forbid("You have to be an admin to obtain a list of users!");
+            return BadRequest("You have to be an admin to obtain a list of users!");
         }
 
 
         /// <summary>
-        /// Registers a new user in the database. 
+        ///     Registers a new user in the database. 
         /// </summary>
-        /// <param name="user"></param>
-        /// <returns>Http 201 and the created user's information. Http 400 if the parameters are not valid.</returns>
+        /// <param name="user">The information for registering a user.</param>
+        /// <returns>
+        ///     Http 201 and the created user's information. 
+        ///     Http 400 if the parameters are not valid.
+        /// </returns>
         [AllowAnonymous]
         [HttpPost]
+        [ProducesResponseType(typeof(UserDto), 201, StatusCode = StatusCodes.Status201Created)]
         public async Task<IActionResult> RegisterUser([FromBody] RegisterUserDto user)
         {
             if (user == null)
@@ -92,9 +107,10 @@ namespace LVMiniApi.Controllers
         }
 
         /// <summary>
-        /// Blocks posting with a parameter to this controller.
+        /// Blocks POST with a parameter to this controller.
         /// </summary>
         [HttpPost("{username}")]
+        [ProducesResponseType(400, StatusCode = StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> BlockUserRegister(string username)
         {
             if (await _unitOfWork.UserRepository.UserExists(username))
@@ -109,11 +125,12 @@ namespace LVMiniApi.Controllers
         /// <summary>
         /// Updates the current logged in user's information.
         /// </summary>
-        /// <param name="username"></param>
-        /// <param name="model"></param>
+        /// <param name="username">The user's username.</param>
+        /// <param name="model">The new information to update the user with. Everything is optional.</param>
         /// <returns>Http 200 and the updated user information if there is such a user and he is the current logged in user.</returns>
         [HttpPatch("{username}")]
         [HttpPut("{username}")]
+        [ProducesResponseType(typeof(UserDto), 200, StatusCode = StatusCodes.Status200OK)]
         public async Task<IActionResult> UpdateUser(string username, [FromBody] EditUserDto model)
         {
             if (!await _unitOfWork.UserRepository.UserExists(username))
@@ -143,9 +160,10 @@ namespace LVMiniApi.Controllers
         }
 
         /// <summary>
-        /// Blocks a generic patch request without specific user parameters.
+        /// Blocks a PATCH request without specific user parameters.
         /// </summary>
         [HttpPatch]
+        [ProducesResponseType(400, StatusCode = StatusCodes.Status400BadRequest)]
         public IActionResult BlockPatchWithoutParameters()
         {
             return BadRequest("You have to provide a specific existing user in order to PATCH!");
@@ -157,6 +175,7 @@ namespace LVMiniApi.Controllers
         /// <returns></returns>
         [HttpDelete]
         [HttpDelete("{object}")]
+        [ProducesResponseType(400, StatusCode = StatusCodes.Status400BadRequest)]
         public IActionResult BlockDeletingUsers()
         {
             return BadRequest("Deleting a user is not possible!");
