@@ -13,9 +13,117 @@
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel-body">
                     <div class="user-container">
+                        <div id="chart"></div>
+                        <div id="chart1"></div>
                     </div>
                 </div>
             </div>
         </section>
     </div>
 </div>
+<script>
+    var dataSource = new kendo.data.DataSource({
+        transport: {
+            read: {
+                url: "http://localhost:49649/admin/UsersAsync"
+            }
+        },
+        schema: {
+            model: {
+                id: "Id"
+            },
+            data: function(response) {
+                return response;
+            }
+        }
+    });
+    var grid = $("#chart").kendoChart({
+            title: {
+                text: "Gross domestic product growth \n /GDP annual %/"
+            },
+            legend: {
+                position: "bottom"
+            },
+            seriesDefaults: {
+                type: "area",
+                area: {
+                    line: {
+                        style: "smooth"
+                    }
+                }
+            },
+            series: [{
+                name: "India",
+                data: [3.907, 7.943, 7.848, 9.284, 9.263, 9.801, 3.890, 8.238, 9.552, 6.855]
+            }, {
+                name: "World",
+                data: [1.988, 2.733, 3.994, 3.464, 4.001, 3.939, 1.333, -2.245, 4.339, 2.727]
+            }, {
+                name: "Haiti",
+                data: [-0.253, 0.362, -3.519, 1.799, 2.252, 3.343, 0.843, 2.877, -5.416, 5.590]
+            }],
+            valueAxis: {
+                labels: {
+                    format: "{0}%"
+                },
+                line: {
+                    visible: false
+                },
+                axisCrossingValue: -10
+            },
+            categoryAxis: {
+                categories: [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011],
+                majorGridLines: {
+                    visible: false
+                },
+                labels: {
+                    rotation: "auto"
+                }
+            },
+            tooltip: {
+                visible: true,
+                format: "{0}%",
+                template: "#= series.name #: #= value #"
+            }
+    });
+
+    var grid = $("#chart1").kendoChart({
+        title: {
+            text: "A digital signal"
+        },
+        legend: {
+            visible: false
+        },
+        series: [{
+            type: "area",
+            data: [20, 1, 18, 3, 15, 5, 10, 6, 9, 6, 10, 5, 13, 3, 16, 1, 19, 1, 20, 2, 18, 5, 12, 7, 10, 8],
+            line: {
+                style: "smooth"
+            }
+        }],
+        categoryAxis: {
+            title: {
+                text: "time"
+            },
+            majorGridLines: {
+                visible: false
+            },
+            majorTicks: {
+                visible: false
+            }
+        },
+        valueAxis: {
+            max: 22,
+            title: {
+                text: "voltage"
+            },
+            majorGridLines: {
+                visible: false
+            },
+            visible: false
+        }
+    });
+
+    $(document).ready(createChart);
+    $(document).bind("kendo:skinChange", createChart);
+</script>

@@ -32,7 +32,8 @@
 
     </environment>
     <environment exclude="Development">
-
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
 </head>
 <body>
@@ -81,7 +82,7 @@
                             if (User.IsInRole(Role.User))
                             {
                                 <ul class="nav navbar-nav">
-                                    <li><a asp-area="" asp-controller="Accounts" asp-action="MyProfile"><i class="fa fa-user-o"></i>&nbsp;@User.Identity.Name</a></li>
+                                    <li><a asp-area="" asp-controller="Accounts" asp-action="MyProfile"><i class="glyphicon glyphicon-user" style=" color: black"></i>&nbsp;@User.Identity.Name</a></li>
                                 </ul>
                                 <ul class="nav navbar-nav navbar-right navbar-inverse">
                                     <li>
@@ -146,11 +147,8 @@
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
-        <!--Scripts  JQuery First Then Kendo Script-->
-        <script src="js/jquery.min.js"></script>
-        <script src="js/kendo.web.min.js"></script>
         @*<scirpt>
-            window.BASE_URL = "";
+           window.BASE_URL = '@Request.Url.Scheme://@Request.Url.Authority@Url.Content("~/")';
         </scirpt>*@
     </environment>
 
