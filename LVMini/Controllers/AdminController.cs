@@ -37,12 +37,6 @@ namespace LVMini.Controllers
 
             return View(users);
         }
-
-
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
         public async Task<JsonResult> UsersAsync()
         {
             var httpResponseMessage = await _client.GetAsync(Resources.AdminApi);
@@ -52,11 +46,6 @@ namespace LVMini.Controllers
 
             return Json(users);
         }
-
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
         [HttpPost]
         public bool ModifyUserInfo([FromBody]ModifiedUserModel model)
         {
