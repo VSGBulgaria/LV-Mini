@@ -117,9 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AdminApi" xml:space="preserve">
+  <data name="AdminTeamsApi" xml:space="preserve">
+    <value>http://localhost:53990/api/admin/teams</value>
+    <comment>The Url for the Admin - Teams API.</comment>
+  </data>
+  <data name="AdminUsersApi" xml:space="preserve">
     <value>http://localhost:53990/api/admin/users</value>
-    <comment>The Url for the Admin API.</comment>
+    <comment>The Url for the Admin - Users API.</comment>
   </data>
   <data name="MainApiUsersUrl" xml:space="preserve">
     <value>http://localhost:53920/api/users</value>

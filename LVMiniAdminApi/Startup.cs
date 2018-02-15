@@ -1,4 +1,5 @@
-﻿using Data.Service.Core.Interfaces;
+﻿using AutoMapper;
+using Data.Service.Core.Interfaces;
 using Data.Service.Persistance;
 using Data.Service.Persistance.Repositories;
 using LVMiniAdminApi.Contracts;
@@ -27,6 +28,7 @@ namespace LVMiniAdminApi
         {
             services.AddDbContext<LvMiniDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("LV_MiniDatabase")));
+            services.AddAutoMapper();
             services.AddMvc().AddJsonOptions(options => {
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;

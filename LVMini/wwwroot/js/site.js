@@ -85,6 +85,7 @@ function isEmpty(str) {
     return (!str || 0 === str.length);
 }
 
+
 //My Profile 
 $('#saveMyProfileChangesButton').on('click', function () {
     let currentUserChangedValues = $('.form-control');

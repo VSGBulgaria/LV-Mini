@@ -1,25 +1,28 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using Data.Service.Core.Entities;
 using Data.Service.Core.Interfaces;
-using IdentityServer4.Events;
 using LVMiniAdminApi.Models;
 using LVMiniAdminApi.Models.TeamModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace LVMiniAdminApi.Controllers
 {
     [Produces("application/json")]
     [Route("api/admin/teams")]
-    [Authorize(Policy = "AdminOnly")]
+    //[Authorize(Policy = "AdminOnly")]
     public class AdminTeamsController : BaseController
     {
-        public AdminTeamsController(ITeamRepository teamRepository, IUserRepository userRepository)
+        private readonly IMapper _mapper;
+
+        public AdminTeamsController(ITeamRepository teamRepository, IUserRepository userRepository, IMapper mapper)
         {
             _teamRepository = teamRepository;
             _userRepository = userRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -27,7 +30,8 @@ namespace LVMiniAdminApi.Controllers
         public async Task<IActionResult> GetAll()
         {
             var teams = await _teamRepository.GetAll();
-            return Ok(teams);
+            var mappedTeams = _mapper.Map<IEnumerable<Team>, IEnumerable<TeamDto>>(teams);
+            return Ok(mappedTeams);
         }
 
         [HttpGet]
@@ -35,11 +39,12 @@ namespace LVMiniAdminApi.Controllers
         public async Task<IActionResult> GetCurrent(string currentTeamName)
         {
             var currentTeam = await _teamRepository.GetByTeamName(currentTeamName);
+            var mappedTeam = _mapper.Map<TeamDto>(currentTeam);
             if (currentTeam == null)
             {
                 return BadRequest("Invalid team name.");
             }
-            return Ok(currentTeam);
+            return Ok(mappedTeam);
         }
 
 
@@ -48,7 +53,7 @@ namespace LVMiniAdminApi.Controllers
         {
             if (ModelState.IsValid && teamDto.TeamName != null)
             {
-                Data.Service.Core.Entities.Team current = new Data.Service.Core.Entities.Team() { IsActive = teamDto.IsActive, TeamName = teamDto.TeamName };
+                Team current = new Team() { IsActive = teamDto.IsActive, TeamName = teamDto.TeamName };
                 var suchTeamAlreadyExist = await _teamRepository.GetByTeamName(current.TeamName);
                 if (suchTeamAlreadyExist == null)
                 {

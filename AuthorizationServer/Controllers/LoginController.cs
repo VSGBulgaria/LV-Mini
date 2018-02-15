@@ -1,11 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Data.Service.Core.Interfaces;
 
 namespace AuthorizationServer.Controllers
 {
     public class LoginController : Controller
     {
+        private IUserRepository _repository;
+
+        public LoginController(IUserRepository repository)
+        {
+            _repository = repository;
+        }
+
         //Validate Username
         public async Task<bool> CheckUser(string name)
         {
@@ -13,15 +21,13 @@ namespace AuthorizationServer.Controllers
             {
                 return false;
             }
-            using (var client = new HttpClient())
+            var user = await _repository.GetByUsername(name);
+            if (user == null)
             {
-                var response = await client.GetAsync("http://localhost:53920/api/users/" + name);
-                if (response.IsSuccessStatusCode)
-                {
-                    return true;
-                }
+                return false;
             }
-            return false;
+
+            return true;
         }
     }
 }

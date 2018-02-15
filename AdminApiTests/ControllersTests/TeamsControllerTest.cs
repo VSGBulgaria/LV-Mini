@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using Data.Service.Core.Entities;
 using Data.Service.Core.Interfaces;
 using LVMiniAdminApi.Controllers;
 using LVMiniAdminApi.Models;
+using LVMiniAdminApi.Models.TeamModels;
+using LVMiniAdminApi.Models.UserModels;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
@@ -17,6 +20,7 @@ namespace AdminApiTests.ControllersTests
         private AdminTeamsController _teamsController;
         private Mock<ITeamRepository> _teamRepository;
         private Mock<IUserRepository> _userRepository;
+        private IMapper _mapper;
 
 
         [SetUp]
@@ -24,8 +28,17 @@ namespace AdminApiTests.ControllersTests
         {
             _teamRepository = new Mock<ITeamRepository>();
             _userRepository = new Mock<IUserRepository>();
+            MapperConfiguration configuration =
+                new MapperConfiguration(a =>
+                {
+                    a.CreateMap<User, UserDto>();
+                    a.CreateMap<Team, TeamDto>()
+                        .ForMember(team => team.Users, opt => opt.MapFrom(us => us.UsersTeams.Select(u => u.User).ToList()));
+                });
+            _mapper = new Mapper(configuration);
 
-            _teamsController = new AdminTeamsController(_teamRepository.Object, _userRepository.Object);
+
+            _teamsController = new AdminTeamsController(_teamRepository.Object, _userRepository.Object, _mapper);
         }
 
         #region GetAllMethod
@@ -37,13 +50,17 @@ namespace AdminApiTests.ControllersTests
             var testGetAllSecondTeam = new Team() { IsActive = true, TeamId = 2, TeamName = "TEST_TEAM_NAME_2", UsersTeams = new List<UserTeam>() };
             var testGetAllTeams = new List<Team>() { testGetAllFirstTeam, testGetAllSecondTeam };
             _teamRepository.Setup(rep => rep.GetAll()).ReturnsAsync(testGetAllTeams);
+            var expectedContainsFirstTeam = _mapper.Map<TeamDto>(testGetAllFirstTeam);
+            var expectedContainsSecondTeam = _mapper.Map<TeamDto>(testGetAllSecondTeam);
 
             var getAllResult = _teamsController.GetAll().Result as OkObjectResult;
-            var asModelResource = getAllResult?.Value as ICollection<Team>;
+            var asModelResource = getAllResult?.Value as List<TeamDto>;
 
             Assert.NotNull(getAllResult);
             Assert.NotNull(asModelResource);
-            CollectionAssert.AreEqual(testGetAllTeams, asModelResource);
+            Assert.True(asModelResource.Count == 2);
+            Assert.True(asModelResource[0].TeamName.Equals("TEST_TEAM_NAME_1") || asModelResource[1].TeamName.Equals("TEST_TEAM_NAME_1"));
+            Assert.True(asModelResource[0].TeamName.Equals("TEST_TEAM_NAME_2") || asModelResource[1].TeamName.Equals("TEST_TEAM_NAME_2"));
         }
 
         #endregion
@@ -56,13 +73,15 @@ namespace AdminApiTests.ControllersTests
             var teamName = "TEST_TEAM_NAME_1";
             var testGetCurrentTeam = new Team() { IsActive = true, TeamId = 1, TeamName = teamName, UsersTeams = new List<UserTeam>() };
             _teamRepository.Setup(rep => rep.GetByTeamName(teamName)).ReturnsAsync(testGetCurrentTeam);
+            var expectedResult = _mapper.Map<TeamDto>(testGetCurrentTeam);
 
             var getByUsername = _teamsController.GetCurrent(teamName).Result as OkObjectResult;
-            var asModelResource = getByUsername?.Value as Team;
+            var asModelResource = getByUsername?.Value as TeamDto;
 
             Assert.NotNull(getByUsername);
             Assert.NotNull(asModelResource);
-            Assert.AreEqual(testGetCurrentTeam, asModelResource);
+            Assert.True(expectedResult.TeamName.Equals(asModelResource.TeamName));
+            Assert.True(expectedResult.IsActive.Equals(asModelResource.IsActive));
         }
 
         [Test]

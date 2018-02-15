@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using LVMiniAdminApi.Models.UserModels;
 
 namespace LVMiniAdminApi.Models.TeamModels
 {
@@ -12,5 +15,7 @@ namespace LVMiniAdminApi.Models.TeamModels
             set => _teamName = value ?? throw new ArgumentException("TeamDto name cannot be null.");
         }
         public bool IsActive { get; set; }
+
+        public ICollection<UserDto> Users { get; set; }
     }
 }
