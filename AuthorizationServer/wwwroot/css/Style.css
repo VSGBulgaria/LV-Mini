@@ -172,11 +172,11 @@ li {
 
 /*Style For Register*/
 .Register {
-    position: center;
-    text-align: center;
+    position: left;
+    text-align: left;
     color: black;
     width: 50%;
-    position: absolute;
+    position: fixed;
     left: 50%;
     top: 50%;
     box-sizing: border-box;

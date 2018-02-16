@@ -120,6 +120,7 @@ namespace LVMiniApi
             {
                 var context = serviceScope.ServiceProvider.GetRequiredService<LvMiniDbContext>();
                 context.Database.Migrate();
+                context.SeedDataForContext();
             }
 
             app.UseSwagger();

@@ -22,7 +22,7 @@
     var dataSource = new kendo.data.DataSource({
         transport: {
             read: {
-                url: "http://localhost:49649/admin/UsersAsync"
+                url: "http://localhost:49649/adminteams/GetAllTeams"
             }   
         },
         pageSize:2,
@@ -46,18 +46,19 @@
         },
         columns: [
             {
+                title:"Team Name",
+                field: "teamName"
+            },
+            {
+                title: "Username",
                 field: "username"
             },
             {
-
-                field: "firstName"
-            },
-            {
-
+                title: "Last Name",
                 field: "lastName"
             },
             {
-
+                title: "Email",
                 field: "email"
             }
         ]

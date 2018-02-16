@@ -76,7 +76,7 @@ namespace AuthorizationServer
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, LvMiniDbContext lvMiniDbContext,
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,
             ConfigurationDbContext configurationDbContext, PersistedGrantDbContext persistedGrantDbContext)
         {
             if (env.IsDevelopment())
@@ -93,10 +93,6 @@ namespace AuthorizationServer
             configurationDbContext.SeedDataForContext();
 
             persistedGrantDbContext.Database.Migrate();
-
-            lvMiniDbContext.Database.Migrate();
-            lvMiniDbContext.SeedDataForContext();
-
 
             FileExtensionContentTypeProvider typeProvider = new FileExtensionContentTypeProvider();
             if (!typeProvider.Mappings.ContainsKey(".woff2"))

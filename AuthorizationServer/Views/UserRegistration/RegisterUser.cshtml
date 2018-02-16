@@ -7,6 +7,7 @@
     @Html.Partial("_ValidationSummary")
     @using (Html.BeginForm("RegisterUser", "UserRegistration", FormMethod.Post))
     {
+     
         <input type="hidden" asp-for="ReturnUrl" />
         <div>
             <div clas>
@@ -14,43 +15,38 @@
                 <div>
                     @Html.TextBoxFor(model => model.Username, new { @class = "RegFields", @placeholder = "Choose Username" })
                     @Html.ValidationMessageFor(model => model.Username)
-                    <i class="fa fa-check" aria-hidden="true" id="username_available_sign" style="display:none;"></i>
-                    <i class="fa fa-times" aria-hidden="true" id="username_unavailable_sign" style="display:none;"></i>
+                    <i class="fa fa-check" aria-hidden="true" id="username_available_sign" style="display:none; font-size:16px;">Username is available</i>
+                    <i class="fa fa-times" aria-hidden="true" id="username_unavailable_sign" style="display:none; font-size:16px;">Username is not available</i>
                 </div>
             </div>
             <div>
                 @Html.LabelFor(model => model.Email)
                 <div>
                     @Html.TextBoxFor(model => model.Email, new { @class = "RegFields", @placeholder = "Example@mail.com" })
-                    @Html.ValidationMessageFor(model => model.Email)
                 </div>
             </div>
             <div>
                 @Html.LabelFor(model => model.Firstname)
                 <div>
                     @Html.TextBoxFor(model => model.Firstname, new { @class = "RegFields", @placeholder = "Enter Your First Name" })
-                    @Html.ValidationMessageFor(model => model.Firstname)
                 </div>
             </div>
             <div>
                 @Html.LabelFor(model => model.Lastname)
                 <div>
                     @Html.TextBoxFor(model => model.Lastname, new { @class = "RegFields", @placeholder = "Enter Your Last Name" })
-                    @Html.ValidationMessageFor(model => model.Lastname)
                 </div>
             </div>
             <div>
                 @Html.LabelFor(model => model.Password)
                 <div>
                     @Html.PasswordFor(model => model.Password, new { @class = "RegFields", @placeholder = "Enter Your Password" })
-                    @Html.ValidationMessageFor(model => model.Password)
                 </div>
             </div>
             <div>
                 @Html.LabelFor(model => model.ConfirmPassword)
                 <div>
                     @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "RegFields", @placeholder = "Confirm your Password" })
-                    @Html.ValidationMessageFor(model => model.ConfirmPassword)
                 </div>
             </div>
             <div>

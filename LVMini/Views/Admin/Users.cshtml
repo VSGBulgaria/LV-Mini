@@ -36,7 +36,7 @@
                 url: "http://localhost:49649/admin/UsersAsync"
             }
         },
-        pageSize: 2,
+        pageSize: 3,
         schema: {
             model: {
                 id: "Id"
@@ -48,6 +48,7 @@
     });
     var grid = $("#grid").kendoGrid({
         dataSource: dataSource,
+        scrollable:false,
         groupable: true,
         sortable: true,
         pageable: {
