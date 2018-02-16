@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Data.Service.Core.Entities;
 using Data.Service.Core.Interfaces;
 using LVMiniAdminApi.Models;
 using LVMiniAdminApi.Models.TeamModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LVMiniAdminApi.Controllers
 {
     [Produces("application/json")]
     [Route("api/admin/teams")]
-    //[Authorize(Policy = "AdminOnly")]
+    [Authorize(Policy = "AdminOnly")]
     public class AdminTeamsController : BaseController
     {
         private readonly IMapper _mapper;
@@ -57,6 +57,20 @@ namespace LVMiniAdminApi.Controllers
                 var suchTeamAlreadyExist = await _teamRepository.GetByTeamName(current.TeamName);
                 if (suchTeamAlreadyExist == null)
                 {
+                    if (teamDto.Users != null && teamDto.Users.Count > 0)
+                    {
+                        var uniqueUsers = teamDto.Users.Distinct();
+                        foreach (var teamDtoUser in uniqueUsers)
+                        {
+                            var currentUser = await _userRepository.GetByUsername(teamDtoUser.Username);
+                            if (currentUser == null)
+                            {
+                                return BadRequest($"Can not insert unexistable user: {teamDtoUser.Username} in team: {teamDto.TeamName}.");
+                            }
+
+                            current.UsersTeams.Add(new UserTeam() { UserId = currentUser.SubjectId });
+                        }
+                    }
                     await _teamRepository.Insert(current);
                     var commitsCount = await _teamRepository.SaveChangesAsync();
                     if (commitsCount > 0)
@@ -70,7 +84,8 @@ namespace LVMiniAdminApi.Controllers
             return BadRequest("Invalid model state");
         }
 
-        [HttpDelete]
+        [HttpPut]
+        [Route("inactive")]
         public async Task<IActionResult> MakeTeamInActive([FromBody]string teamName)
         {
             var team = await _teamRepository.GetByTeamName(teamName);
@@ -91,7 +106,8 @@ namespace LVMiniAdminApi.Controllers
             return BadRequest($"Something went wrong. {teamName} is not inactive.");
         }
 
-        [HttpPatch]
+        [HttpPut]
+        [Route("active")]
         public async Task<IActionResult> MakeTeamActive([FromBody] string teamName)
         {
             var team = await _teamRepository.GetByTeamName(teamName);
@@ -112,8 +128,8 @@ namespace LVMiniAdminApi.Controllers
             return BadRequest($"Something went wrong. {teamName} is not active.");
         }
 
-        [HttpPost]
-        [Route("user")]
+        [HttpPut]
+        [Route("add/user")]
         public async Task<IActionResult> PostUserToTeam([FromBody]TeamUserDto teamUserDto)
         {
             var user = await _userRepository.GetByUsername(teamUserDto.UserName);
@@ -143,8 +159,8 @@ namespace LVMiniAdminApi.Controllers
                 $"Something went wrong. User: {teamUserDto.UserName} wasn't added to the team successfully.");
         }
 
-        [HttpDelete]
-        [Route("user")]
+        [HttpPut]
+        [Route("remove/user")]
         public async Task<IActionResult> RemoveUserFromTeam([FromBody]TeamUserDto teamUserDto)
         {
             var team = await _teamRepository.GetByTeamName(teamUserDto.TeamName);

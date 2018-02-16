@@ -1,4 +1,6 @@
-﻿namespace LVMiniAdminApi.Models.TeamModels
+﻿using System;
+
+namespace LVMiniAdminApi.Models.TeamModels
 {
     public class TeamDto : BaseTeam
     {
