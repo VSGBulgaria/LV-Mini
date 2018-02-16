@@ -51,5 +51,27 @@ namespace Data.Service.Persistance.Repositories
         {
             return await Context.Set<Product>().FirstOrDefaultAsync(p => p.ProductCode == code);
         }
+
+        public async Task<bool> ProductGroupContainsProduct(string productGroupName, string productCode)
+        {
+            var productGroup = await Entities
+                .Where(pg => pg.Name == productGroupName)
+                .Include(pg => pg.Products)
+                .ThenInclude(pgp => pgp.Product)
+                .FirstOrDefaultAsync();
+
+            if (productGroup == null)
+                return false;
+
+            foreach (var item in productGroup.Products)
+            {
+                if (item.Product.ProductCode == productCode)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

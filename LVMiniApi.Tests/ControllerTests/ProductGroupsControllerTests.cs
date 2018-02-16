@@ -132,5 +132,17 @@ namespace LVMiniApi.Tests.ControllerTests
             var content = cast.Value as ProductGroupDto;
             content.Name.ShouldBe("TestGroup");
         }
+
+        public void AddProductToProductGroup_SuccessfulPost_ReturnsOkWithUpdatedProductGroup()
+        {
+            MapperConfiguration configuration =
+                new MapperConfiguration(delegate (IMapperConfigurationExpression expression)
+                {
+                    expression.CreateMap<ProductGroup, ProductGroupDto>();
+                });
+            _mapper = new Mapper(configuration);
+
+
+        }
     }
 }

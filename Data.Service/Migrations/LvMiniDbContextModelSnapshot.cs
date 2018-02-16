@@ -29,14 +29,15 @@ namespace Data.Service.Migrations
                         .IsRequired()
                         .HasMaxLength(10);
 
+                    b.Property<string>("AccountNumber")
+                        .HasMaxLength(100);
+
                     b.Property<string>("AccountStatusCode")
-                        .IsRequired()
                         .HasMaxLength(10);
 
-                    b.Property<int>("IDProduct");
+                    b.Property<int?>("IdAccountSource");
 
                     b.Property<string>("ProductCode")
-                        .IsRequired()
                         .HasMaxLength(15);
 
                     b.HasKey("IDAccount");
@@ -49,21 +50,23 @@ namespace Data.Service.Migrations
                     b.Property<int>("IDLoan")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("DateLoanRequestReceived");
+                    b.Property<DateTime?>("DateLoanRequestReceived");
 
-                    b.Property<DateTime>("DecisionDate");
+                    b.Property<DateTime?>("DecisionDate");
 
-                    b.Property<decimal>("ExpectedFundingAtClosing");
+                    b.Property<decimal?>("ExpectedFundingAtClosing");
 
                     b.Property<int>("IDAccount");
 
-                    b.Property<bool>("IsLoanRequest");
+                    b.Property<int?>("IdLoanSource");
 
-                    b.Property<DateTime>("LoanDate");
+                    b.Property<bool?>("IsLoanRequest");
 
-                    b.Property<decimal>("NewMoney");
+                    b.Property<DateTime?>("LoanDate");
 
-                    b.Property<DateTime>("ProposedCloseDate");
+                    b.Property<decimal?>("NewMoney");
+
+                    b.Property<DateTime?>("ProposedCloseDate");
 
                     b.HasKey("IDLoan");
 
@@ -93,7 +96,7 @@ namespace Data.Service.Migrations
                     b.Property<int>("IDProduct")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool?>("IsActive");
 
                     b.Property<bool>("IsHidden");
 

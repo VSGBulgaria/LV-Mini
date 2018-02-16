@@ -1,11 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
-using System.Collections.Generic;
 
 namespace Data.Service.Migrations
 {
-    public partial class ResolvingSmallProblems : Migration
+    public partial class InitialProjectModel : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,21 +14,21 @@ namespace Data.Service.Migrations
             migrationBuilder.EnsureSchema(
                 name: "admin");
 
-            migrationBuilder.RenameTable(
-                name: "Users",
-                newSchema: "admin");
-
-            migrationBuilder.RenameTable(
-                name: "UserLogins",
-                newSchema: "admin");
-
-            migrationBuilder.RenameTable(
-                name: "UserClaims",
-                newSchema: "admin");
-
-            migrationBuilder.RenameTable(
+            migrationBuilder.CreateTable(
                 name: "Logs",
-                newSchema: "admin");
+                schema: "admin",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Action = table.Column<string>(nullable: false),
+                    Time = table.Column<DateTime>(nullable: false),
+                    Username = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Logs", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "ProductGroup",
@@ -62,6 +61,24 @@ namespace Data.Service.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Users",
+                schema: "admin",
+                columns: table => new
+                {
+                    SubjectId = table.Column<string>(nullable: false),
+                    Email = table.Column<string>(nullable: false),
+                    FirstName = table.Column<string>(maxLength: 50, nullable: false),
+                    IsActive = table.Column<bool>(nullable: false),
+                    LastName = table.Column<string>(maxLength: 50, nullable: false),
+                    Password = table.Column<string>(maxLength: 1000, nullable: false),
+                    Username = table.Column<string>(maxLength: 20, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.SubjectId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Account",
                 schema: "IbClue",
                 columns: table => new
@@ -69,9 +86,10 @@ namespace Data.Service.Migrations
                     IDAccount = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AccountCategoryCode = table.Column<string>(maxLength: 10, nullable: false),
-                    AccountStatusCode = table.Column<string>(maxLength: 10, nullable: false),
-                    IDProduct = table.Column<int>(nullable: false),
-                    ProductCode = table.Column<string>(maxLength: 15, nullable: false)
+                    AccountNumber = table.Column<string>(maxLength: 100, nullable: true),
+                    AccountStatusCode = table.Column<string>(maxLength: 10, nullable: true),
+                    IdAccountSource = table.Column<int>(nullable: true),
+                    ProductCode = table.Column<string>(maxLength: 15, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -85,14 +103,15 @@ namespace Data.Service.Migrations
                 {
                     IDLoan = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    DateLoanRequestReceived = table.Column<DateTime>(nullable: false),
-                    DecisionDate = table.Column<DateTime>(nullable: false),
-                    ExpectedFundingAtClosing = table.Column<decimal>(nullable: false),
+                    DateLoanRequestReceived = table.Column<DateTime>(nullable: true),
+                    DecisionDate = table.Column<DateTime>(nullable: true),
+                    ExpectedFundingAtClosing = table.Column<decimal>(nullable: true),
                     IDAccount = table.Column<int>(nullable: false),
-                    IsLoanRequest = table.Column<bool>(nullable: false),
-                    LoanDate = table.Column<DateTime>(nullable: false),
-                    NewMoney = table.Column<decimal>(nullable: false),
-                    ProposedCloseDate = table.Column<DateTime>(nullable: false)
+                    IdLoanSource = table.Column<int>(nullable: true),
+                    IsLoanRequest = table.Column<bool>(nullable: true),
+                    LoanDate = table.Column<DateTime>(nullable: true),
+                    NewMoney = table.Column<decimal>(nullable: true),
+                    ProposedCloseDate = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -106,7 +125,7 @@ namespace Data.Service.Migrations
                 {
                     IDProduct = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    IsActive = table.Column<bool>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: true),
                     IsHidden = table.Column<bool>(nullable: false),
                     ProductCode = table.Column<string>(maxLength: 15, nullable: false),
                     ProductDescription = table.Column<string>(maxLength: 150, nullable: false),
@@ -115,6 +134,50 @@ namespace Data.Service.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Product", x => x.IDProduct);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserClaims",
+                schema: "admin",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    ClaimType = table.Column<string>(maxLength: 250, nullable: false),
+                    ClaimValue = table.Column<string>(maxLength: 250, nullable: false),
+                    SubjectId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserClaims_Users_SubjectId",
+                        column: x => x.SubjectId,
+                        principalSchema: "admin",
+                        principalTable: "Users",
+                        principalColumn: "SubjectId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserLogins",
+                schema: "admin",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    LoginProvider = table.Column<string>(maxLength: 250, nullable: false),
+                    ProviderKey = table.Column<string>(maxLength: 250, nullable: false),
+                    SubjectId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserLogins", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserLogins_Users_SubjectId",
+                        column: x => x.SubjectId,
+                        principalSchema: "admin",
+                        principalTable: "Users",
+                        principalColumn: "SubjectId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -134,14 +197,14 @@ namespace Data.Service.Migrations
                         principalSchema: "admin",
                         principalTable: "Teams",
                         principalColumn: "TeamId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UsersTeams_Users_UserId",
                         column: x => x.UserId,
                         principalSchema: "admin",
                         principalTable: "Users",
                         principalColumn: "SubjectId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -183,6 +246,25 @@ namespace Data.Service.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserClaims_SubjectId",
+                schema: "admin",
+                table: "UserClaims",
+                column: "SubjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserLogins_SubjectId",
+                schema: "admin",
+                table: "UserLogins",
+                column: "SubjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Username_Email",
+                schema: "admin",
+                table: "Users",
+                columns: new[] { "Username", "Email" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UsersTeams_UserId",
                 schema: "admin",
                 table: "UsersTeams",
@@ -193,6 +275,18 @@ namespace Data.Service.Migrations
         {
             migrationBuilder.DropTable(
                 name: "ProductGroupProduct");
+
+            migrationBuilder.DropTable(
+                name: "Logs",
+                schema: "admin");
+
+            migrationBuilder.DropTable(
+                name: "UserClaims",
+                schema: "admin");
+
+            migrationBuilder.DropTable(
+                name: "UserLogins",
+                schema: "admin");
 
             migrationBuilder.DropTable(
                 name: "UsersTeams",
@@ -218,20 +312,8 @@ namespace Data.Service.Migrations
                 name: "Teams",
                 schema: "admin");
 
-            migrationBuilder.RenameTable(
+            migrationBuilder.DropTable(
                 name: "Users",
-                schema: "admin");
-
-            migrationBuilder.RenameTable(
-                name: "UserLogins",
-                schema: "admin");
-
-            migrationBuilder.RenameTable(
-                name: "UserClaims",
-                schema: "admin");
-
-            migrationBuilder.RenameTable(
-                name: "Logs",
                 schema: "admin");
         }
     }

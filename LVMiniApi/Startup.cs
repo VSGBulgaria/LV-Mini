@@ -98,7 +98,7 @@ namespace LVMiniApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, LvMiniDbContext lvMiniDbContext)
         {
             if (env.IsDevelopment())
             {
@@ -114,13 +114,6 @@ namespace LVMiniApi
                         await context.Response.WriteAsync("An unexpected fault happened. Please try again later.");
                     });
                 });
-            }
-
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-            {
-                var context = serviceScope.ServiceProvider.GetRequiredService<LvMiniDbContext>();
-                context.Database.Migrate();
-                context.SeedDataForContext();
             }
 
             app.UseSwagger();

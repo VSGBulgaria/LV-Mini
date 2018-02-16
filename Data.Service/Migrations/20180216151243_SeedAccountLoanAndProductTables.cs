@@ -1,13 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 using System;
-using System.Collections.Generic;
+using System.IO;
 
 namespace Data.Service.Migrations
 {
-    public partial class EmptyTest : Migration
+    public partial class SeedAccountLoanAndProductTables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            string sqlFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                @"PopulateAccountLoanAndProductTables.sql");
+            migrationBuilder.Sql(File.ReadAllText(sqlFile));
 
         }
 

@@ -13,25 +13,20 @@ namespace Data.Service.Core.Entities
         [Required]
         public int IDAccount { get; set; }
 
-        [Required]
-        public decimal NewMoney { get; set; }
+        public int? IdLoanSource { get; set; }
 
-        [Required]
-        public DateTime LoanDate { get; set; }
+        public decimal? NewMoney { get; set; }
 
-        [Required]
-        public bool IsLoanRequest { get; set; }
+        public DateTime? LoanDate { get; set; }
 
-        [Required]
-        public decimal ExpectedFundingAtClosing { get; set; }
+        public bool? IsLoanRequest { get; set; }
 
-        [Required]
-        public DateTime ProposedCloseDate { get; set; }
+        public decimal? ExpectedFundingAtClosing { get; set; }
 
-        [Required]
-        public DateTime DateLoanRequestReceived { get; set; }
+        public DateTime? ProposedCloseDate { get; set; }
 
-        [Required]
-        public DateTime DecisionDate { get; set; }
+        public DateTime? DateLoanRequestReceived { get; set; }
+
+        public DateTime? DecisionDate { get; set; }
     }
 }

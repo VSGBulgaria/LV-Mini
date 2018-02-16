@@ -11,8 +11,8 @@ using System;
 namespace Data.Service.Migrations
 {
     [DbContext(typeof(LvMiniDbContext))]
-    [Migration("20180207075002_ResolvingSmallProblems")]
-    partial class ResolvingSmallProblems
+    [Migration("20180216151243_SeedAccountLoanAndProductTables")]
+    partial class SeedAccountLoanAndProductTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,14 +30,15 @@ namespace Data.Service.Migrations
                         .IsRequired()
                         .HasMaxLength(10);
 
+                    b.Property<string>("AccountNumber")
+                        .HasMaxLength(100);
+
                     b.Property<string>("AccountStatusCode")
-                        .IsRequired()
                         .HasMaxLength(10);
 
-                    b.Property<int>("IDProduct");
+                    b.Property<int?>("IdAccountSource");
 
                     b.Property<string>("ProductCode")
-                        .IsRequired()
                         .HasMaxLength(15);
 
                     b.HasKey("IDAccount");
@@ -50,21 +51,23 @@ namespace Data.Service.Migrations
                     b.Property<int>("IDLoan")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("DateLoanRequestReceived");
+                    b.Property<DateTime?>("DateLoanRequestReceived");
 
-                    b.Property<DateTime>("DecisionDate");
+                    b.Property<DateTime?>("DecisionDate");
 
-                    b.Property<decimal>("ExpectedFundingAtClosing");
+                    b.Property<decimal?>("ExpectedFundingAtClosing");
 
                     b.Property<int>("IDAccount");
 
-                    b.Property<bool>("IsLoanRequest");
+                    b.Property<int?>("IdLoanSource");
 
-                    b.Property<DateTime>("LoanDate");
+                    b.Property<bool?>("IsLoanRequest");
 
-                    b.Property<decimal>("NewMoney");
+                    b.Property<DateTime?>("LoanDate");
 
-                    b.Property<DateTime>("ProposedCloseDate");
+                    b.Property<decimal?>("NewMoney");
+
+                    b.Property<DateTime?>("ProposedCloseDate");
 
                     b.HasKey("IDLoan");
 
@@ -94,7 +97,7 @@ namespace Data.Service.Migrations
                     b.Property<int>("IDProduct")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool?>("IsActive");
 
                     b.Property<bool>("IsHidden");
 
@@ -257,7 +260,7 @@ namespace Data.Service.Migrations
             modelBuilder.Entity("Data.Service.Core.Entities.ProductGroupProduct", b =>
                 {
                     b.HasOne("Data.Service.Core.Entities.Product", "Product")
-                        .WithMany("ProductGroups")
+                        .WithMany("Products")
                         .HasForeignKey("IDProduct")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -288,12 +291,12 @@ namespace Data.Service.Migrations
                     b.HasOne("Data.Service.Core.Entities.Team", "Team")
                         .WithMany("UsersTeams")
                         .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Data.Service.Core.Entities.User", "User")
                         .WithMany("UsersTeams")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

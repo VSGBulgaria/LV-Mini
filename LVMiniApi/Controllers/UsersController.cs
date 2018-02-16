@@ -18,7 +18,6 @@ namespace LVMiniApi.Controllers
     /// </summary>
     [Route("api/users")]
     [Produces("application/json")]
-    [Authorize]
     public class UsersController : BaseController
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -170,11 +169,21 @@ namespace LVMiniApi.Controllers
         }
 
         /// <summary>
+        /// Blocks a PUT request without specific user parameters.
+        /// </summary>
+        [HttpPut]
+        [ProducesResponseType(400, StatusCode = StatusCodes.Status400BadRequest)]
+        public IActionResult BlockPutWithoutParameters()
+        {
+            return BadRequest("You have to provide a specific existing user in order to PUT!");
+        }
+
+        /// <summary>
         /// Blocks all DELETE requests to this controller because deleting users is not allowed.
         /// </summary>
         /// <returns></returns>
         [HttpDelete]
-        [HttpDelete("{object}")]
+        [HttpDelete("{username}")]
         [ProducesResponseType(400, StatusCode = StatusCodes.Status400BadRequest)]
         public IActionResult BlockDeletingUsers()
         {

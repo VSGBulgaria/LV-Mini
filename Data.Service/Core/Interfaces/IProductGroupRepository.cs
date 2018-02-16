@@ -8,5 +8,6 @@ namespace Data.Service.Core.Interfaces
         Task<bool> ProductGroupExists(string name);
         Task<ProductGroup> GetProductGroupByName(string name);
         Task<Product> GetProductByCode(string code);
+        Task<bool> ProductGroupContainsProduct(string productGroupName, string productCode);
     }
 }

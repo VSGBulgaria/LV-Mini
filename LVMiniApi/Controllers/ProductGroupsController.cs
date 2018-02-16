@@ -3,7 +3,7 @@ using Data.Service.Core.Entities;
 using Data.Service.Core.Interfaces;
 using LVMiniApi.Filters;
 using LVMiniApi.Models;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +16,6 @@ namespace LVMiniApi.Controllers
     /// </summary>
     [Route("api/productgroups")]
     [Produces("application/json")]
-    [Authorize]
     public class ProductGroupsController : BaseController
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -39,6 +38,7 @@ namespace LVMiniApi.Controllers
         /// </summary>
         /// <returns>Http 200 OK and a collection of ProductGroups.</returns>
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<ProductGroupDto>), 200, StatusCode = StatusCodes.Status200OK)]
         public IActionResult GetAllProductGroups()
         {
             var entities = _productGroupRepository.GetAll();
@@ -56,6 +56,7 @@ namespace LVMiniApi.Controllers
         /// Http 404 NotFound if there is no such group.
         /// </returns>
         [HttpGet("{name}", Name = "ProductGroupGet")]
+        [ProducesResponseType(typeof(ProductGroupDto), 200, StatusCode = StatusCodes.Status200OK)]
         public async Task<IActionResult> GetSingleProductGroup(string name)
         {
             var productGroup = await _productGroupRepository.GetProductGroupByName(name);
@@ -79,6 +80,7 @@ namespace LVMiniApi.Controllers
         /// </returns>
         [HttpPost]
         [ValidateModel]
+        [ProducesResponseType(typeof(ProductGroupDto), 201, StatusCode = StatusCodes.Status201Created)]
         public async Task<IActionResult> AddProductGroup([FromBody] CreateProductGroupDto productGroup)
         {
             if (await _productGroupRepository.ProductGroupExists(productGroup.Name))
@@ -109,6 +111,7 @@ namespace LVMiniApi.Controllers
         /// Http 404 NotFound if either the ProductGroup or Product don't exist.
         /// </returns>
         [HttpPost("{name}/products/{productCode}")]
+        [ProducesResponseType(typeof(ProductGroupDto), 200, StatusCode = StatusCodes.Status200OK)]
         public async Task<IActionResult> AddProductToProductGroup(string name, string productCode)
         {
             var productGroup = await _productGroupRepository.GetProductGroupByName(name);
@@ -142,6 +145,7 @@ namespace LVMiniApi.Controllers
         /// </returns>
         [HttpPatch("{name}")]
         [ValidateModel]
+        [ProducesResponseType(typeof(ProductGroupDto), 200, StatusCode = StatusCodes.Status200OK)]
         public async Task<IActionResult> UpdateGroup(string name, [FromBody] UpdateProductGroupDto productGroup)
         {
             var productGroupEntity = await _productGroupRepository.GetProductGroupByName(name);
@@ -166,6 +170,7 @@ namespace LVMiniApi.Controllers
         /// Http 404 NotFound if the group does not exist.
         /// </returns>
         [HttpDelete("{name}")]
+        [ProducesResponseType(204, StatusCode = StatusCodes.Status204NoContent)]
         public async Task<IActionResult> DeleteProductGroup(string name)
         {
             if (!await _productGroupRepository.ProductGroupExists(name))
@@ -188,19 +193,26 @@ namespace LVMiniApi.Controllers
         /// <param name="productCode">The code of the Product.</param>
         /// <returns>
         /// Http 200 OK if the product was deleted and the group with an updated list of products.
-        /// Http 404 NotFound if either the ProductGroup or the Product don't exist.
+        /// Http 404 NotFound if either the ProductGroup or the Product don't exist or the ProductGroup doesn't contain the product.
         /// </returns>
         [HttpDelete("{name}/products/{productCode}")]
+        [ProducesResponseType(typeof(ProductGroupDto), 200, StatusCode = StatusCodes.Status200OK)]
         public async Task<IActionResult> RemoveProductFromGroup(string name, string productCode)
         {
-            var productGroup = await _productGroupRepository.GetProductGroupByName(name);
-            if (productGroup == null)
+            if (!await _productGroupRepository.ProductGroupExists(name))
             {
                 return NotFound();
             }
 
+            var productGroup = await _productGroupRepository.GetProductGroupByName(name);
+
             var product = await _productGroupRepository.GetProductByCode(productCode);
             if (product == null)
+            {
+                return NotFound();
+            }
+
+            if (!await _productGroupRepository.ProductGroupContainsProduct(name, productCode))
             {
                 return NotFound();
             }

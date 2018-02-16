@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using Data.Service.Core.Entities;
 using Data.Service.Core.Interfaces;
 using LVMiniAdminApi.Controllers;
@@ -11,6 +8,8 @@ using LVMiniAdminApi.Models.UserModels;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AdminApiTests.ControllersTests
 {
@@ -400,7 +399,7 @@ namespace AdminApiTests.ControllersTests
                 TeamName = validTeamName,
                 UsersTeams = new List<UserTeam>()
             };
-            var validUser = new User(){SubjectId = testUserId };
+            var validUser = new User() { SubjectId = testUserId };
             _teamRepository.Setup(rep => rep.GetByTeamName(validTeamName)).ReturnsAsync(validTeam);
             _userRepository.Setup(rep => rep.GetByUsername(validUsername)).ReturnsAsync(validUser);
             _teamRepository.Setup(rep => rep.SaveChangesAsync()).ReturnsAsync(1);
@@ -458,7 +457,7 @@ namespace AdminApiTests.ControllersTests
             var expectedAnswer = $"Unknown team: {invalidTeamName}.";
 
             var actualResult = _teamsController
-                .RemoveUserFromTeam(new TeamUserDto() {TeamName = invalidTeamName}).Result;
+                .RemoveUserFromTeam(new TeamUserDto() { TeamName = invalidTeamName }).Result;
 
             Assert.IsNotNull(actualResult);
             Assert.IsInstanceOf<BadRequestObjectResult>(actualResult);
@@ -473,7 +472,7 @@ namespace AdminApiTests.ControllersTests
             var validTeamName = "VALID_TEAM_NAME";
             _teamRepository
                 .Setup(rep => rep.GetByTeamName(validTeamName))
-                .ReturnsAsync(new Team() {TeamName = validTeamName});
+                .ReturnsAsync(new Team() { TeamName = validTeamName });
             var invalidUsername = "INVALID_USER_NAME";
             _userRepository
                 .Setup(rep => rep.GetByUsername(invalidUsername))
@@ -481,7 +480,7 @@ namespace AdminApiTests.ControllersTests
             var expectedAnswer = $"Unknown user: {invalidUsername}.";
 
             var actualResult = _teamsController
-                .RemoveUserFromTeam(new TeamUserDto(){UserName = invalidUsername,TeamName = validTeamName}).Result;
+                .RemoveUserFromTeam(new TeamUserDto() { UserName = invalidUsername, TeamName = validTeamName }).Result;
 
             Assert.IsNotNull(actualResult);
             Assert.IsInstanceOf<BadRequestObjectResult>(actualResult);
@@ -495,11 +494,11 @@ namespace AdminApiTests.ControllersTests
         {
             var validUsername = "VALID_USERNAME";
             var validTeamName = "VALID_TEAM_NAME";
-            var validUser = new User(){Username = validUsername};
+            var validUser = new User() { Username = validUsername };
             var validTeam = new Team()
             {
                 TeamName = validTeamName,
-                UsersTeams = new List<UserTeam>(){new UserTeam(){User = validUser}}
+                UsersTeams = new List<UserTeam>() { new UserTeam() { User = validUser } }
             };
             _teamRepository
                 .Setup(rep => rep.GetByTeamName(validTeamName))

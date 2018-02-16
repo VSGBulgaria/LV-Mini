@@ -9,7 +9,7 @@ namespace Data.Service.Persistance
 {
     public static class LVMiniDbContextExtensions
     {
-        public static void SeedDataForContext(this LvMiniDbContext context)
+        public static void SeedUsersForContext(this LvMiniDbContext context)
         {
             if (context.Users.Any())
             {

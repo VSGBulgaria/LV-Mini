@@ -28,8 +28,11 @@ namespace LVMiniAdminApi
         {
             services.AddDbContext<LvMiniDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("LV_MiniDatabase")));
+
             services.AddAutoMapper();
-            services.AddMvc().AddJsonOptions(options => {
+
+            services.AddMvc().AddJsonOptions(options =>
+            {
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             }); ;
@@ -37,7 +40,7 @@ namespace LVMiniAdminApi
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ITeamRepository, TeamRepository>();
             services.AddScoped<IModifiedUserHandler, ModifiedUserHandler>();
-            
+
 
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication(options =>
@@ -59,12 +62,6 @@ namespace LVMiniAdminApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-            {
-                var context = serviceScope.ServiceProvider.GetRequiredService<LvMiniDbContext>();
-                context.Database.Migrate();
-            }
-
             app.UseAuthentication();
             app.UseMvc();
         }

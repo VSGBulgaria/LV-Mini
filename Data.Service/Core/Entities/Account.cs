@@ -7,13 +7,13 @@ namespace Data.Service.Core.Entities
     public class Account
     {
         [Key]
-        [Required]
         public int IDAccount { get; set; }
 
-        [Required]
-        public int IDProduct { get; set; }
+        public int? IdAccountSource { get; set; }
 
-        [Required]
+        [MaxLength(100)]
+        public string AccountNumber { get; set; }
+
         [MaxLength(15)]
         public string ProductCode { get; set; }
 
@@ -21,7 +21,6 @@ namespace Data.Service.Core.Entities
         [MaxLength(10)]
         public string AccountCategoryCode { get; set; }
 
-        [Required]
         [MaxLength(10)]
         public string AccountStatusCode { get; set; }
     }

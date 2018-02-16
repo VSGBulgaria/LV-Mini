@@ -22,7 +22,7 @@ namespace Data.Service.Core.Entities
         [Required]
         public byte ProductType { get; set; }
 
-        public bool IsActive { get; set; }
+        public bool? IsActive { get; set; }
 
         [Required]
         public bool IsHidden { get; set; }
