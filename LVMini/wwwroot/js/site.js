@@ -32,58 +32,58 @@ function displayUsernameSign(isAvailable) {
     }
 }
 
-$('.modify-users-buttons').on('click', saveProfileChanges);
+//$('.modify-users-buttons').on('click', saveProfileChanges);
 
 //Admin Edit Profile
-function saveProfileChanges(ev) {
-    let currentTargetId = ev.currentTarget.id;
-    let currentUser = currentTargetId.replace(new RegExp('^btnModify'), '');
-    let allLabels = $('.form-control');
-    let labelsNeedForExtractingVhanges = [];
-    for (let label of allLabels) {
-        if (typeof label.id !== 'undefined' && label.id.endsWith(currentUser)) {
-            labelsNeedForExtractingVhanges.push(label);
-        }
-    }
-    let labelRegex = new RegExp('([\w]+)(TestUN12)');
-    let properiesOfTheUserModel = [];
-    let labelsSubfix = 'Input' + currentUser;
-    for (let label of labelsNeedForExtractingVhanges) {
-        properiesOfTheUserModel.push(label.id.replace(labelsSubfix, ''));
-    }
-    let user = {};
-    for (let property of properiesOfTheUserModel) {
-        if (property === 'IsActive') {
-            user[property] = $('#' + property + 'Input' + currentUser).val().toLowerCase() == 'true';
-        } else {
-            user[property] = $('#' + property + 'Input' + currentUser).val();
-        }
-    }
-    user['Username'] = currentUser;
-    $.ajax({
-        type: 'POST',
-        url: '/Admin/ModifyUserInfo',
-        dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify(user),
-        success: replaceTheExistingData,
-        error: logErrorInConsole
-    });
-    function replaceTheExistingData(isDataReplaced) {
-        if (isDataReplaced) {
-            //TODO: refactor the replacing 
-            let oldFirstNameLabelId = 'currentUserFirstName' + currentUser;
-            let oldLastNameLabelId = 'currentUserLastName' + currentUser;
-            $('#' + oldFirstNameLabelId).text(changedFirstName);
-            $('#' + oldLastNameLabelId).text(changedLastName);
-            $('#hidden' + currentUser).css('display', 'none');
-        }
-    }
-}
+//function saveProfileChanges(ev) {
+//    let currentTargetId = ev.currentTarget.id;
+//    let currentUser = currentTargetId.replace(new RegExp('^btnModify'), '');
+//    let allLabels = $('.form-control');
+//    let labelsNeedForExtractingVhanges = [];
+//    for (let label of allLabels) {
+//        if (typeof label.id !== 'undefined' && label.id.endsWith(currentUser)) {
+//            labelsNeedForExtractingVhanges.push(label);
+//        }
+//    }
+//    let labelRegex = new RegExp('([\w]+)(TestUN12)');
+//    let properiesOfTheUserModel = [];
+//    let labelsSubfix = 'Input' + currentUser;
+//    for (let label of labelsNeedForExtractingVhanges) {
+//        properiesOfTheUserModel.push(label.id.replace(labelsSubfix, ''));
+//    }
+//    let user = {};
+//    for (let property of properiesOfTheUserModel) {
+//        if (property === 'IsActive') {
+//            user[property] = $('#' + property + 'Input' + currentUser).val().toLowerCase() == 'true';
+//        } else {
+//            user[property] = $('#' + property + 'Input' + currentUser).val();
+//        }
+//    }
+//    user['Username'] = currentUser;
+//    $.ajax({
+//        type: 'POST',
+//        url: '/Admin/ModifyUserInfo',
+//        dataType: 'json',
+//        contentType: 'application/json',
+//        data: JSON.stringify(user),
+//        success: replaceTheExistingData,
+//        error: logErrorInConsole
+//    });
+//    function replaceTheExistingData(isDataReplaced) {
+//        if (isDataReplaced) {
+//            //TODO: refactor the replacing 
+//            let oldFirstNameLabelId = 'currentUserFirstName' + currentUser;
+//            let oldLastNameLabelId = 'currentUserLastName' + currentUser;
+//            $('#' + oldFirstNameLabelId).text(changedFirstName);
+//            $('#' + oldLastNameLabelId).text(changedLastName);
+//            $('#hidden' + currentUser).css('display', 'none');
+//        }
+//    }
+//}
 
-function isEmpty(str) {
-    return (!str || 0 === str.length);
-}
+//function isEmpty(str) {
+//    return (!str || 0 === str.length);
+//}
 
 
 //My Profile 

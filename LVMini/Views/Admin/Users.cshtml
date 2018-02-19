@@ -11,7 +11,7 @@
 </head>
 
 <h2 style="color:black"><i class="glyphicon glyphicon-globe"></i>&nbsp;Users List</h2>
-<hr/>
+<hr />
 <div class="form-horizontal well">
     <div class="row">
         <section class="content">
@@ -33,52 +33,117 @@
     var dataSource = new kendo.data.DataSource({
         transport: {
             read: {
+                url: "http://localhost:49649/admin/UsersAsync/",
+                type: "post",
+                dataType: "json"
+
+            },
+            update: {
+                //debugger;
+                //console.log(e);
+                type: 'POST',
+                url: 'Admin/ModifyUserInfo/',
+                dataType: 'json'
+
+            },
+            destroy: {
                 url: "http://localhost:49649/admin/UsersAsync"
+
+            },
+            create: {
+                url: "http://localhost:49649/admin/UsersAsync"
+
+            },
+            parameterMap: function(options, operation) {
+                if (operation !== "read" && options.models) {
+                    return {models: kendo.stringify(options.models)};
+                }
             }
         },
-        pageSize: 3,
+        batch: true,
+        pageSize: 5,
         schema: {
             model: {
-                id: "Id"
+                id: "Id",
+                fields: {
+                    username: { editable: false },
+                    firstName: { validation: { required: true } },
+                    lastName: { validation: { required: true } },
+                    email: { editable: false }
+                }
             },
-            data: function(response) {
+            data: function (response) {
                 return response;
             }
         }
     });
     var grid = $("#grid").kendoGrid({
         dataSource: dataSource,
-        scrollable:false,
         groupable: true,
         sortable: true,
         pageable: {
-            refresh: true,
             pageSizes: true,
-            buttonCount:5
+            buttonCount: 3
         },
+        //toolbar: ["Active", "Unactive", "All"],
         columns: [
             {
+                template: "<div class='customer-photo'" +
+                "style='background-image: url(../wwwroot/images/#:data.Vsg_Logo200x200#.jpg);'></div>",
+                width: 50
+            },
+            {
                 field: "username",
-                title: "Username",
-                width:200
+                title: "Username" 
             },
             {
-
                 field: "firstName",
-                title:"First Name"
-                
+                title: "First Name"
             },
             {
-
                 field: "lastName",
                 title: "Last Name"
             },
             {
-
                 field: "email",
-                title: "E-Mail"
+                title: "E-Mail",
+                editor: customEditor
+            },
+            {
+                command: ["edit", "destroy"],
+                title: "&nbsp;",
+                width: "180px"
             }
-        ]
-    }).data("kendoGrid"); 
+        ],
+        editable: "popup"
+    }).data("kendoGrid");
+
+    function customEditor(container, options) {
+        var guid = kendo.guid();
+        $('<input class="k-checkbox" id="Id"' + guid + '" type="checkbox" name="Discontinued" data-type="boolean" data-bind="checked:Discontinued">').appendTo(container);
+        $('<label class="k-checkbox-label" for="' + guid + '">&#8203;</label>').appendTo(container);
+    }
 
 </script>
+
+<style type="text/css">
+    .customer-photo {
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-size: 32px 35px;
+        background-position: center;
+        vertical-align: middle;
+        line-height: 32px;
+        box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
+        margin-left: 5px;
+    }
+
+    .customer-name {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 32px;
+        padding-left: 3px;
+    }
+</style>
