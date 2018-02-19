@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
 using System.IO;
+using System.Reflection;
 
 namespace Data.Service.Migrations
 {
@@ -8,15 +8,15 @@ namespace Data.Service.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            string sqlFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                @"PopulateAccountLoanAndProductTables.sql");
-            migrationBuilder.Sql(File.ReadAllText(sqlFile));
-
+            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().FullName), @"Service\SeedData\PopulateAccountLoanAndProductTables.sql");
+            migrationBuilder.Sql(File.ReadAllText(path));
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-
+            migrationBuilder.Sql("DELETE FROM IbClue.Account");
+            migrationBuilder.Sql("DELETE FROM IbClue.Loan");
+            migrationBuilder.Sql("DELETE FROM IbClue.Product");
         }
     }
 }

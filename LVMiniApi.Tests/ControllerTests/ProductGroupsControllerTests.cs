@@ -67,6 +67,8 @@ namespace LVMiniApi.Tests.ControllerTests
             MapperConfiguration configuration =
                 new MapperConfiguration(a => a.CreateMap<ProductGroup, ProductGroupDto>());
             _mapper = new Mapper(configuration);
+            _uowMock.Setup(uow => uow.ProductGroupRepository.ProductGroupExists("ProductGroupOne"))
+                .Returns(Task.FromResult(true));
             _uowMock.Setup(uow => uow.ProductGroupRepository.GetProductGroupByName("ProductGroupOne"))
                 .Returns(Task.FromResult(new ProductGroup { Name = "ProductGroupOne" }));
             var controller = new ProductGroupsController(_uowMock.Object, _mapper);
@@ -96,7 +98,7 @@ namespace LVMiniApi.Tests.ControllerTests
         }
 
         [Test]
-        public void AddProductGroup_CommitFailed_ReturnsInternalServerError()
+        public void AddProductGroup_SuccessfulPost_ReturnsCreatedAtRoute()
         {
             MapperConfiguration configuration =
                 new MapperConfiguration(delegate (IMapperConfigurationExpression expression)
@@ -126,9 +128,9 @@ namespace LVMiniApi.Tests.ControllerTests
 
             var result = controller.AddProductGroup(new CreateProductGroupDto { Name = "TestGroup", Products = { 2, 3 } }).Result;
             result.ShouldNotBe(null);
-            result.ShouldBeOfType(typeof(OkObjectResult));
+            result.ShouldBeOfType(typeof(CreatedAtRouteResult));
 
-            var cast = result as OkObjectResult;
+            var cast = result as CreatedAtRouteResult;
             var content = cast.Value as ProductGroupDto;
             content.Name.ShouldBe("TestGroup");
         }
@@ -143,6 +145,49 @@ namespace LVMiniApi.Tests.ControllerTests
             _mapper = new Mapper(configuration);
 
 
+        }
+
+        [Test]
+        public void UpdateGroup_SuccessfulPatch_ReturnsOkWithUpdatedProductGroup()
+        {
+            MapperConfiguration configuration =
+                new MapperConfiguration(delegate (IMapperConfigurationExpression expression)
+                {
+                    expression.CreateMap<ProductGroup, ProductGroupDto>();
+                    expression.CreateMap<UpdateProductGroupDto, ProductGroup>();
+                });
+            _mapper = new Mapper(configuration);
+
+            _uowMock.Setup(uow => uow.ProductGroupRepository.ProductGroupExists("ProductGroupOne"))
+                .Returns(Task.FromResult(true));
+            _uowMock.Setup(uow => uow.ProductGroupRepository.GetProductGroupByName("ProductGroupOne"))
+                .Returns(Task.FromResult(new ProductGroup { Name = "ProductGroupOne" }));
+            _uowMock.Setup(uow => uow.Commit())
+                .Returns(Task.FromResult(true));
+
+            var controller = new ProductGroupsController(_uowMock.Object, _mapper);
+
+            var result =
+                controller.UpdateGroup("ProductGroupOne", new UpdateProductGroupDto { Name = "ProductGroupTwo" }).Result as OkObjectResult;
+            result.ShouldNotBe(null);
+            result.StatusCode.ShouldBe(200);
+
+            var content = result.Value as ProductGroupDto;
+            content.ShouldNotBe(null);
+            content.Name.ShouldBe("ProductGroupTwo");
+        }
+
+        [Test]
+        public void DeleteProductGroup_SuccessfulDelete_ReturnsNoContent()
+        {
+            _uowMock.Setup(uow => uow.ProductGroupRepository.ProductGroupExists("ProductGroup"))
+                .Returns(Task.FromResult(true));
+            _uowMock.Setup(uow => uow.Commit()).Returns(Task.FromResult(true));
+            var controller = new ProductGroupsController(_uowMock.Object, _mapper);
+
+            var result = controller.DeleteProductGroup("ProductGroup").Result as NoContentResult;
+            result.ShouldNotBe(null);
+            result.StatusCode.ShouldBe(204);
         }
     }
 }

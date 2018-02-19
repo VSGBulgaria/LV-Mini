@@ -34,7 +34,7 @@ namespace AuthorizationServer.Controllers.Account
     [SecurityHeaders]
     public class AccountController : Controller
     {
-        private readonly TestUserStore _users;
+        private readonly TestUserStore _users = new TestUserStore(new List<TestUser>());
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IEventService _events;
         private readonly AccountService _account;

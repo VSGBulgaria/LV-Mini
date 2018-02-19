@@ -59,11 +59,12 @@ namespace LVMiniApi.Controllers
         [ProducesResponseType(typeof(ProductGroupDto), 200, StatusCode = StatusCodes.Status200OK)]
         public async Task<IActionResult> GetSingleProductGroup(string name)
         {
-            var productGroup = await _productGroupRepository.GetProductGroupByName(name);
-            if (productGroup == null)
+            if (!await _productGroupRepository.ProductGroupExists(name))
             {
                 return NotFound();
             }
+
+            var productGroup = await _productGroupRepository.GetProductGroupByName(name);
 
             var productGroupToReturn = Mapper.Map<ProductGroupDto>(productGroup);
             return Ok(productGroupToReturn);
@@ -114,11 +115,12 @@ namespace LVMiniApi.Controllers
         [ProducesResponseType(typeof(ProductGroupDto), 200, StatusCode = StatusCodes.Status200OK)]
         public async Task<IActionResult> AddProductToProductGroup(string name, string productCode)
         {
-            var productGroup = await _productGroupRepository.GetProductGroupByName(name);
-            if (productGroup == null)
+            if (!await _productGroupRepository.ProductGroupExists(name))
             {
                 return NotFound();
             }
+
+            var productGroup = await _productGroupRepository.GetProductGroupByName(name);
 
             var product = await _productGroupRepository.GetProductByCode(productCode);
             if (product == null)
@@ -148,11 +150,12 @@ namespace LVMiniApi.Controllers
         [ProducesResponseType(typeof(ProductGroupDto), 200, StatusCode = StatusCodes.Status200OK)]
         public async Task<IActionResult> UpdateGroup(string name, [FromBody] UpdateProductGroupDto productGroup)
         {
-            var productGroupEntity = await _productGroupRepository.GetProductGroupByName(name);
-            if (productGroupEntity == null)
+            if (!await _productGroupRepository.ProductGroupExists(name))
             {
                 return NotFound();
             }
+
+            var productGroupEntity = await _productGroupRepository.GetProductGroupByName(name);
 
             Mapper.Map(productGroup, productGroupEntity);
             await _unitOfWork.Commit();

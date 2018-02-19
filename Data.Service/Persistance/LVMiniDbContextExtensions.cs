@@ -21,7 +21,7 @@ namespace Data.Service.Persistance
                 new User()
                 {
                     Username = "simo",
-                    Password = "123456789",
+                    Password = "simo",
                     FirstName = "Simeon",
                     LastName = "Banev",
                     Email = "simo@abv.bg",
@@ -38,7 +38,7 @@ namespace Data.Service.Persistance
                 new User()
                 {
                     Username = "gosho",
-                    Password = "123456789",
+                    Password = "gosho",
                     FirstName = "Gosho",
                     LastName = "Petrov",
                     Email = "gosho@abv.bg",
@@ -56,21 +56,7 @@ namespace Data.Service.Persistance
             users[0].Password = Hasher.PasswordHash(users[0], users[0].Password);
             users[1].Password = Hasher.PasswordHash(users[1], users[1].Password);
 
-            List<Team> teams = new List<Team>()
-            {
-                new Team()
-                {
-                    IsActive = true,
-                    TeamName = "TestUsers",
-                }
-            };
-
             context.Users.AddRange(users);
-            context.Teams.AddRange(teams);
-            context.AddRange(
-                new UserTeam() { Team = teams[0], User = users[0] }
-                );
-
             context.SaveChanges();
         }
     }
