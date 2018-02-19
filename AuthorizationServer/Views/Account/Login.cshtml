@@ -1,101 +1,45 @@
 ﻿@model LoginViewModel
+@Html.Partial("_ValidationSummary")
 
-<div class="login-page">
-    <div class="page-header">
-        <h1>Login</h1>
-    </div>
-
-    @Html.Partial("_ValidationSummary")
-
-    <div class="row form-horizontal well">
-
-        @if (Model.EnableLocalLogin)
-        {
-            //Div For The Container Under The Login Line. Contains The Buttons Fields And Checkboxes
-            <div @*class="col-sm-6" *@>
-                @*This Removes the White Background*@
-                <div @*class="panel panel-default" *@>
-
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Login From Here</h3>
+<div class="login-container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-login">
+                <div class="panel-heading">
+                    <div class="row">
+                        <h4>Login</h4>
                     </div>
-                    <div class="panel-body">
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <form action="" method="post">
+                                <input type="hidden" id="ReturnUrl" name="ReturnUrl" value="/connect/authorize/callback?client_id=lvmini&amp;redirect_uri=http%3A%2F%2Flocalhost%3A49649%2Fsignin-oidc&amp;response_type=code%20id_token&amp;scope=openid%20profile%20lvminiAPI%20lvmini_admin%20offline_access%20roles%20email&amp;response_mode=form_post&amp;nonce=636543826554948983.ZDYzODcyOGUtNWVhMy00MDAwLTlkYWEtMjU1Mzk1YmMzNTY5ZjY4MTU2ZTMtMDY0OS00MDhjLWI4MTItZDYwYjgyZjc3Mzcz&amp;state=CfDJ8HzfxG0nm9ZMowD0KLCWFMjAAqyNZ8YMu6yV6wEGkgxliutbkNlsLsyQS-uQxVmO3qk5P78TO9BT2x3PUez0F76i1jNOAwTURv1QfPHDw_SR1pSu3kmNUKshG5gcTUuw3fnCEzuXrdb2f6164yr6L8-tSP9wPdBwFCPeUtU2XmmJkIs8Z3Ch96LfsRxaAUX5yPBxDXiEhoZBAlosfzxRfB561YAnxNoXUUhKCkxcXFHhRAqpkjwUwEEQ1UVqOmIZUnoXZ4MOMdT614CG1fdyXVgoqgbFuR_jGNXXwXEPNCCALre4CRE1oAS-ou28K9cJQoz_uGudtP5VthYnWZXGH-Q&amp;x-client-SKU=ID_NET&amp;x-client-ver=2.1.4.0" />
 
-                        <form asp-route="Login">
-                            <input type="hidden" asp-for="ReturnUrl" />
-
-                            <fieldset>
                                 <div class="form-group">
-                                    <label asp-for="Username"></label>
                                     <input class="form-control" placeholder="Username" asp-for="Username" autofocus>
                                 </div>
                                 <div class="form-group">
-                                    <label asp-for="Password"></label>
                                     <input type="password" class="form-control" placeholder="Password" asp-for="Password" autocomplete="off">
                                 </div>
 
-                                <div>
-                                    <p>
-                                        <a asp-action="ForgotPassword">Forgot your password?</a>
-                                    </p>
-                                </div>
-
-                                @if (Model.AllowRememberLogin)
-                                {
-                                    <div class="form-group login-remember">
-                                        <label asp-for="RememberLogin"><input asp-for="RememberLogin"><strong>Remember My Login</strong></label>
-                                    </div>
-                                }
-                                    <div class="form-group"> Haven't got an account yet?  
-                                        <a asp-action="RegisterUser"
-                                        asp-controller="UserRegistration"
-                                         asp-route-returnUrl="@Model.ReturnUrl">
-                                        <h5>Register here!</h5>
-                                        </a>
-                                    </div>
-                            
                                 <div class="form-group">
-                                    <button class="btn btn-primary btn-lg btn3d" name="button" value="login">Login</button>
-                                </div>
-                            </fieldset>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        }
-
-        @if (Model.VisibleExternalProviders.Any())
-        {
-            <div class="col-md-6 col-sm-6 external-providers">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">External Login</h3>
-                    </div>
-                    <div class="panel-body">
-                        <ul class="list-inline">
-                            @foreach (var provider in Model.VisibleExternalProviders)
-                            {
-                                <li>
-                                    <a class="btn btn-default"
-                                       asp-action="ExternalLogin"
-                                       asp-route-provider="@provider.AuthenticationScheme"
+                                    Haven't got an account yet?
+                                    <a asp-action="RegisterUser"
+                                       asp-controller="UserRegistration"
                                        asp-route-returnUrl="@Model.ReturnUrl">
-                                        @provider.DisplayName
+                                        <h5>Register here!</h5>
                                     </a>
-                                </li>
-                            }
-                        </ul>
+                                </div>
+                                <div class="form-group">
+                                    <button class="login-button" name="button" value="login">Login</button>
+                                </div>
+                        </div>
+                        </form>
+
                     </div>
                 </div>
             </div>
-        }
-
-        @if (!Model.EnableLocalLogin && !Model.VisibleExternalProviders.Any())
-        {
-            <div class="alert alert-warning">
-                <strong>Invalid login request</strong>
-                There are no login schemes configured for this client.
-            </div>
-        }
+        </div>
     </div>
 </div>
