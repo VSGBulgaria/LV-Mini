@@ -18,25 +18,25 @@
                         <input type="hidden" asp-for="ReturnUrl" />
                         <div class="form-group">
                             
-                                @Html.TextBoxFor(model => model.Username, new { @class = "RegFields", @placeholder = "  Username" })
+                                @Html.TextBoxFor(model => model.Username, new { @class = "RegFields", @placeholder = "Username" })
                                 <i class="fa fa-check" aria-hidden="true" id="username_available_sign" style="display:none; font-size:16px;"></i>
                                 <i class="fa fa-times" aria-hidden="true" id="username_unavailable_sign" style="display:none; font-size:16px;"></i>
                         
                         </div>
                         <div class="form-group">
-                            @Html.TextBoxFor(model => model.Email, new { @class = "RegFields", @placeholder = "  Email" })
+                            @Html.TextBoxFor(model => model.Email, new { @class = "RegFields", @placeholder = "Email" })
                         </div>
                         <div class="form-group">
-                            @Html.TextBoxFor(model => model.Firstname, new { @class = "RegFields", @placeholder = "  First Name" })
+                            @Html.TextBoxFor(model => model.Firstname, new { @class = "RegFields", @placeholder = "First Name" })
                         </div>
                         <div class="form-group">
-                            @Html.TextBoxFor(model => model.Lastname, new { @class = "RegFields", @placeholder = "  Last Name" })
+                            @Html.TextBoxFor(model => model.Lastname, new { @class = "RegFields", @placeholder = "Last Name" })
                         </div>
                         <div class="form-group">
-                            @Html.PasswordFor(model => model.Password, new { @class = "RegFields", @placeholder = "  Password" })
+                            @Html.PasswordFor(model => model.Password, new { @class = "RegFields", @placeholder = "Password" })
                         </div>
                         <div class="form-group">
-                            @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "RegFields", @placeholder = "  Confirm Password" })
+                            @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "RegFields", @placeholder = "Confirm Password" })
                         </div>
                         <div>
                             <input type="submit" id="Click" value="Register" class="btn-register1" />

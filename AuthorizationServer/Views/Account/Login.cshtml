@@ -1,5 +1,5 @@
 ﻿@model LoginViewModel
-@Html.Partial("_ValidationSummary")
+
 
 <div class="login-container">
     <div class="row">
@@ -13,28 +13,30 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">
-                            <form action="" method="post">
-                                <input type="hidden" id="ReturnUrl" name="ReturnUrl" value="/connect/authorize/callback?client_id=lvmini&amp;redirect_uri=http%3A%2F%2Flocalhost%3A49649%2Fsignin-oidc&amp;response_type=code%20id_token&amp;scope=openid%20profile%20lvminiAPI%20lvmini_admin%20offline_access%20roles%20email&amp;response_mode=form_post&amp;nonce=636543826554948983.ZDYzODcyOGUtNWVhMy00MDAwLTlkYWEtMjU1Mzk1YmMzNTY5ZjY4MTU2ZTMtMDY0OS00MDhjLWI4MTItZDYwYjgyZjc3Mzcz&amp;state=CfDJ8HzfxG0nm9ZMowD0KLCWFMjAAqyNZ8YMu6yV6wEGkgxliutbkNlsLsyQS-uQxVmO3qk5P78TO9BT2x3PUez0F76i1jNOAwTURv1QfPHDw_SR1pSu3kmNUKshG5gcTUuw3fnCEzuXrdb2f6164yr6L8-tSP9wPdBwFCPeUtU2XmmJkIs8Z3Ch96LfsRxaAUX5yPBxDXiEhoZBAlosfzxRfB561YAnxNoXUUhKCkxcXFHhRAqpkjwUwEEQ1UVqOmIZUnoXZ4MOMdT614CG1fdyXVgoqgbFuR_jGNXXwXEPNCCALre4CRE1oAS-ou28K9cJQoz_uGudtP5VthYnWZXGH-Q&amp;x-client-SKU=ID_NET&amp;x-client-ver=2.1.4.0" />
+                            @Html.Partial("_ValidationSummary")
+                            <form asp-route="Login">
+                                <input type="hidden" asp-for="ReturnUrl" />
 
-                                <div class="form-group">
-                                    <input class="form-control" placeholder="Username" asp-for="Username" autofocus>
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" class="form-control" placeholder="Password" asp-for="Password" autocomplete="off">
-                                </div>
+                                
+                                    <div class="form-group">
+                                        <input class="form-control" placeholder="Username" asp-for="Username" autofocus>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control" placeholder="Password" asp-for="Password" autocomplete="off">
+                                    </div>
 
-                                <div class="form-group">
-                                    Haven't got an account yet?
-                                    <a asp-action="RegisterUser"
-                                       asp-controller="UserRegistration"
-                                       asp-route-returnUrl="@Model.ReturnUrl">
-                                        <h5>Register here!</h5>
-                                    </a>
+                                    <div class="form-group">
+                                        Haven't got an account yet?
+                                        <a asp-action="RegisterUser"
+                                           asp-controller="UserRegistration"
+                                           asp-route-returnUrl="@Model.ReturnUrl">
+                                            <h5>Register here!</h5>
+                                        </a>
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="login-button" name="button" value="login">Login</button>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <button class="login-button" name="button" value="login">Login</button>
-                                </div>
-                        </div>
                         </form>
 
                     </div>
