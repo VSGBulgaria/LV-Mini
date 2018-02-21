@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -47,17 +48,25 @@ namespace LVMini.Controllers
             return Json(users);
         }
         [HttpPost]
-        public bool ModifyUserInfo([FromBody]ModifiedUserModel model)
+        public IActionResult ModifyUserInfo()
         {
-            var stringContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
-            var response = _client.PutAsync(Resources.AdminUsersApi, stringContent).Result;
-            if (response.IsSuccessStatusCode)
-            {
-                return true;
-            }
+            //var stringContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+            //var response = _client.PutAsync(Resources.AdminUsersApi, stringContent).Result;
+            //if (response.IsSuccessStatusCode)
+            //{
+            //    return Json(true);
+            //}
 
-            return false;
+                
+
+            var r = Request;
+            Stream req = Request.Body;
+            string json = new StreamReader(req).ReadToEnd();
+            var decoded = WebUtility.UrlDecode(json);
+            decoded = decoded.Substring(7);
+            var Data = JsonConvert.DeserializeObject<List<ModifiedUserModel>>(decoded);
+
+            return Json(false);
         }
-        
     }
 }

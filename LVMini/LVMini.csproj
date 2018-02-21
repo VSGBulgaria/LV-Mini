@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\js\kendo\**" />
+    <Content Remove="wwwroot\js\kendo\**" />
+    <EmbeddedResource Remove="wwwroot\js\kendo\**" />
+    <None Remove="wwwroot\js\kendo\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.2" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
     <PackageReference Include="IdentityModel" Version="3.1.0" />

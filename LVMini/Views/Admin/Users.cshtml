@@ -28,23 +28,26 @@
     </div>
 </div>
 
+<script id="mytemplate" type="text/x-kendo-template">
+    <div id="container">
+        <h2 data-bind="text: item.email"></h2>
+        <button data-bind="click: myClickEvent">click me</button>
+    </div>
+</script>
+
 <script>
 
     var dataSource = new kendo.data.DataSource({
         transport: {
             read: {
                 url: "http://localhost:49649/admin/UsersAsync/",
-                type: "post",
                 dataType: "json"
 
             },
             update: {
-                //debugger;
-                //console.log(e);
                 type: 'POST',
-                url: 'Admin/ModifyUserInfo/',
-                dataType: 'json'
-
+                url: 'http://localhost:49649/admin/ModifyUserInfo/'
+                
             },
             destroy: {
                 url: "http://localhost:49649/admin/UsersAsync"
@@ -54,17 +57,20 @@
                 url: "http://localhost:49649/admin/UsersAsync"
 
             },
-            parameterMap: function(options, operation) {
+            parameterMap: function (options, operation) {
                 if (operation !== "read" && options.models) {
-                    return {models: kendo.stringify(options.models)};
+                    return { models: kendo.stringify(options.models) };
                 }
             }
         },
         batch: true,
         pageSize: 5,
+        error: function (e, jqxhr) {
+            console.log(e, jqxhr);
+        },
         schema: {
             model: {
-                id: "Id",
+                id: "userName",
                 fields: {
                     username: { editable: false },
                     firstName: { validation: { required: true } },
@@ -72,15 +78,14 @@
                     email: { editable: false }
                 }
             },
-            data: function (response) {
-                return response;
-            }
+            data: function (response) { return response; }
         }
     });
     var grid = $("#grid").kendoGrid({
         dataSource: dataSource,
         groupable: true,
         sortable: true,
+        editable: true,
         pageable: {
             pageSizes: true,
             buttonCount: 3
@@ -94,7 +99,7 @@
             },
             {
                 field: "username",
-                title: "Username" 
+                title: "Username"
             },
             {
                 field: "firstName",
@@ -110,18 +115,52 @@
                 editor: customEditor
             },
             {
-                command: ["edit", "destroy"],
+                command: { text: "Edit", click:  function(e) {
+                        e.preventDefault();
+
+                        var selectedItem = this.dataSource.getByUid($(e.currentTarget).parents("tr").data("uid"));
+
+                        var wnd = $("<div />").kendoWindow({
+                            modal: true,
+                            visible: false,
+                            width: 400,
+                            height: 400
+                        }).data("kendoWindow");
+
+                        wnd.content($("#mytemplate").html());
+
+                    kendo.bind($("#container"), { item: selectedItem });
+
+                    wnd.center().open();
+                    
+                    }
+                },
                 title: "&nbsp;",
+                editor: editor,
                 width: "180px"
             }
-        ],
-        editable: "popup"
+        ]
     }).data("kendoGrid");
 
     function customEditor(container, options) {
         var guid = kendo.guid();
         $('<input class="k-checkbox" id="Id"' + guid + '" type="checkbox" name="Discontinued" data-type="boolean" data-bind="checked:Discontinued">').appendTo(container);
         $('<label class="k-checkbox-label" for="' + guid + '">&#8203;</label>').appendTo(container);
+    }
+
+
+    var editor = e => {
+        e.preventDefault();
+
+
+        var wnd = $("<div />").kendoWindow({
+            modal: true,
+            visible: false,
+            width: 400,
+            height: 400
+        }).data("kendoWindow");
+
+        wnd.center().open();
     }
 
 </script>
