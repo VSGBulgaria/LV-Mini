@@ -3,6 +3,7 @@ using Data.Service.Core.Interfaces;
 using Data.Service.Persistance;
 using Data.Service.Persistance.Repositories;
 using IdentityServer4.AccessTokenValidation;
+using LVMiniApi.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -36,7 +37,12 @@ namespace LVMiniApi
                 options.ReturnHttpNotAcceptable = true;
                 options.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
                 options.InputFormatters.Add(new XmlDataContractSerializerInputFormatter());
-            });
+            })
+            .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.ContractResolver =
+                    new CamelCasePropertyNamesContractResolver();
+                });
 
             services.AddSwaggerGen(c =>
             {
@@ -84,6 +90,7 @@ namespace LVMiniApi
             services.AddScoped<ILogRepository, LogRepository>();
             services.AddScoped<IProductGroupRepository, ProductGroupRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<ITypeHelperService, TypeHelperService>();
 
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication(options =>

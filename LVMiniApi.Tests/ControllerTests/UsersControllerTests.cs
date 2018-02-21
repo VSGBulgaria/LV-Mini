@@ -3,11 +3,14 @@ using Data.Service.Core.Entities;
 using Data.Service.Core.Interfaces;
 using LVMiniApi.Controllers;
 using LVMiniApi.Models;
+using LVMiniApi.Service;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 using Shouldly;
+using System.Collections.Generic;
+using System.Dynamic;
 using System.Threading.Tasks;
 
 namespace LVMiniApi.Tests.ControllerTests
@@ -17,6 +20,7 @@ namespace LVMiniApi.Tests.ControllerTests
     {
         private Mock<IUnitOfWork> _uowMock;
         private IMapper _mapper;
+        private Mock<ITypeHelperService> _typeHelperService;
 
         [SetUp]
         public void SetUp()
@@ -24,6 +28,7 @@ namespace LVMiniApi.Tests.ControllerTests
             _uowMock = new Mock<IUnitOfWork>();
             MapperConfiguration configuration = new MapperConfiguration(a => a.CreateMap<User, UserDto>());
             _mapper = new Mapper(configuration);
+            _typeHelperService = new Mock<ITypeHelperService>();
         }
 
 
@@ -32,15 +37,18 @@ namespace LVMiniApi.Tests.ControllerTests
         {
             _uowMock.Setup(uow => uow.UserRepository.GetByUsername("simo"))
                 .Returns(Task.FromResult(new User { Username = "simo" }));
-            var controller = new UsersController(_uowMock.Object, _mapper);
+            _typeHelperService.Setup(t => t.TypeHasProperties<UserDto>(null)).Returns(true);
+            var controller = new UsersController(_uowMock.Object, _mapper, _typeHelperService.Object);
 
-            var result = controller.GetUserByUsername("simo").Result as OkObjectResult;
+            var result = controller.GetUserByUsername("simo", null).Result as OkObjectResult;
             result.ShouldNotBe(null);
             result.StatusCode.ShouldBe(200);
 
-            var value = result.Value as UserDto;
+            var value = result.Value as ExpandoObject;
+            var content = value as IDictionary<string, object>;
             value.ShouldNotBe(null);
-            value.Username.ShouldBeSameAs("simo");
+            object username = "simo";
+            content.TryGetValue("Username", out username).ShouldBe(true);
         }
 
         [Test]
@@ -48,9 +56,10 @@ namespace LVMiniApi.Tests.ControllerTests
         {
             _uowMock.Setup(uow => uow.UserRepository.GetByUsername("simo"))
                 .Returns(Task.FromResult(new User { Username = "simo" }));
-            var controller = new UsersController(_uowMock.Object, _mapper);
+            _typeHelperService.Setup(t => t.TypeHasProperties<UserDto>(null)).Returns(true);
+            var controller = new UsersController(_uowMock.Object, _mapper, _typeHelperService.Object);
 
-            var result = controller.GetUserByUsername("nonExistingUser").Result as NotFoundResult;
+            var result = controller.GetUserByUsername("nonExistingUser", null).Result as NotFoundResult;
             result.ShouldNotBe(null);
             result.StatusCode.ShouldBe(404);
         }

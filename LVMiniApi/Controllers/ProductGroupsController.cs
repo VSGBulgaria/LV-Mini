@@ -2,7 +2,9 @@
 using Data.Service.Core.Entities;
 using Data.Service.Core.Interfaces;
 using LVMiniApi.Filters;
+using LVMiniApi.Helpers;
 using LVMiniApi.Models;
+using LVMiniApi.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -20,15 +22,18 @@ namespace LVMiniApi.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IProductGroupRepository _productGroupRepository;
+        private readonly ITypeHelperService _typeHelperService;
 
         /// <summary>
         /// Injects the services needed through constructor injection.
         /// </summary>
         /// <param name="unitOfWork">Unit Of Work</param>
         /// <param name="mapper">AutoMapper's Mapper class.</param>
-        public ProductGroupsController(IUnitOfWork unitOfWork, IMapper mapper)
+        /// <param name="typeHelperService"></param>
+        public ProductGroupsController(IUnitOfWork unitOfWork, IMapper mapper, ITypeHelperService typeHelperService)
         {
             _unitOfWork = unitOfWork;
+            _typeHelperService = typeHelperService;
             _productGroupRepository = _unitOfWork.ProductGroupRepository;
             Mapper = mapper;
         }
@@ -39,11 +44,16 @@ namespace LVMiniApi.Controllers
         /// <returns>Http 200 OK and a collection of ProductGroups.</returns>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<ProductGroupDto>), 200, StatusCode = StatusCodes.Status200OK)]
-        public IActionResult GetAllProductGroups()
+        public IActionResult GetAllProductGroups(ProductGroupResourceParameters resourceParameters)
         {
+            if (!_typeHelperService.TypeHasProperties<ProductGroupDto>(resourceParameters.Fields))
+            {
+                return BadRequest();
+            }
+
             var entities = _productGroupRepository.GetAll();
 
-            var productGroups = Mapper.Map<IEnumerable<ProductGroupDto>>(entities);
+            var productGroups = Mapper.Map<IEnumerable<ProductGroupDto>>(entities).ShapeData(resourceParameters.Fields);
             return Ok(productGroups);
         }
 
@@ -51,14 +61,20 @@ namespace LVMiniApi.Controllers
         /// Gets a specific ProductGroup based on its name.
         /// </summary>
         /// <param name="name">The name of the ProductGroup.</param>
+        /// <param name="fields">The fields by which you want to shape the data.</param>
         /// <returns>
         /// Http 200 OK and a single ProductGroup of the requested group.
         /// Http 404 NotFound if there is no such group.
         /// </returns>
         [HttpGet("{name}", Name = "ProductGroupGet")]
         [ProducesResponseType(typeof(ProductGroupDto), 200, StatusCode = StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetSingleProductGroup(string name)
+        public async Task<IActionResult> GetProductGroup(string name, [FromQuery] string fields)
         {
+            if (!_typeHelperService.TypeHasProperties<ProductGroupDto>(fields))
+            {
+                return BadRequest();
+            }
+
             if (!await _productGroupRepository.ProductGroupExists(name))
             {
                 return NotFound();
@@ -67,7 +83,7 @@ namespace LVMiniApi.Controllers
             var productGroup = await _productGroupRepository.GetProductGroupByName(name);
 
             var productGroupToReturn = Mapper.Map<ProductGroupDto>(productGroup);
-            return Ok(productGroupToReturn);
+            return Ok(productGroupToReturn.ShapeData(fields));
         }
 
         /// <summary>

@@ -20,13 +20,13 @@ namespace Data.Service.Persistance.Repositories
             Entities = Context.Set<T>();
         }
 
-        public virtual IEnumerable<T> GetAll(Expression<Func<T, bool>> filterExpression = null)
+        public virtual IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate = null)
         {
             IQueryable<T> query = Entities;
 
-            if (filterExpression != null)
+            if (predicate != null)
             {
-                query = query.Where(filterExpression);
+                query = query.Where(predicate);
             }
 
             return query;

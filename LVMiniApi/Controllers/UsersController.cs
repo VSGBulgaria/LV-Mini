@@ -2,7 +2,9 @@ using AutoMapper;
 using Data.Service.Core.Entities;
 using Data.Service.Core.Interfaces;
 using Data.Service.Services;
+using LVMiniApi.Helpers;
 using LVMiniApi.Models;
+using LVMiniApi.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,15 +23,18 @@ namespace LVMiniApi.Controllers
     public class UsersController : BaseController
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ITypeHelperService _typeHelperService;
 
         /// <summary>
         /// Injects the services needed through constructor injection.
         /// </summary>
         /// <param name="unitOfWork">Unit Of Work</param>
         /// <param name="mapper">AutoMapper's Mapper class.</param>
-        public UsersController(IUnitOfWork unitOfWork, IMapper mapper)
+        /// <param name="typeHelperService"></param>
+        public UsersController(IUnitOfWork unitOfWork, IMapper mapper, ITypeHelperService typeHelperService)
         {
             _unitOfWork = unitOfWork;
+            _typeHelperService = typeHelperService;
 
             // inject and set the mapper from the BaseController
             Mapper = mapper;
@@ -39,18 +44,24 @@ namespace LVMiniApi.Controllers
         /// Gets a specific user from the database by a provided unique username.
         /// </summary>
         /// <param name="username">The user's username.</param>
+        /// <param name="fields"></param>
         /// <returns>Http 200 and the user's information. Returns Http 404 if no such user exists.</returns>
         [HttpGet("{username}", Name = "UserGet")]
         [ProducesResponseType(typeof(UserDto), 200, StatusCode = StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetUserByUsername(string username)
+        public async Task<IActionResult> GetUserByUsername(string username, string fields)
         {
+            if (!_typeHelperService.TypeHasProperties<UserDto>(fields))
+            {
+                return BadRequest();
+            }
+
             var user = await _unitOfWork.UserRepository.GetByUsername(username);
             if (user == null)
             {
                 return NotFound();
             }
-
-            return Ok(Mapper.Map<UserDto>(user));
+            var userToReturn = Mapper.Map<UserDto>(user);
+            return Ok(userToReturn.ShapeData(fields));
         }
 
         /// <summary>
