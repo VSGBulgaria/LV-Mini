@@ -17,6 +17,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\css\kendo.common.css" />
+    <Content Remove="wwwroot\css\kendo.common.min.css" />
+    <Content Remove="wwwroot\css\kendo.common.min.css.map" />
+    <Content Remove="wwwroot\css\kendo.dataviz.default.min.css" />
+    <Content Remove="wwwroot\css\kendo.dataviz.min.css" />
+    <Content Remove="wwwroot\css\kendo.default.min.css" />
+    <Content Remove="wwwroot\css\kendo.silver.min.css" />
+    <Content Remove="wwwroot\css\kendo.silver.min.css.map" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.2" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
     <PackageReference Include="IdentityModel" Version="3.1.0" />
@@ -47,10 +58,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="wwwroot\css\kendo-cdn.css\Silver\loading-image.gif">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\css\Silver\" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
