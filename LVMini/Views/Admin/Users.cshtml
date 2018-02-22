@@ -10,7 +10,7 @@
 
 </head>
 
-<h2 style="color:black"><i class="glyphicon glyphicon-globe"></i>&nbsp;Users List</h2>
+<h3 style="color:black"><i class="glyphicon glyphicon-globe"></i>&nbsp;Users List</h3>
 <hr />
 <div class="form-horizontal well">
     <div class="row">
@@ -29,13 +29,20 @@
 </div>
 
 <script id="mytemplate" type="text/x-kendo-template">
+
     <div id="container">
+        <h2 data-bind="text: item.username"></h2>
+        <h2 data-bind="text: item.firstName"></h2>
+        <h2 data-bind="text: item.lastName"></h2>
         <h2 data-bind="text: item.email"></h2>
         <button data-bind="click: myClickEvent">click me</button>
     </div>
+    
 </script>
 
 <script>
+
+
 
     var dataSource = new kendo.data.DataSource({
         transport: {
@@ -44,25 +51,25 @@
                 dataType: "json"
 
             },
-            update: {
-                type: 'POST',
-                url: 'http://localhost:49649/admin/ModifyUserInfo/'
+        //    update: {
+        //        type: 'POST',
+        //        url: 'http://localhost:49649/admin/ModifyUserInfo/'
                 
-            },
-            destroy: {
-                url: "http://localhost:49649/admin/UsersAsync"
+        //    },
+        //    destroy: {
+        //        url: "http://localhost:49649/admin/UsersAsync"
 
-            },
-            create: {
-                url: "http://localhost:49649/admin/UsersAsync"
+        //    },
+        //    create: {
+        //        url: "http://localhost:49649/admin/UsersAsync"
 
-            },
-            parameterMap: function (options, operation) {
-                if (operation !== "read" && options.models) {
-                    return { models: kendo.stringify(options.models) };
-                }
-            }
-        },
+        //    },
+        //    parameterMap: function (options, operation) {
+        //        if (operation !== "read" && options.models) {
+        //            return { models: kendo.stringify(options.models) };
+        //        }
+        //    }
+        //},
         batch: true,
         pageSize: 5,
         error: function (e, jqxhr) {
@@ -80,12 +87,16 @@
             },
             data: function (response) { return response; }
         }
-    });
+    }});
     var grid = $("#grid").kendoGrid({
         dataSource: dataSource,
         groupable: true,
         sortable: true,
-        editable: true,
+        resizable: true,
+        reorderable: true,
+        columnMenu: true,
+        filterable: true,
+        editable: "popup",
         pageable: {
             pageSizes: true,
             buttonCount: 3
@@ -94,11 +105,14 @@
         columns: [
             {
                 template: "<div class='customer-photo'" +
-                "style='background-image: url(../wwwroot/images/#:data.Vsg_Logo200x200#.jpg);'></div>",
+                    "style='background-image: url(../wwwroot/images/#:data.Vsg_Logo200x200#.jpg);'></div>",
                 width: 50
             },
             {
                 field: "username",
+                editor: function(el) {
+                    el.text(options.model.username);
+                },
                 title: "Username"
             },
             {
@@ -112,7 +126,7 @@
             {
                 field: "email",
                 title: "E-Mail",
-                editor: customEditor
+                
             },
             {
                 command: { text: "Edit", click:  function(e) {
@@ -121,17 +135,19 @@
                         var selectedItem = this.dataSource.getByUid($(e.currentTarget).parents("tr").data("uid"));
 
                         var wnd = $("<div />").kendoWindow({
-                            modal: true,
+                           
+                            model: true,
                             visible: false,
-                            width: 400,
+                            width: 800,
                             height: 400
                         }).data("kendoWindow");
 
                         wnd.content($("#mytemplate").html());
 
-                    kendo.bind($("#container"), { item: selectedItem });
 
-                    wnd.center().open();
+                        kendo.bind($("#container"), { item: selectedItem });
+
+                        wnd.center().open();
                     
                     }
                 },
@@ -144,19 +160,17 @@
 
     function customEditor(container, options) {
         var guid = kendo.guid();
-        $('<input class="k-checkbox" id="Id"' + guid + '" type="checkbox" name="Discontinued" data-type="boolean" data-bind="checked:Discontinued">').appendTo(container);
+        $('<input class="k-checkbox" id="userName"' + guid + '" type="checkbox" name="Discontinued" data-type="boolean" data-bind="checked:Discontinued">').appendTo(container);
         $('<label class="k-checkbox-label" for="' + guid + '">&#8203;</label>').appendTo(container);
     }
-
 
     var editor = e => {
         e.preventDefault();
 
-
         var wnd = $("<div />").kendoWindow({
-            modal: true,
+            model: true,
             visible: false,
-            width: 400,
+            width: 800,
             height: 400
         }).data("kendoWindow");
 
