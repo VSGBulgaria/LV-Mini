@@ -16,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Data.Service\Data.Service.csproj" />
-    <ProjectReference Include="..\LVMiniApi\LVMiniApi.csproj" />
+    <ProjectReference Include="..\..\src\Data.Service\Data.Service.csproj" />
+    <ProjectReference Include="..\..\src\LVMiniApi\LVMiniApi.csproj" />
   </ItemGroup>
 
 </Project>

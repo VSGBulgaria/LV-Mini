@@ -3,19 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LVMini", "LVMini\LVMini.csproj", "{ADB0FBEB-394D-4191-80C5-DB7366512565}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LVMini", "src\LVMini\LVMini.csproj", "{ADB0FBEB-394D-4191-80C5-DB7366512565}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Service", "Data.Service\Data.Service.csproj", "{3B7C9A9E-6B78-40B0-B66C-54B42428581D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Service", "src\Data.Service\Data.Service.csproj", "{3B7C9A9E-6B78-40B0-B66C-54B42428581D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LVMiniApi", "LVMiniApi\LVMiniApi.csproj", "{17DEABD3-0A39-4A40-ABC6-127AD6624325}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LVMiniApi", "src\LVMiniApi\LVMiniApi.csproj", "{17DEABD3-0A39-4A40-ABC6-127AD6624325}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LVMiniAdminApi", "LVMiniAdminApi\LVMiniAdminApi.csproj", "{B8A35794-E6C3-4395-9E43-305657061110}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LVMiniAdminApi", "src\LVMiniAdminApi\LVMiniAdminApi.csproj", "{B8A35794-E6C3-4395-9E43-305657061110}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthorizationServer", "AuthorizationServer\AuthorizationServer.csproj", "{9588447C-921D-4A52-A389-64BBAE44B88E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthorizationServer", "src\AuthorizationServer\AuthorizationServer.csproj", "{9588447C-921D-4A52-A389-64BBAE44B88E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminApiTests", "AdminApiTests\AdminApiTests.csproj", "{0C53B204-868A-47B7-B2ED-4A47550CDB64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminApiTests", "tests\AdminApiTests\AdminApiTests.csproj", "{0C53B204-868A-47B7-B2ED-4A47550CDB64}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LVMiniApi.Tests", "LVMiniApi.Tests\LVMiniApi.Tests.csproj", "{88D01CFB-3554-49E4-AA78-5171CF23C96A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LVMiniApi.Tests", "tests\LVMiniApi.Tests\LVMiniApi.Tests.csproj", "{88D01CFB-3554-49E4-AA78-5171CF23C96A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9B880CC2-A069-43CD-8842-1FA9A33CB5AF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{CE58A88A-3A4B-499A-8D37-07B4679696D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +58,15 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ADB0FBEB-394D-4191-80C5-DB7366512565} = {CE58A88A-3A4B-499A-8D37-07B4679696D9}
+		{3B7C9A9E-6B78-40B0-B66C-54B42428581D} = {CE58A88A-3A4B-499A-8D37-07B4679696D9}
+		{17DEABD3-0A39-4A40-ABC6-127AD6624325} = {CE58A88A-3A4B-499A-8D37-07B4679696D9}
+		{B8A35794-E6C3-4395-9E43-305657061110} = {CE58A88A-3A4B-499A-8D37-07B4679696D9}
+		{9588447C-921D-4A52-A389-64BBAE44B88E} = {CE58A88A-3A4B-499A-8D37-07B4679696D9}
+		{0C53B204-868A-47B7-B2ED-4A47550CDB64} = {9B880CC2-A069-43CD-8842-1FA9A33CB5AF}
+		{88D01CFB-3554-49E4-AA78-5171CF23C96A} = {9B880CC2-A069-43CD-8842-1FA9A33CB5AF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F29C62B3-2FD6-48C1-8A10-9AD8FE2FE97A}

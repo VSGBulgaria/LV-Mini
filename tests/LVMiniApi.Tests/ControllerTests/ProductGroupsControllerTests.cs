@@ -99,7 +99,7 @@ namespace LVMiniApi.Tests.ControllerTests
         }
 
         [Test]
-        public void AddProductGroup_AlreadyExistingProductGroup_ReturnsBadRequest()
+        public void AddProductGroup_AlreadyExistingProductGroup_ReturnsConflict()
         {
             MapperConfiguration configuration =
                 new MapperConfiguration(a => a.CreateMap<ProductGroup, ProductGroupDto>());
@@ -108,8 +108,8 @@ namespace LVMiniApi.Tests.ControllerTests
                 .Returns(Task.FromResult(true));
             var controller = new ProductGroupsController(_uowMock.Object, _mapper, _typeHelperService.Object);
 
-            var result = controller.AddProductGroup(new CreateProductGroupDto { Name = "GroupOne", Products = { 2, 3 } }).Result;
-            result.ShouldBeOfType(typeof(BadRequestResult));
+            var result = controller.AddProductGroup(new CreateProductGroupDto { Name = "GroupOne", Products = { 2, 3 } }).Result as StatusCodeResult;
+            result.StatusCode.ShouldBe(409);
         }
 
         [Test]

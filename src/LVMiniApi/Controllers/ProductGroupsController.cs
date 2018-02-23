@@ -102,7 +102,7 @@ namespace LVMiniApi.Controllers
         {
             if (await _productGroupRepository.ProductGroupExists(productGroup.Name))
             {
-                return BadRequest();
+                return new StatusCodeResult(StatusCodes.Status409Conflict);
             }
 
             var entity = Mapper.Map<ProductGroup>(productGroup);

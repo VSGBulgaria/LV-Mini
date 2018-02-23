@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LVMiniAdminApi\LVMiniAdminApi.csproj" />
+    <ProjectReference Include="..\..\src\LVMiniAdminApi\LVMiniAdminApi.csproj" />
   </ItemGroup>
 
 </Project>

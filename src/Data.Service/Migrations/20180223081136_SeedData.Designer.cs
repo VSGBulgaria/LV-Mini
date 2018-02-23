@@ -11,8 +11,8 @@ using System;
 namespace Data.Service.Migrations
 {
     [DbContext(typeof(LvMiniDbContext))]
-    [Migration("20180216151049_InitialProjectModel")]
-    partial class InitialProjectModel
+    [Migration("20180223081136_SeedData")]
+    partial class SeedData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -113,6 +113,9 @@ namespace Data.Service.Migrations
 
                     b.HasKey("IDProduct");
 
+                    b.HasIndex("ProductCode")
+                        .IsUnique();
+
                     b.ToTable("Product","IbClue");
                 });
 
@@ -128,6 +131,9 @@ namespace Data.Service.Migrations
                         .HasMaxLength(100);
 
                     b.HasKey("IDProductGroup");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("ProductGroup","admin");
                 });

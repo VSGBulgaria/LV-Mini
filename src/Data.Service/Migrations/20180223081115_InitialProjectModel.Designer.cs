@@ -11,9 +11,10 @@ using System;
 namespace Data.Service.Migrations
 {
     [DbContext(typeof(LvMiniDbContext))]
-    partial class LvMiniDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180223081115_InitialProjectModel")]
+    partial class InitialProjectModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -112,6 +113,9 @@ namespace Data.Service.Migrations
 
                     b.HasKey("IDProduct");
 
+                    b.HasIndex("ProductCode")
+                        .IsUnique();
+
                     b.ToTable("Product","IbClue");
                 });
 
@@ -127,6 +131,9 @@ namespace Data.Service.Migrations
                         .HasMaxLength(100);
 
                     b.HasKey("IDProductGroup");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("ProductGroup","admin");
                 });

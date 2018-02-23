@@ -239,6 +239,13 @@ namespace Data.Service.Migrations
                 column: "IDProductGroup");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductGroup_Name",
+                schema: "admin",
+                table: "ProductGroup",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Teams_TeamName",
                 schema: "admin",
                 table: "Teams",
@@ -269,6 +276,13 @@ namespace Data.Service.Migrations
                 schema: "admin",
                 table: "UsersTeams",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_ProductCode",
+                schema: "IbClue",
+                table: "Product",
+                column: "ProductCode",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

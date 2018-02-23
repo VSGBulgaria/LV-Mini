@@ -11,10 +11,9 @@ using System;
 namespace Data.Service.Migrations
 {
     [DbContext(typeof(LvMiniDbContext))]
-    [Migration("20180216151243_SeedAccountLoanAndProductTables")]
-    partial class SeedAccountLoanAndProductTables
+    partial class LvMiniDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,6 +112,9 @@ namespace Data.Service.Migrations
 
                     b.HasKey("IDProduct");
 
+                    b.HasIndex("ProductCode")
+                        .IsUnique();
+
                     b.ToTable("Product","IbClue");
                 });
 
@@ -128,6 +130,9 @@ namespace Data.Service.Migrations
                         .HasMaxLength(100);
 
                     b.HasKey("IDProductGroup");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("ProductGroup","admin");
                 });

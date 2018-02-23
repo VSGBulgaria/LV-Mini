@@ -31,6 +31,14 @@ namespace Data.Service.Persistance
             modelBuilder.Entity<Team>()
                 .HasIndex(team => team.TeamName)
                 .IsUnique();
+
+            modelBuilder.Entity<ProductGroup>()
+                .HasIndex(pg => pg.Name)
+                .IsUnique();
+
+            modelBuilder.Entity<Product>()
+                .HasIndex(p => p.ProductCode)
+                .IsUnique();
         }
     }
 }
