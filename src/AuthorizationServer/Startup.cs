@@ -95,7 +95,6 @@ namespace AuthorizationServer
 
             persistedGrantDbContext.Database.Migrate();
 
-            lvMiniDbContext.Database.Migrate();
             lvMiniDbContext.SeedUsersForContext();
 
             FileExtensionContentTypeProvider typeProvider = new FileExtensionContentTypeProvider();
