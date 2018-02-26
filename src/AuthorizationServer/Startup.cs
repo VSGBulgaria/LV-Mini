@@ -16,6 +16,9 @@ namespace AuthorizationServer
     public class Startup
     {
         public static IConfigurationRoot ConfigurationRoot;
+        public IConfiguration Configuration { get; }
+        public IHostingEnvironment Environment { get; }
+
         public Startup(IConfiguration configuration, IHostingEnvironment environment)
         {
             var builder = new ConfigurationBuilder()
@@ -30,8 +33,6 @@ namespace AuthorizationServer
             Environment = environment;
         }
 
-        public IConfiguration Configuration { get; }
-        public IHostingEnvironment Environment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -94,7 +95,9 @@ namespace AuthorizationServer
 
             persistedGrantDbContext.Database.Migrate();
 
+            lvMiniDbContext.Database.Migrate();
             lvMiniDbContext.SeedUsersForContext();
+
 
             FileExtensionContentTypeProvider typeProvider = new FileExtensionContentTypeProvider();
             if (!typeProvider.Mappings.ContainsKey(".woff2"))
