@@ -1,8 +1,8 @@
 ﻿using LVMiniAdminApi.Attributes;
 
-namespace LVMiniAdminApi.Models
+namespace LVMiniAdminApi.Models.UserModels
 {
-    public abstract class BaseModifiedUserModel : BaseUser
+    public abstract class BaseModifiedUserModelDto : BaseUserDto
     {
         public string Email { get; set; }
         [Changeable]

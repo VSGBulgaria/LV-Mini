@@ -1,12 +1,15 @@
 ﻿using Data.Service.Core.Interfaces;
 using LVMiniAdminApi.Contracts;
-using LVMiniAdminApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using LVMiniAdminApi.Models.UserModels;
 
 namespace LVMiniAdminApi.Controllers
 {
+    /// <summary>
+    /// Controller creating, reading and updating users.
+    /// </summary>
     [Produces("application/json")]
     [Route("api/admin/users")]
     [Authorize(Policy = "AdminOnly")]
@@ -19,7 +22,10 @@ namespace LVMiniAdminApi.Controllers
             _userHandler = userHandler;
         }
 
-        // GET: api/admin/users
+        /// <summary>
+        /// Returns all stored users.
+        /// </summary>
+        /// <returns>Returns "Http 200 ok" with all users in the request body.</returns>
         [HttpGet]
         public IActionResult Get()
         {
@@ -27,9 +33,14 @@ namespace LVMiniAdminApi.Controllers
             return Ok(users);
         }
 
-        // PUT: api/admin/users
+        /// <summary>
+        /// Update user info.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>Returns "Http 200 ok" with modified user in the request body.
+        /// Returns "Http 400 Bad request" if the state of the model is invalid.</returns>
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody]ModifiedUserModel user)
+        public async Task<IActionResult> Put([FromBody]ModifiedUserModelDto user)
         {
             if (ModelState.IsValid)
             {

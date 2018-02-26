@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace LVMiniAdminApi
 {
@@ -41,6 +42,11 @@ namespace LVMiniAdminApi
             services.AddScoped<ITeamRepository, TeamRepository>();
             services.AddScoped<IModifiedUserHandler, ModifiedUserHandler>();
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Admin API", Version = "1.0", Description = "Admin API Consumed by LVMini project." });
+
+            });
 
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication(options =>
@@ -62,6 +68,14 @@ namespace LVMiniAdminApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Admin API");
+            });
+
             app.UseAuthentication();
             app.UseMvc();
         }

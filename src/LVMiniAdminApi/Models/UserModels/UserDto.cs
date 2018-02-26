@@ -3,7 +3,7 @@ using System;
 
 namespace LVMiniAdminApi.Models.UserModels
 {
-    public class UserDto : BaseModifiedUserModel, IEquatable<UserDto>
+    public class UserDto : BaseModifiedUserModelDto, IEquatable<UserDto>
     {
         public bool Equals(UserDto other)
         {
