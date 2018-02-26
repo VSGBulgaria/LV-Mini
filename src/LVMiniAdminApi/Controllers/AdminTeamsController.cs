@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LVMiniAdminApi.Controllers
 {
+    /// <summary>
+    /// Controller creating, reading and updating teams.
+    /// </summary>
     [Produces("application/json")]
     [Route("api/admin/teams")]
     [Authorize(Policy = "AdminOnly")]
@@ -25,6 +28,10 @@ namespace LVMiniAdminApi.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Gets all existing teams in the database.
+        /// </summary>
+        /// <returns>Response of type "Http 200 ok" with all teams in the response body</returns>
         [HttpGet]
         [Route("all")]
         public async Task<IActionResult> GetAll()
@@ -34,6 +41,11 @@ namespace LVMiniAdminApi.Controllers
             return Ok(mappedTeams);
         }
 
+        /// <summary>
+        /// Gets single team by team name.
+        /// </summary>
+        /// <param name="currentTeamName"></param>
+        /// <returns>Returns "Http 200 ok" if the name is valid. Returns "Http 400 bad request" if the name is invalid</returns>
         [HttpGet]
         [Route("{currentTeamName}")]
         public async Task<IActionResult> GetCurrent(string currentTeamName)
@@ -47,7 +59,12 @@ namespace LVMiniAdminApi.Controllers
             return Ok(mappedTeam);
         }
 
-
+        /// <summary>
+        /// Creates new team with existable users and without users.
+        /// </summary>
+        /// <param name="teamDto"></param>
+        /// <returns>Returns "Http 201 created" if the team is persisted successfully.
+        /// Returns "Http 400 Bad request" with descriptive message of the error.</returns>
         [HttpPost]
         public async Task<IActionResult> PostTeam([FromBody]TeamDto teamDto)
         {
@@ -84,6 +101,12 @@ namespace LVMiniAdminApi.Controllers
             return BadRequest("Invalid model state");
         }
 
+        /// <summary>
+        /// Changes the active property.
+        /// </summary>
+        /// <param name="teamName"></param>
+        /// <returns>Returns "Http 200 ok" if changes persisted successfully.
+        /// Returns "Http 400 Bad request" with descriptive message of the error.</returns>
         [HttpPut]
         [Route("inactive")]
         public async Task<IActionResult> MakeTeamInActive([FromBody]string teamName)
@@ -106,6 +129,12 @@ namespace LVMiniAdminApi.Controllers
             return BadRequest($"Something went wrong. {teamName} is not inactive.");
         }
 
+        /// <summary>
+        /// Changes the active property.
+        /// </summary>
+        /// <param name="teamName"></param>
+        /// <returns>Returns "Http 200 ok" if changes persisted successfully.
+        /// Returns "Http 400 Bad request" with descriptive message of the error.</returns>
         [HttpPut]
         [Route("active")]
         public async Task<IActionResult> MakeTeamActive([FromBody] string teamName)
@@ -128,6 +157,12 @@ namespace LVMiniAdminApi.Controllers
             return BadRequest($"Something went wrong. {teamName} is not active.");
         }
 
+        /// <summary>
+        /// Add user to team.
+        /// </summary>
+        /// <param name="teamUserDto"></param>
+        /// <returns>Returns "Http 200 ok" if the user is added successfully.
+        /// Returns "Http 400 Bad request" with descriptive message of the error.</returns>
         [HttpPut]
         [Route("add/user")]
         public async Task<IActionResult> PostUserToTeam([FromBody]TeamUserDto teamUserDto)
@@ -159,6 +194,12 @@ namespace LVMiniAdminApi.Controllers
                 $"Something went wrong. User: {teamUserDto.UserName} wasn't added to the team successfully.");
         }
 
+        /// <summary>
+        /// Remove user from team.
+        /// </summary>
+        /// <param name="teamUserDto"></param>
+        /// <returns>Returns "Http 200 ok" if the user is removed successfully.
+        /// Returns "Http 400 Bad request" with descriptive message of the error.</returns>
         [HttpPut]
         [Route("remove/user")]
         public async Task<IActionResult> RemoveUserFromTeam([FromBody]TeamUserDto teamUserDto)

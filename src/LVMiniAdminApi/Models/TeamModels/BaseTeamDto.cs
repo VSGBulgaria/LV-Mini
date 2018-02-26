@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using LVMiniAdminApi.Models.UserModels;
 
 namespace LVMiniAdminApi.Models.TeamModels
 {
-    public abstract class BaseTeam
+    public abstract class BaseTeamDto
     {
         private string _teamName;
 

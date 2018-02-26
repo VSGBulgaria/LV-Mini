@@ -1,11 +1,11 @@
 ﻿using Data.Service.Core.Entities;
-using LVMiniAdminApi.Models;
+using LVMiniAdminApi.Models.UserModels;
 
 namespace LVMiniAdminApi.Contracts
 {
     public interface IModifiedUserHandler
     {
-        User SetChangesToStoredUser(User storedUser, BaseModifiedUserModel modifiedModel);
-        bool CheckTheChanges(User storedUserWithTheChanges, BaseModifiedUserModel user);
+        User SetChangesToStoredUser(User storedUser, BaseModifiedUserModelDto modifiedModel);
+        bool CheckTheChanges(User storedUserWithTheChanges, BaseModifiedUserModelDto user);
     }
 }

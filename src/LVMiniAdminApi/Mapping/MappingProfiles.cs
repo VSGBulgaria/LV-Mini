@@ -6,7 +6,7 @@ using LVMiniAdminApi.Models.UserModels;
 
 namespace LVMiniAdminApi.Mapping
 {
-    public class MappingProfiles : Profile
+    internal class MappingProfiles : Profile
     {
         public MappingProfiles()
         {

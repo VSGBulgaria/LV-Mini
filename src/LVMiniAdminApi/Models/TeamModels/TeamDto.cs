@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace LVMiniAdminApi.Models.TeamModels
+﻿namespace LVMiniAdminApi.Models.TeamModels
 {
-    public class TeamDto : BaseTeam
+    public class TeamDto : BaseTeamDto
     {
     }
 }

@@ -3,13 +3,13 @@ using System.Linq;
 using Data.Service.Core.Entities;
 using LVMiniAdminApi.Attributes;
 using LVMiniAdminApi.Contracts;
-using LVMiniAdminApi.Models;
+using LVMiniAdminApi.Models.UserModels;
 
 namespace LVMiniAdminApi.Services
 {
     public class ModifiedUserHandler : IModifiedUserHandler
     {
-        public bool CheckTheChanges(User storedUser, BaseModifiedUserModel modifiedUserModel)
+        public bool CheckTheChanges(User storedUser, BaseModifiedUserModelDto modifiedUserModel)
         {
             var modifiedUserChangeableProperties = modifiedUserModel.GetType().GetProperties().Where(
                 prop => Attribute.IsDefined(prop, typeof(Changeable)));
@@ -35,7 +35,7 @@ namespace LVMiniAdminApi.Services
             return changed;
         }
 
-        public User SetChangesToStoredUser(User storedUser, BaseModifiedUserModel modifiedModel)
+        public User SetChangesToStoredUser(User storedUser, BaseModifiedUserModelDto modifiedModel)
         {
             var modifiedUserChangeableProperties = modifiedModel.GetType().GetProperties().Where(
                 prop => Attribute.IsDefined(prop, typeof(Changeable)));
