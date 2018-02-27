@@ -82,7 +82,8 @@
                     username: { editable: false },
                     firstName: { validation: { required: true } },
                     lastName: { validation: { required: true } },
-                    email: { editable: false }
+                    email: { editable: false },
+                    isActive: {validation: {required:true}}
                 }
             },
             data: function (response) { return response; }
@@ -129,6 +130,10 @@
                 
             },
             {
+                field: "isActive",
+                title:"Activity"
+            },
+            {
                 command: { text: "Edit", click:  function(e) {
                         e.preventDefault();
 
@@ -153,7 +158,7 @@
                 },
                 title: "&nbsp;",
                 editor: editor,
-                width: "180px"
+                width: "220px"
             }
         ]
     }).data("kendoGrid");
