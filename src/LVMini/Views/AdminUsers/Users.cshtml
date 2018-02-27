@@ -31,13 +31,12 @@
 <script id="mytemplate" type="text/x-kendo-template">
 
     <div id="container">
-        <h2 data-bind="text: item.username"></h2>
-        <h2 data-bind="text: item.firstName"></h2>
-        <h2 data-bind="text: item.lastName"></h2>
-        <h2 data-bind="text: item.email"></h2>
+        First Name: <input type="text" data-bind="value:FirstName" /><br />
+        Last Name: <input type="text" data-bind="value:LastName" /><br />
+        Email: <input type="text" data-bind="value:Email" /><br />
         <button data-bind="click: myClickEvent">click me</button>
     </div>
-    
+
 </script>
 
 <script>
@@ -47,14 +46,14 @@
     var dataSource = new kendo.data.DataSource({
         transport: {
             read: {
-                url: "http://localhost:49649/admin/UsersAsync/",
+                url: "http://localhost:49649/AdminUsers/UsersAsync/",
                 dataType: "json"
 
             },
         //    update: {
         //        type: 'POST',
         //        url: 'http://localhost:49649/admin/ModifyUserInfo/'
-                
+
         //    },
         //    destroy: {
         //        url: "http://localhost:49649/admin/UsersAsync"
@@ -127,7 +126,7 @@
             {
                 field: "email",
                 title: "E-Mail",
-                
+
             },
             {
                 field: "isActive",
@@ -140,7 +139,7 @@
                         var selectedItem = this.dataSource.getByUid($(e.currentTarget).parents("tr").data("uid"));
 
                         var wnd = $("<div />").kendoWindow({
-                           
+
                             model: true,
                             visible: false,
                             width: 800,
@@ -153,7 +152,7 @@
                         kendo.bind($("#container"), { item: selectedItem });
 
                         wnd.center().open();
-                    
+
                     }
                 },
                 title: "&nbsp;",

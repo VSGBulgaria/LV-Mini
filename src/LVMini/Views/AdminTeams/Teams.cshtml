@@ -1,12 +1,18 @@
-﻿@ViewData["Title"] = "Team";
+﻿@using LVMini.ViewModels
+@model IEnumerable<Team>
+@{
+    ViewData["Title"] = "AdminTeams";
+}
+
+
 <head>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
 </head>
 
 <h3 style="color:black"><i class="glyphicon glyphicon-th"></i>&nbsp;Teams</h3>
-<hr/>
-<div class ="row">
+<hr />
+<div class="row">
     <div class="form-horizontal well">
         <div id="treelist"></div>
     </div>
@@ -17,12 +23,12 @@
         transport: {
             read: {
                 url: "http://localhost:49649/adminteams/GetAllTeams"
-            }   
+            }
         },
-        pageSize:2,
+        pageSize: 2,
         schema: {
             model: {
-                id: "Id"
+                id: "TeamId"
             },
             data: function (response) {
                 return response;
@@ -36,11 +42,11 @@
         pageable: {
             refresh: true,
             pageSizes: true,
-            buttonCount:5
+            buttonCount: 5
         },
         columns: [
             {
-                title:"Team Name",
+                title: "Team Name",
                 field: "teamName"
             },
             {

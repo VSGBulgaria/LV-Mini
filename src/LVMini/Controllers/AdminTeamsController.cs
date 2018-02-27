@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -12,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-namespace LVMini.Controllers
+namespace LVMini.Controllers.Admin
 {
     [Authorize(Roles = Role.Admin)]
     public class AdminTeamsController : Controller
@@ -24,6 +25,20 @@ namespace LVMini.Controllers
             _client = httpClient.Client();
         }
 
+        
+        public async Task<IActionResult> Teams()
+        {
+            var httpResponseMessage = await _client.GetAsync(Resources.AdminTeamsApi + "/all");
+            if (httpResponseMessage.StatusCode != HttpStatusCode.OK)
+            {
+                return RedirectToAction("AccessDenied", "Authorization");
+            }
+
+            var data = await httpResponseMessage.Content.ReadAsStringAsync();
+            var teams = JsonConvert.DeserializeObject<IEnumerable<Team>>(data);
+
+            return View(teams);
+        }
 
         public async Task<IActionResult> GetAllTeams()
         {

@@ -15,16 +15,16 @@ using System.Threading.Tasks;
 namespace LVMini.Controllers
 {
     [Authorize(Roles = Role.Admin)]
-    public class AdminController : Controller
+    public class AdminUsersController : Controller
     {
         private readonly HttpClient _client;
 
-        public AdminController(IHttpClientProvider httpClient)
+        public AdminUsersController(IHttpClientProvider httpClient)
         {
             _client = httpClient.Client();
         }
 
-        [Authorize(Policy = "CanGetUsers")]
+        //[Authorize(Policy = "CanGetUsers")]
         public async Task<IActionResult> Users()
         {
             var httpResponseMessage = await _client.GetAsync(Resources.AdminUsersApi);
@@ -68,5 +68,7 @@ namespace LVMini.Controllers
 
             return Json(false);
         }
+
+        
     }
 }
