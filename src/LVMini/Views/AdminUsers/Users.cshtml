@@ -12,6 +12,7 @@
 
 <h3 style="color:black"><i class="glyphicon glyphicon-globe"></i>&nbsp;Users List</h3>
 <hr />
+<div id="user-index"></div>
 <div class="form-horizontal well">
     <div class="row">
         <section class="content">
@@ -28,16 +29,28 @@
     </div>
 </div>
 
-<script id="mytemplate" type="text/x-kendo-template">
+<environment include="Development">
+    <script src="http://localhost:9000/build/users.bundle.js"></script>
+</environment>
 
-    <div id="container">
-        First Name: <input type="text" data-bind="value:FirstName" /><br />
-        Last Name: <input type="text" data-bind="value:LastName" /><br />
-        Email: <input type="text" data-bind="value:Email" /><br />
-        <button data-bind="click: myClickEvent">click me</button>
-    </div>
+
+<environment include="Production">
+    <script src="~/js/build/users.bundle.js"></script>
+</environment>
+
+
+    <script id="mytemplate" type="text/x-kendo-template">
+
+        <div id="container">
+            First Name: <input type="text" data-bind="value:FirstName" /><br />
+            Last Name: <input type="text" data-bind="value:LastName" /><br />
+            Email: <input type="text" data-bind="value:Email" /><br />
+            <button data-bind="click: myClickEvent">click me</button>
+        </div>
 
 </script>
+
+
 
 <script>
 
@@ -45,12 +58,12 @@
 
     var dataSource = new kendo.data.DataSource({
         transport: {
-            read: {
-                url: "http://localhost:49649/AdminUsers/UsersAsync/",
-                dataType: "json"
+        read: {
+        url: "http://localhost:49649/AdminUsers/UsersAsync/",
+            dataType: "json"
 
-            },
-        //    update: {
+        },
+    //    update: {
         //        type: 'POST',
         //        url: 'http://localhost:49649/admin/ModifyUserInfo/'
 
@@ -70,111 +83,112 @@
         //    }
         //},
         batch: true,
-        pageSize: 5,
-        error: function (e, jqxhr) {
-            console.log(e, jqxhr);
-        },
-        schema: {
-            model: {
-                id: "userName",
-                fields: {
-                    username: { editable: false },
-                    firstName: { validation: { required: true } },
-                    lastName: { validation: { required: true } },
-                    email: { editable: false }
-                }
-            },
-            data: function (response) { return response; }
-        }
-    }});
-    var grid = $("#grid").kendoGrid({
-        dataSource: dataSource,
-        groupable: true,
-        sortable: true,
-        resizable: true,
-        reorderable: true,
-        columnMenu: true,
-        filterable: true,
-        editable: "popup",
-        pageable: {
-            pageSizes: true,
-            buttonCount: 3
-        },
-        //toolbar: ["Active", "Unactive", "All"],
-        columns: [
-            {
-                template: "<div class='customer-photo'" +
-                    "style='background-image: url(../wwwroot/images/#:data.Vsg_Logo200x200#.jpg);'></div>",
-                width: 50
-            },
-            {
-                field: "username",
-                editor: function(el) {
-                    el.text(options.model.username);
-                },
-                title: "Username"
-            },
-            {
-                field: "firstName",
-                title: "First Name"
-            },
-            {
-                field: "lastName",
-                title: "Last Name"
-            },
-            {
-                field: "email",
-                title: "E-Mail",
-
-            },
-            {
-                command: { text: "Edit", click:  function(e) {
-                        e.preventDefault();
-
-                        var selectedItem = this.dataSource.getByUid($(e.currentTarget).parents("tr").data("uid"));
-
-                        var wnd = $("<div />").kendoWindow({
-
-                            model: true,
-                            visible: false,
-                            width: 800,
-                            height: 400
-                        }).data("kendoWindow");
-
-                        wnd.content($("#mytemplate").html());
-
-
-                        kendo.bind($("#container"), { item: selectedItem });
-
-                        wnd.center().open();
-
-                    }
-                },
-                title: "&nbsp;",
-                editor: editor,
-                width: "180px"
+    pageSize: 5,
+    error: function (e, jqxhr) {
+        console.log(e, jqxhr);
+    },
+    schema: {
+        model: {
+        id: "userName",
+            fields: {
+        username: {editable: false },
+                firstName: {validation: {required: true } },
+                lastName: {validation: {required: true } },
+                email: {editable: false }
             }
-        ]
-    }).data("kendoGrid");
-
-    function customEditor(container, options) {
-        var guid = kendo.guid();
-        $('<input class="k-checkbox" id="userName"' + guid + '" type="checkbox" name="Discontinued" data-type="boolean" data-bind="checked:Discontinued">').appendTo(container);
-        $('<label class="k-checkbox-label" for="' + guid + '">&#8203;</label>').appendTo(container);
+        },
+        data: function (response) { return response; }
     }
+}});
+var grid = $("#grid").kendoGrid({
+        dataSource: dataSource,
+    groupable: true,
+    sortable: true,
+    resizable: true,
+    reorderable: true,
+    columnMenu: true,
+    filterable: true,
+    editable: "popup",
+    pageable: {
+        pageSizes: true,
+        buttonCount: 3
+    },
+    //toolbar: ["Active", "Unactive", "All"],
+    columns: [
+        {
+        template: "<div class='customer-photo'" +
+    "style='background-image: url(../wwwroot/images/#:data.Vsg_Logo200x200#.jpg);'></div>",
+width: 50
+        },
+{
+    field: "username",
+        editor: function(el) {
+            el.text(options.model.username);
+        },
+    title: "Username"
+},
+{
+    field: "firstName",
+        title: "First Name"
+},
+{
+    field: "lastName",
+        title: "Last Name"
+},
+{
+    field: "email",
+        title: "E-Mail",
 
-    var editor = e => {
-        e.preventDefault();
+        },
+{
+    command: {
+        text: "Edit", click:  function(e) {
+            e.preventDefault();
 
-        var wnd = $("<div />").kendoWindow({
-            model: true,
-            visible: false,
-            width: 800,
-            height: 400
-        }).data("kendoWindow");
+            var selectedItem = this.dataSource.getByUid($(e.currentTarget).parents("tr").data("uid"));
 
-        wnd.center().open();
-    }
+            var wnd = $("<div />").kendoWindow({
+
+                model: true,
+                visible: false,
+                width: 800,
+                height: 400
+            }).data("kendoWindow");
+
+            wnd.content($("#mytemplate").html());
+
+
+            kendo.bind($("#container"), { item: selectedItem });
+
+            wnd.center().open();
+
+        }
+    },
+    title: "&nbsp;",
+        editor: editor,
+            width: "180px"
+}
+    ]
+}).data("kendoGrid");
+
+function customEditor(container, options) {
+    var guid = kendo.guid();
+    $('<input class="k-checkbox" id="userName"' + guid + '" type="checkbox" name="Discontinued" data-type="boolean" data-bind="checked:Discontinued">').appendTo(container);
+    $('<label class="k-checkbox-label" for="' + guid + '">&#8203;</label>').appendTo(container);
+}
+
+var editor = e => {
+    e.preventDefault();
+
+    var wnd = $("<div />").kendoWindow({
+        model: true,
+        visible: false,
+        width: 800,
+        height: 400
+    }).data("kendoWindow");
+
+    wnd.center().open();
+}
 
 </script>
 

@@ -17,9 +17,18 @@
         <div id="treelist"></div>
     </div>
 </div>
+
+<environment include="Development">
+    <script src="http://localhost:9000/build/teams.bundle.js"></script>
+</environment>
+
+
+<environment include="Production">
+    <script src="~/js/build/teams.bundle.js"></script>
+</environment>
 <script>
 
-    var dataSource = new kendo.data.DataSource({
+    var dataSource = new kendo.data.TreeListDataSource({
         transport: {
             read: {
                 url: "http://localhost:49649/adminteams/GetAllTeams"
@@ -28,14 +37,15 @@
         pageSize: 2,
         schema: {
             model: {
-                id: "TeamId"
+                id:"username",
+                ParentId: "TeamId"
             },
             data: function (response) {
                 return response;
             }
         }
     });
-    var grid = $("#treelist").kendoGrid({
+    var treelist = $("#treelist").kendoTreeList({
         dataSource: dataSource,
         groupable: true,
         sortable: true,
@@ -62,6 +72,6 @@
                 field: "email"
             }
         ]
-    }).data("kendoGrid");
+    }).data("kendoTreeList");
 
 </script>
