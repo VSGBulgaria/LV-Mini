@@ -4,7 +4,7 @@
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Http
 @using Microsoft.AspNetCore.Identity
-@inject IAuthorizationService AuthorizationService 
+@inject IAuthorizationService AuthorizationService
 
 <!DOCTYPE html>
 <html>
@@ -64,18 +64,7 @@
                         </ul>
                         <ul class="nav navbar-nav navbar-right navbar-inverse">
                             <li><a href="@Url.Action("Login", "Accounts")"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Login</a></li>
-                            <li>
-                                <a class="btn btn-default btn-outline btn-circle collapsed" data-toggle="collapse" href="#nav-collapse3" aria-expanded="false" aria-controls="nav-collapse3">Search</a>
-                            </li>
                         </ul>
-                        <div class="collapse nav navbar-nav nav-collapse slide-down" id="nav-collapse3">
-                            <form class="navbar-form navbar-right" role="search">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Search" />
-                                </div>
-                                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                            </form>
-                        </div>
                     }
 
                     <!--When User Is Logged In Show This-->
@@ -87,17 +76,6 @@
                                 <li><a asp-area="" asp-controller="Accounts" asp-action="MyProfile"><i class="glyphicon glyphicon-user" style=" color: black"></i>&nbsp;@User.Identity.Name</a></li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right navbar-inverse">
-                                <li>
-                                    <a class="btn btn-default btn-outline btn-circle collapsed" data-toggle="collapse" href="#nav-collapse3" aria-expanded="false" aria-controls="nav-collapse3"><i class="glyphicon glyphicon-search"></i>&nbsp;Search</a>
-                                </li>
-                                <div class="collapse nav navbar-nav nav-collapse slide-down" id="nav-collapse3">
-                                    <form class="navbar-form navbar-right" role="search">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="Search" />
-                                        </div>
-                                        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                                    </form>
-                                </div>
                                 <li><a asp-area="" asp-controller="Accounts" asp-action="Logout"><i class="glyphicon glyphicon-off" style="color: red;"></i>&nbsp;&nbsp;Log out&nbsp;(@User.Identity.Name)</a></li>
                             </ul>
                         }
@@ -114,17 +92,7 @@
                                         <li><a href="@Url.Action("MyProfile", "Accounts")"><i class="glyphicon glyphicon-user" style=" color: black"></i>&nbsp;My Account</a></li>
                                         <li><a href="@Url.Action("Users", "AdminUsers")"><i class="glyphicon glyphicon-globe" style="color: dodgerblue;"></i>&nbsp;Edit Users</a></li>
                                         <li><a href="@Url.Action("Teams", "AdminTeams")"><i class="glyphicon glyphicon-th"></i>&nbsp;View Teams</a></li>
-                                        <li>
-                                            <a class="btn btn-default btn-outline btn-circle collapsed" data-toggle="collapse" href="#nav-collapse3" aria-expanded="false" aria-controls="nav-collapse3"><i class="glyphicon glyphicon-search"></i>&nbsp;Search</a>
-                                        </li>
-                                        <div class="collapse nav navbar-nav nav-collapse slide-down" id="nav-collapse3">
-                                            <form class="navbar-form navbar-right" role="search">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" placeholder="Search" />
-                                                </div>
-                                                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                                            </form>
-                                        </div>
+                                        
                                     </ul>
                                 </li>
                             </ul>
@@ -148,18 +116,10 @@
     <environment include="Development">
 
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        @*<script src="~/js/site.js" asp-append-version="true"></script>*@
+        <script src="~/js/site.js" asp-append-version="true"></script>
         @*<scirpt>
-           window.BASE_URL = '@Request.Url.Scheme://@Request.Url.Authority@Url.Content("~/")';
-        </scirpt>*@
-    </environment>
-
-    <environment include="Production">
-
-        @*<script src="~/js/site.js" asp-append-version="true"></script>*@
-        @*<scirpt>
-           window.BASE_URL = '@Request.Url.Scheme://@Request.Url.Authority@Url.Content("~/")';
-        </scirpt>*@
+               window.BASE_URL = '@Request.Url.Scheme://@Request.Url.Authority@Url.Content("~/")';
+            </scirpt>*@
     </environment>
 
     <environment exclude="Development">
