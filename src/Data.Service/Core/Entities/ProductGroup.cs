@@ -15,6 +15,8 @@ namespace Data.Service.Core.Entities
         [MaxLength(100)]
         public string Name { get; set; }
 
+        public int YearlyBudget { get; set; }
+
         [Required]
         public bool IsActive { get; set; } = true;
 
