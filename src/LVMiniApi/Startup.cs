@@ -91,6 +91,7 @@ namespace LVMiniApi
             services.AddScoped<IProductGroupRepository, ProductGroupRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddTransient<ITypeHelperService, TypeHelperService>();
+            services.AddScoped<ILoanRepository, LoanRepository>();
 
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication(options =>

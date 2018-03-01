@@ -55,13 +55,16 @@ namespace LVMiniApi.Controllers
                 return BadRequest();
             }
 
-            var user = await _unitOfWork.UserRepository.GetByUsername(username);
-            if (user == null)
+            using (_unitOfWork)
             {
-                return NotFound();
+                var user = await _unitOfWork.UserRepository.GetByUsername(username);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                var userToReturn = Mapper.Map<UserDto>(user);
+                return Ok(userToReturn.ShapeData(fields));
             }
-            var userToReturn = Mapper.Map<UserDto>(user);
-            return Ok(userToReturn.ShapeData(fields));
         }
 
         /// <summary>
@@ -123,12 +126,15 @@ namespace LVMiniApi.Controllers
         [ProducesResponseType(400, StatusCode = StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> BlockUserRegister(string username)
         {
-            if (await _unitOfWork.UserRepository.UserExists(username))
+            using (_unitOfWork)
             {
-                return new StatusCodeResult(StatusCodes.Status409Conflict);
-            }
+                if (await _unitOfWork.UserRepository.UserExists(username))
+                {
+                    return new StatusCodeResult(StatusCodes.Status409Conflict);
+                }
 
-            return BadRequest("You can't post to a specific user!");
+                return BadRequest("You can't post to a specific user!");
+            }
         }
 
 
@@ -143,30 +149,33 @@ namespace LVMiniApi.Controllers
         [ProducesResponseType(typeof(UserDto), 200, StatusCode = StatusCodes.Status200OK)]
         public async Task<IActionResult> UpdateUser(string username, [FromBody] EditUserDto model)
         {
-            if (!await _unitOfWork.UserRepository.UserExists(username))
+            using (_unitOfWork)
             {
-                return NotFound();
-            }
+                if (!await _unitOfWork.UserRepository.UserExists(username))
+                {
+                    return NotFound();
+                }
 
-            var user = await _unitOfWork.UserRepository.GetByUsername(username);
-            if (user == null)
-            {
-                return NotFound();
-            }
+                var user = await _unitOfWork.UserRepository.GetByUsername(username);
+                if (user == null)
+                {
+                    return NotFound();
+                }
 
-            var subjectId = User.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
-            if (subjectId != null && user.SubjectId != subjectId)
-            {
-                return Forbid();
-            }
+                var subjectId = User.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
+                if (subjectId != null && user.SubjectId != subjectId)
+                {
+                    return Forbid();
+                }
 
-            Mapper.Map(model, user);
-            if (!await _unitOfWork.Commit())
-            {
-                throw new Exception("Updating a user failed on save.");
-            }
+                Mapper.Map(model, user);
+                if (!await _unitOfWork.Commit())
+                {
+                    throw new Exception("Updating a user failed on save.");
+                }
 
-            return Ok(Mapper.Map<UserDto>(user));
+                return Ok(Mapper.Map<UserDto>(user));
+            }
         }
 
         /// <summary>

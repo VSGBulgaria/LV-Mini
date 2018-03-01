@@ -11,15 +11,26 @@ using System.Threading.Tasks;
 
 namespace LVMini.Service.Classes
 {
-    public sealed class HttpClientProvider : IHttpClientProvider
+    internal sealed class HttpClientProvider : IHttpClientProvider
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly HttpClient _httpClient;
+        private volatile HttpClient _httpClient;
+        private static object _padlock = new object();
 
         public HttpClientProvider(IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
-            _httpClient = new HttpClient();
+
+            if (_httpClient == null)
+            {
+                lock (_padlock)
+                {
+                    if (_httpClient == null)
+                    {
+                        _httpClient = new HttpClient();
+                    }
+                }
+            }
         }
 
         public HttpClient Client()
@@ -42,6 +53,8 @@ namespace LVMini.Service.Classes
 
             return _httpClient;
         }
+
+        #region RefreshIdentityServerTokens
 
         private async Task<string> RenewTokens()
         {
@@ -74,5 +87,7 @@ namespace LVMini.Service.Classes
 
             return null;
         }
+
+        #endregion
     }
 }
