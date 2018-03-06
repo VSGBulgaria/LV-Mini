@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LVMini.Controllers
@@ -57,7 +56,7 @@ namespace LVMini.Controllers
             //    return Json(true);
             //}
 
-                
+
 
             var r = Request;
             Stream req = Request.Body;
@@ -69,6 +68,6 @@ namespace LVMini.Controllers
             return Json(false);
         }
 
-        
+
     }
 }

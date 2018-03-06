@@ -1,12 +1,14 @@
-﻿@{
+﻿@using Microsoft.CodeAnalysis.Editing
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <head>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    <script src="js/echarts.js"></script>
 </head>
-<hr/>
+<hr />
 <div class="form-horizontal well">
     <div class="row">
         <section class="content">
@@ -19,66 +21,39 @@
             </div>
         </section>
     </div>
+
+    <div class="row">
+        <div id="loan-performance-chart" class="col-lg-12" style="width: 1100px; height: 400px;"></div>
+    </div>
 </div>
+
 <script>
+    var url = '/Home/Data';
+    $.getJSON(url, function (data) {
+        var array = JSON.parse(data);
+        var chart = echarts.init(document.getElementById('loan-performance-chart'));
 
-    $(document).ready(function() {
-        var productBaseUrl = "",
-            dataSource = new kendo.data.DataSource({
-                transport:{
-                read: {
-                    url: productBaseUrl,
-                        dataType:"json"
-                },
-                update: {
-                        url: productBaseUrl,
-                            dataType: "json"
-                    },
-                    destroy: {
-                        url: productBaseUrl,
-                            dataType: "json"
-                    },
-                    create: {
-                        url: productBaseUrl,
-                            dataType:"json"
-                    },
-                    parameterMap: function(options, operation) {
-                        if (operation !== "read" && options.models) {
-                            return { models: kendo.stringify(options.models)};
-                        }
-                    }
-                },
-                batch:true,
-                pageSize: 2,
-                shema: {
-                    model: {
-                      id: "ProductID",
-                      fields:{
-                           ProductID: {editable: false, nullable:true },
-                           ProductName: {validation: {required: true} },
-                           UnitsInStock:{type: "number", validation:{min: 0, required:true}}
-                       }
-                    }
-                }
-            });
+        var options = {
+            title: {
+                text: 'Loan amounts for the past three years'
+            },
+            tooltip: {},
+            legend: {
+                data: ['Loan amount']
+            },
+            xAxis: {
+                type: 'log'
+            },
+            yAxis: {
+                data: Object.keys(array)
+            },
+            series: {
+                name: 'Loan amount',
+                type: 'bar',
+                data: Object.values(array)
+            }
+        };
 
-                $("grid").kendoGrid({
-                    dataSource: dataSource,
-                    navigatable: true,
-                    pageable: true,
-                    height: 600,
-                    toolbar: ["create", "save", "cancel"],
-                    columns: [
-                        "ProductName",
-                        { field: "UnitsInStock", title:"Units In Stock", width: 120, editor: customEditor  },
-                        { command: "destroy", title: "&nbsp", width: 150 }],
-                });
-            });
-
-                function customEditor(container, options) {
-                    var guid = kendo.guid();
-                    $('<input class="k-checkbox" id="' + guid + '" type="checkbox" name="Discontinued" data-type="boolean" data-bind="checked:Discontinued">').appendTo(container);
-                    $('<label class="k-checkbox-label" for="' + guid + '">&#8203;</label>').appendTo(container);
-                }
-
+        chart.setOption(options);
+    });
 </script>

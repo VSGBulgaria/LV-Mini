@@ -18,7 +18,7 @@ namespace Data.Service.Persistance.Repositories
                 .Select(l => new
                 {
                     l.DateLoanRequestReceived.Value.Year,
-                    Money = l.NewMoney
+                    Money = l.NewMoney.Value
                 })
                 .GroupBy(p => p.Year, p => p.Money, (y, m) => new
                 {
@@ -27,7 +27,7 @@ namespace Data.Service.Persistance.Repositories
                 })
                 .OrderByDescending(t => t.Year)
                 .Take(3)
-                .ToDictionary(x => x.Year.ToString(), y => y.Money.Value);
+                .ToDictionary(x => x.Year.ToString(), y => y.Money);
 
             return result;
         }

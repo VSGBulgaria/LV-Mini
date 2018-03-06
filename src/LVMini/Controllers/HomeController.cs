@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace LVMini.Controllers
 {
@@ -19,6 +20,14 @@ namespace LVMini.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public async Task<IActionResult> Data()
+        {
+            var data = await _client.GetAsync("http://localhost:53920/api/widgets/loanperformance").Result.Content.ReadAsStringAsync();
+
+
+            return Json(data);
         }
 
         [Authorize]
