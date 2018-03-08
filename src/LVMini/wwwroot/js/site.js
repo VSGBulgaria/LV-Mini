@@ -54,7 +54,7 @@ function saveProfileChanges(ev) {
     let user = {};
     for (let property of properiesOfTheUserModel) {
         if (property === 'IsActive') {
-            user[property] = $('#' + property + 'Input' + currentUser).val().toLowerCase() == 'true';
+            user[property] = $('#' + property + 'Input' + currentUser).val().toLowerCase() === 'true';
         } else {
             user[property] = $('#' + property + 'Input' + currentUser).val();
         }
