@@ -7,7 +7,13 @@ import Pagenation from "./users";
 
 ReactDOM.render(<User/>, document.getElementById("user-index"));
 
-$.ajax({url: "http://localhost:49649/AdminUsers/UsersAsync/"}).done(response => {
-    debugger;
+$.ajax({
+    type: "POST",
+    url: "http://localhost:49649/AdminUsers/UsersAsync/",
+    data:"{'id':'"+$('#username').val() +"'}",
+    dataType:"JSON",
+    contentType:"applicatio/json; charset=utf-8",
+}).done(response => {
+    // debugger;
 });
 
