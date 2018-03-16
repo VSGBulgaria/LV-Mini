@@ -1,19 +1,33 @@
 ﻿import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import User from "./users";
-import Pagenation from "./users";
 
+class UserLayout extends Component{
 
+    constructor(props){
+        super(props);
 
-ReactDOM.render(<User/>, document.getElementById("user-index"));
+        this.state = Object.create({
+            users:[]
+        });
+    }
 
-$.ajax({
-    type: "POST",
-    url: "http://localhost:49649/AdminUsers/UsersAsync/",
-    data:"{'id':'"+$('#username').val() +"'}",
-    dataType:"JSON",
-    contentType:"applicatio/json; charset=utf-8",
-}).done(response => {
-    // debugger;
-});
+    componentWillMount = () =>{
+        $.ajax({
+            type:"POST",
+            url: "http://localhost:49649/AdminUsers/UsersAsync/",
+            dataType:"JSON",
+            contentType:"applicatio/json; charset=utf-8",
 
+        }).done(response => this.setState({ users:response}));
+
+    }
+
+    render(){
+        return(
+            <User users = { this.state.users }/>
+        )
+    }
+}
+
+ReactDOM.render(<UserLayout />, document.getElementById("user-index"));

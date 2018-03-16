@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import Team from "./teams";
 
-
 class TeamLayout extends Component {
 
     constructor(props) {
@@ -11,8 +10,6 @@ class TeamLayout extends Component {
         this.state = Object.create({
             teams: []
          });
-
-    
     }
 
     componentWillMount = () => {

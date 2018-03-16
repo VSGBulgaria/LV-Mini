@@ -1,34 +1,33 @@
 ﻿import React, { Component } from "react";
 import Button from "react-bootstrap/lib/Button";
 import Table from "react-bootstrap/lib/Table";
-import Pagination from 'react-bootstrap/lib/Pagination';
-
+import { Grid, Row, Col } from 'react-bootstrap';
 
 export default class User extends Component {
-    onClick = () => {
-        alert('Delete?');
+    onUserClick = users => {
+        alert(`Edit ${users.username}`);
     }
 
-    togglePopup() {
-        this.setState({
-            showPopup: !this.state.showPopup
-        });
+    onUserDeleteClick = users =>{
+        alert(`Delete ${users.username}`);
     }
-//pagination
-constructor(props) {
-    super(props);
-    this.state = {
-      activePage: 1,
-      itemsCountPerPage:1,
-      pageRangeDisplayed:1
-    };
-  }
- 
-  handlePageChange(pageNumber) {
-    console.log(`active page is ${pageNumber}`);
-    this.setState({activePage: pageNumber});
-  }
 
+    renderRow = users => {
+        return users.map( (t, i) => {
+            return (
+                <tr key={i}>
+                    <td>{t.username + ""}</td>
+                    <td>{t.firstName}</td>
+                    <td>{t.lastName}</td>
+                    <td>{t.email}</td>
+                    <td>
+                        < Button onClick={ e => this.onUserClick(t) }>Edit</Button>&nbsp;
+                        < Button onClick={ e => this.onUserDeleteClick(t) }>Delete</Button>
+                    </td>
+                </tr>
+            )
+        })
+    }
 
     render() {
         return (
@@ -39,43 +38,26 @@ constructor(props) {
                             <div className="panel-body">
                                 <div className="user-container">
                                     <div>
-                                        <Table responsive triped bordered condensed hover>
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Username</th>
-                                                    <th>First Name</th>
-                                                    <th>E-Mail</th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>Mark</td>
-                                                    <td>Otto</td>
-                                                    <td>@mdo</td>
-                                                    <td>  <Button onClick={this.togglePopup.bind(this)}>Edit</Button>&nbsp;
-                                                    <Button onClick= {this.onClick.bind(this)} >Delete</Button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>Jacob</td>
-                                                    <td>Thornton</td>
-                                                    <td>@fat</td>
-                                                    <td> <Button onClick={this.onClick.bind(this)}>Edit</Button>&nbsp;
-                                                    <Button onClick={this.onClick.bind(this)} >Delete</Button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3</td>
-                                                    <td >Larry the Bird</td>
-                                                    <td></td>
-                                                    <td>@twitter</td>
-                                                   <td> <Button onClick={this.onClick.bind(this)}>Edit</Button>&nbsp;
-                                                    <Button onClick={this.onClick.bind(this)} >Delete</Button></td>
-                                                </tr>
-                                            </tbody>
-                                        </Table>
+                                        <Grid>
+                                            <Row className="show-grid">
+                                                <Col xs={12} md={8}>
+                                                    <Table responsive triped bordered condensed hover>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Username</th>
+                                                                <th>First Name</th>
+                                                                <th>Last Name</th>
+                                                                <th>E-Mail</th>
+                                                                <th></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                             { this.renderRow(this.props.users) }
+                                                        </tbody>
+                                                    </Table>
+                                                </Col>
+                                            </Row>
+                                        </Grid>
                                     </div>
                                 </div>
                             </div>
