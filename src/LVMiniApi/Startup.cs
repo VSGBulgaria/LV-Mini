@@ -128,7 +128,6 @@ namespace LVMiniApi
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "LvMiniAPI 1.0");
-                c.ConfigureOAuth2("api.name.swagger", "swagger", "swagger-ui-realm", "API Swagger UI");
             });
             app.UseAuthentication();
             app.UseMvc();

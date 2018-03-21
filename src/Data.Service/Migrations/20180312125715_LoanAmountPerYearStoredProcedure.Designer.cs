@@ -11,9 +11,10 @@ using System;
 namespace Data.Service.Migrations
 {
     [DbContext(typeof(LvMiniDbContext))]
-    partial class LvMiniDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180312125715_LoanAmountPerYearStoredProcedure")]
+    partial class LoanAmountPerYearStoredProcedure
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

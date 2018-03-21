@@ -26,7 +26,10 @@ namespace LVMiniApi.Tests.ControllerTests
         public void SetUp()
         {
             _uowMock = new Mock<IUnitOfWork>();
-            MapperConfiguration configuration = new MapperConfiguration(a => a.CreateMap<User, UserDto>());
+            MapperConfiguration configuration = new MapperConfiguration(a =>
+            {
+                a.CreateMap<User, UserDto>();
+            });
             _mapper = new Mapper(configuration);
             _typeHelperService = new Mock<ITypeHelperService>();
         }
@@ -37,7 +40,9 @@ namespace LVMiniApi.Tests.ControllerTests
         {
             _uowMock.Setup(uow => uow.UserRepository.GetByUsername("simo"))
                 .Returns(Task.FromResult(new User { Username = "simo" }));
+
             _typeHelperService.Setup(t => t.TypeHasProperties<UserDto>(null)).Returns(true);
+
             var controller = new UsersController(_uowMock.Object, _mapper, _typeHelperService.Object);
 
             var result = controller.GetUserByUsername("simo", null).Result as OkObjectResult;
@@ -56,7 +61,9 @@ namespace LVMiniApi.Tests.ControllerTests
         {
             _uowMock.Setup(uow => uow.UserRepository.GetByUsername("simo"))
                 .Returns(Task.FromResult(new User { Username = "simo" }));
+
             _typeHelperService.Setup(t => t.TypeHasProperties<UserDto>(null)).Returns(true);
+
             var controller = new UsersController(_uowMock.Object, _mapper, _typeHelperService.Object);
 
             var result = controller.GetUserByUsername("nonExistingUser", null).Result as NotFoundResult;

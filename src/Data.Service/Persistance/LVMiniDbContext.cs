@@ -14,7 +14,8 @@ namespace Data.Service.Persistance
         public DbSet<ProductGroup> ProductGroups { get; set; }
 
         public LvMiniDbContext(DbContextOptions<LvMiniDbContext> options) : base(options)
-        { }
+        {
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -39,6 +40,14 @@ namespace Data.Service.Persistance
             modelBuilder.Entity<Product>()
                 .HasIndex(p => p.ProductCode)
                 .IsUnique();
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(@"Server=.;Database=LV_Mini;Trusted_Connection=True;");
+            }
         }
     }
 }

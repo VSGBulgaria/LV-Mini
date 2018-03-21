@@ -24,12 +24,7 @@ namespace LVMiniApi.Controllers
         private readonly IProductGroupRepository _productGroupRepository;
         private readonly ITypeHelperService _typeHelperService;
 
-        /// <summary>
-        /// Injects the services needed through constructor injection.
-        /// </summary>
-        /// <param name="unitOfWork">Unit Of Work</param>
-        /// <param name="mapper">AutoMapper's Mapper class.</param>
-        /// <param name="typeHelperService"></param>
+        /// <inheritdoc />
         public ProductGroupsController(IUnitOfWork unitOfWork, IMapper mapper, ITypeHelperService typeHelperService)
         {
             _unitOfWork = unitOfWork;

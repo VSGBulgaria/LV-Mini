@@ -21,6 +21,8 @@ namespace AuthorizationServer
 
         public Startup(IConfiguration configuration, IHostingEnvironment environment)
         {
+            //git test
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(environment.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)

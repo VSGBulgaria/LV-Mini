@@ -9,51 +9,15 @@
     <script src="js/echarts.js"></script>
 </head>
 <hr />
-<div class="form-horizontal well">
-    <div class="row">
-        <section class="content">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel-body">
-                    <div class="user-container">
-                        <div id="grid"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
 
-    <div class="row">
-        <div id="loan-performance-chart" class="col-lg-12" style="width: 1100px; height: 400px;"></div>
-    </div>
+<div class="form-horizontal">
+    <div id="charts"></div>
 </div>
+<environment include="Development">
+    <script src="http://localhost:9000/build/chart.bundle.js"></script>
+</environment>
 
-<script>
-    var url = '/Home/Data';
-    $.getJSON(url, function (data) {
-        var array = JSON.parse(data);
-        var chart = echarts.init(document.getElementById('loan-performance-chart'));
 
-        var options = {
-            title: {
-                text: 'Loan amounts for the past three years'
-            },
-            tooltip: {},
-            legend: {
-                data: ['Loan amount']
-            },
-            xAxis: {
-                type: 'log'
-            },
-            yAxis: {
-                data: Object.keys(array)
-            },
-            series: {
-                name: 'Loan amount',
-                type: 'bar',
-                data: Object.values(array)
-            }
-        };
-
-        chart.setOption(options);
-    });
-</script>
+<environment include="Production">
+    <script src="~/js/build/index.bundle.js"></script>
+</environment>

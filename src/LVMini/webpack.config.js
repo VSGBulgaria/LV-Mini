@@ -7,7 +7,8 @@ module.exports = {
     entry: {
         myProfile: ["./my-profile/my-profile-index"],
         teams: ["./teams/teams-index"],
-        users: ["./users/users-index"]
+        users: ["./users/users-index"],
+        chart: ["./home/main-index"]
         
     },
     output: {

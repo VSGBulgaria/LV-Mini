@@ -11,9 +11,10 @@ using System;
 namespace Data.Service.Migrations
 {
     [DbContext(typeof(LvMiniDbContext))]
-    partial class LvMiniDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180301074820_SeedProductGroupsAndProductGroupProduct")]
+    partial class SeedProductGroupsAndProductGroupProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,8 +53,6 @@ namespace Data.Service.Migrations
 
                     b.Property<DateTime?>("DateLoanRequestReceived");
 
-                    b.Property<int?>("DaysPastDue");
-
                     b.Property<DateTime?>("DecisionDate");
 
                     b.Property<decimal?>("ExpectedFundingAtClosing");
@@ -63,8 +62,6 @@ namespace Data.Service.Migrations
                     b.Property<int?>("IdLoanSource");
 
                     b.Property<bool?>("IsLoanRequest");
-
-                    b.Property<decimal?>("LoanAmount");
 
                     b.Property<DateTime?>("LoanDate");
 

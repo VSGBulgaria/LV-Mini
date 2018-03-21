@@ -22,10 +22,19 @@ namespace LVMini.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Data()
+        public async Task<IActionResult> LoanPerformanceDataInquire()
         {
-            var data = await _client.GetAsync("http://localhost:53920/api/widgets/loanperformance").Result.Content.ReadAsStringAsync();
+            var data = await _client.GetAsync("http://localhost:53920/api/widgets/loanperformance").Result.Content
+                .ReadAsStringAsync();
 
+
+            return Json(data);
+        }
+
+        public async Task<IActionResult> LoanBudgetVersusActualInquire()
+        {
+            var data = await _client.GetAsync("http://localhost:53920/api/widgets/budgetvsactual").Result.Content
+                .ReadAsStringAsync();
 
             return Json(data);
         }

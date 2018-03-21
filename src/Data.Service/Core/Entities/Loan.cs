@@ -28,5 +28,9 @@ namespace Data.Service.Core.Entities
         public DateTime? DateLoanRequestReceived { get; set; }
 
         public DateTime? DecisionDate { get; set; }
+
+        public decimal? LoanAmount { get; set; }
+
+        public int? DaysPastDue { get; set; }
     }
 }

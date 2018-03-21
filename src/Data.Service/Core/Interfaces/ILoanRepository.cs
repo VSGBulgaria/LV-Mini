@@ -1,10 +1,11 @@
-﻿using Data.Service.Core.Entities;
+﻿using Data.Service.Core.MappingClasses;
 using System.Collections.Generic;
 
 namespace Data.Service.Core.Interfaces
 {
-    public interface ILoanRepository : IBaseRepository<Loan>
+    public interface ILoanRepository
     {
-        Dictionary<string, decimal> GetTotalLoanRequestAmountPerYear();
+        Dictionary<string, decimal> LoanRequestAmountPerYearInquire();
+        List<YearlyBudgetInfo> AllLoansGroupedByProductGroupsInquire();
     }
 }

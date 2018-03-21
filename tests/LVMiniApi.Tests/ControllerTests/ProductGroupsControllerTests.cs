@@ -29,24 +29,35 @@ namespace LVMiniApi.Tests.ControllerTests
         {
             _typeHelperService = new Mock<ITypeHelperService>();
             _uowMock = new Mock<IUnitOfWork>();
+
+            MapperConfiguration configuration = new MapperConfiguration(mc =>
+            {
+                mc.CreateMap<ProductGroup, ProductGroupDto>();
+                mc.CreateMap<CreateProductGroupDto, ProductGroup>()
+                    .ForMember(pg => pg.Products,
+                        opt => opt.MapFrom(pgd => pgd.Products.Select(id => new ProductGroupProduct() { IDProduct = id })))
+                    .ReverseMap();
+                mc.CreateMap<UpdateProductGroupDto, ProductGroup>();
+            });
+            _mapper = new Mapper(configuration);
         }
 
         [Test]
         public void GetAllProductGroups_WhenCalled_ReturnOkAndACollection()
         {
-            MapperConfiguration configuration =
-                new MapperConfiguration(a => a.CreateMap<ProductGroup, ProductGroupDto>());
             _typeHelperService.Setup(t => t.TypeHasProperties<ProductGroupDto>(null)).Returns(true);
-            _mapper = new Mapper(configuration);
+
             _uowMock.Setup(uow => uow.ProductGroupRepository.GetAll(null))
                 .Returns(new List<ProductGroup> { new ProductGroup { Name = "ProductGroupTest" } });
+
             var controller = new ProductGroupsController(_uowMock.Object, _mapper, _typeHelperService.Object);
 
             var result = controller.GetAllProductGroups(new ProductGroupResourceParameters { Fields = null }) as OkObjectResult;
+            var content = result.Value as List<ExpandoObject>;
+
             result.ShouldNotBe(null);
             result.StatusCode.ShouldBe(200);
 
-            var content = result.Value as List<ExpandoObject>;
             content.ShouldNotBe(null);
             content.ShouldBeOfType(typeof(List<ExpandoObject>));
             content.Count.ShouldBe(1);
@@ -55,15 +66,15 @@ namespace LVMiniApi.Tests.ControllerTests
         [Test]
         public void GetSingleProductGroup_UnexistingProductGroup_ReturnsNotFound()
         {
-            MapperConfiguration configuration =
-                new MapperConfiguration(a => a.CreateMap<ProductGroup, ProductGroupDto>());
             _typeHelperService.Setup(t => t.TypeHasProperties<ProductGroupDto>(null)).Returns(true);
-            _mapper = new Mapper(configuration);
+
             _uowMock.Setup(uow => uow.ProductGroupRepository.GetProductGroupByName("ProductGroupOne"))
                 .Returns(Task.FromResult(new ProductGroup { Name = "ProductGroupOne" }));
+
             var controller = new ProductGroupsController(_uowMock.Object, _mapper, _typeHelperService.Object);
 
             var result = controller.GetProductGroup("NonExistingGroup", null).Result as NotFoundResult;
+
             result.ShouldNotBe(null);
             result.StatusCode.ShouldBe(404);
         }
@@ -71,11 +82,7 @@ namespace LVMiniApi.Tests.ControllerTests
         [Test]
         public void GetSingleProductGroup_ExistingProductGroup_ReturnsOkAndProductGroup()
         {
-            MapperConfiguration configuration =
-                new MapperConfiguration(a => a.CreateMap<ProductGroup, ProductGroupDto>());
-
             _typeHelperService.Setup(t => t.TypeHasProperties<ProductGroupDto>(null)).Returns(true);
-            _mapper = new Mapper(configuration);
 
             _uowMock.Setup(uow => uow.ProductGroupRepository.ProductGroupExists("ProductGroupOne"))
                 .Returns(Task.FromResult(true));
@@ -101,11 +108,9 @@ namespace LVMiniApi.Tests.ControllerTests
         [Test]
         public void AddProductGroup_AlreadyExistingProductGroup_ReturnsConflict()
         {
-            MapperConfiguration configuration =
-                new MapperConfiguration(a => a.CreateMap<ProductGroup, ProductGroupDto>());
-            _mapper = new Mapper(configuration);
             _uowMock.Setup(uow => uow.ProductGroupRepository.ProductGroupExists("GroupOne"))
                 .Returns(Task.FromResult(true));
+
             var controller = new ProductGroupsController(_uowMock.Object, _mapper, _typeHelperService.Object);
 
             var result = controller.AddProductGroup(new CreateProductGroupDto { Name = "GroupOne", Products = { 2, 3 } }).Result as StatusCodeResult;
@@ -115,17 +120,6 @@ namespace LVMiniApi.Tests.ControllerTests
         [Test]
         public void AddProductGroup_SuccessfulPost_ReturnsCreatedAtRoute()
         {
-            MapperConfiguration configuration =
-                new MapperConfiguration(delegate (IMapperConfigurationExpression expression)
-                    {
-                        expression.CreateMap<ProductGroup, ProductGroupDto>();
-                        expression.CreateMap<CreateProductGroupDto, ProductGroup>()
-                            .ForMember(pg => pg.Products,
-                                opt => opt.MapFrom(pgd => pgd.Products.Select(id => new ProductGroupProduct() { IDProduct = id })))
-                            .ReverseMap(); ;
-                    });
-            _mapper = new Mapper(configuration);
-
             var productGroup = new ProductGroup
             {
                 IDProductGroup = 1,
@@ -133,12 +127,14 @@ namespace LVMiniApi.Tests.ControllerTests
                 Name = "TestGroup",
                 Products = new List<ProductGroupProduct>()
             };
+
             _uowMock.Setup(uow => uow.Commit())
                 .Returns(Task.FromResult(true));
             _uowMock.Setup(uow => uow.ProductGroupRepository.Insert(productGroup))
                 .Returns(Task.CompletedTask);
             _uowMock.Setup(uow => uow.ProductGroupRepository.GetProductGroupByName("TestGroup"))
                 .Returns(Task.FromResult(new ProductGroup { Name = "TestGroup" }));
+
             var controller = new ProductGroupsController(_uowMock.Object, _mapper, _typeHelperService.Object);
 
             var result = controller.AddProductGroup(new CreateProductGroupDto { Name = "TestGroup", Products = { 2, 3 } }).Result;
@@ -152,27 +148,11 @@ namespace LVMiniApi.Tests.ControllerTests
 
         public void AddProductToProductGroup_SuccessfulPost_ReturnsOkWithUpdatedProductGroup()
         {
-            MapperConfiguration configuration =
-                new MapperConfiguration(delegate (IMapperConfigurationExpression expression)
-                {
-                    expression.CreateMap<ProductGroup, ProductGroupDto>();
-                });
-            _mapper = new Mapper(configuration);
-
-
         }
 
         [Test]
         public void UpdateGroup_SuccessfulPatch_ReturnsOkWithUpdatedProductGroup()
         {
-            MapperConfiguration configuration =
-                new MapperConfiguration(delegate (IMapperConfigurationExpression expression)
-                {
-                    expression.CreateMap<ProductGroup, ProductGroupDto>();
-                    expression.CreateMap<UpdateProductGroupDto, ProductGroup>();
-                });
-            _mapper = new Mapper(configuration);
-
             _uowMock.Setup(uow => uow.ProductGroupRepository.ProductGroupExists("ProductGroupOne"))
                 .Returns(Task.FromResult(true));
             _uowMock.Setup(uow => uow.ProductGroupRepository.GetProductGroupByName("ProductGroupOne"))
